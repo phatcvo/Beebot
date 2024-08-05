@@ -51,16 +51,16 @@ void setup() {
 
 void loop() {
   // Read receiver inputs
-  int ch1 = pulseIn(ch1Pin, HIGH, 25000); // Throttle
-  int ch2 = pulseIn(ch2Pin, HIGH, 25000); // Steering
+  int ch1 = pulseIn(ch1Pin, HIGH, 50000); // Throttle
+  int ch2 = pulseIn(ch2Pin, HIGH, 50000); // Steering
 
   // Map receiver input to motor speed and direction
   int throttle = map(ch1, 1000, 2000, -255, 255);  // Map to range -255 to 255
   int steering = map(ch2, 1000, 2000, -255, 255);  // Map to range -255 to 255
 
   // Calculate target speed for each motor
-  int targetSpeedA = throttle + steering;
-  int targetSpeedB = throttle - steering;
+  int targetSpeedA = 100;//throttle + steering;
+  int targetSpeedB = 100;//throttle - steering;
 
   // PID control to keep the tank moving straight
   static long lastMotorAPos = 0;
