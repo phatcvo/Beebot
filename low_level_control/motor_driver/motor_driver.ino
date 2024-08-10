@@ -54,12 +54,10 @@ void velCallback(const geometry_msgs::Twist& vel)
 
     vel_linear = constrain(vel_linear,-1,1);     // try to keep it under control
     vel_angular = constrain(vel_angular,-1,1);
-    // ros_speed = map(ch1Value, -1, 1, -255, 255);
-    // ros_direction = map(ch2Value, -1, 1, -255, 255);
-    Serial.print("\t vel_linear: "); Serial.print(vel_linear);
-    Serial.print(", vel_linear: "); Serial.println(vel_angular);
-    // demandx = demandx * 350;
-    // demandz = demandz * 75;
+    ros_speed = map(vel_linear, -1, 1, -255, 255);
+    ros_direction = map(vel_angular, -1, 1, -255, 255);
+    // Serial.print("\t vel_linear: "); Serial.print(vel_linear);
+    // Serial.print(", vel_linear: "); Serial.println(vel_angular);
 }
 
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel" , velCallback);     //create a subscriber for ROS cmd_vel topic
@@ -96,6 +94,8 @@ void setup() {
   pinMode(CH2_PIN, INPUT);
   pinMode(CH5_PIN, INPUT);
 
+  nh.initNode();
+  nh.subscribe(sub);
 }
 
 void loop() {
@@ -122,7 +122,7 @@ void loop() {
     }
     else{
       if(rc_gear == AUTO){
-        Serial.print(">>>>> Auto mode >>>>>>> \t");
+        // Serial.print(">>>>> Auto mode >>>>>>> \t");
         act_speed = ros_speed;
         act_direction = ros_direction;
       }
@@ -133,8 +133,8 @@ void loop() {
         Serial.print("\t Throttle: "); Serial.print(ch1Value);
         Serial.print(", Direction: "); Serial.print(ch2Value);
       }
-      Serial.print("\t Speed: "); Serial.print(act_speed);
-      Serial.print(", Direction: "); Serial.print(act_direction);
+      // Serial.print("\t Speed: "); Serial.print(act_speed);
+      // Serial.print(", Direction: "); Serial.print(act_direction);
       // Apply the calculated speed and direction to the motors
       controlMotors(act_speed, act_direction);
     }
@@ -153,8 +153,8 @@ void controlMotors(int speed, int direction) {
   // Set motor speeds and directions
   setMotorSpeed(DIR_A, PWM_A, leftMotorSpeed);
   setMotorSpeed(DIR_B, PWM_B, rightMotorSpeed);
-  Serial.print("\t encoder0Pos: "); Serial.print(encoder0Pos);
-  Serial.print(", encoder1Pos: "); Serial.println(encoder1Pos);
+  // Serial.print("\t encoder0Pos: "); Serial.print(encoder0Pos);
+  // Serial.print(", encoder1Pos: "); Serial.println(encoder1Pos);
 }
 
 void setMotorSpeed(int dirPin, int pwmPin, int speed) {
