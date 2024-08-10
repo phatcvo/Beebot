@@ -19,11 +19,13 @@ const int CH2_PIN = A3; // Direction
 const int CH5_PIN = A6; // Gear
 
 // wheel encoder interrupts
-#define encoder0PinA 18 // interrupt 5      // encoder 1
-#define encoder0PinB 19 // interrupt 4
+// pin 2,3,21,20,19,18
+// int 0,1,2, 3, 4, 5
+#define encoder0PinA 2 // interrupt 0      // encoder 1
+#define encoder0PinB 3 // interrupt 1
 
-#define encoder1PinA 20 // interrupt 3     // encoder 2
-#define encoder1PinB 21 // interrupt 2
+#define encoder1PinA 19 // interrupt 4     // encoder 2
+#define encoder1PinB 18 // interrupt 5
 
 #define AUTO 0
 #define MANUAL 1
@@ -83,8 +85,8 @@ void setup() {
 
   pinMode(encoder1PinA, INPUT_PULLUP);    // encoder pins 1
   pinMode(encoder1PinB, INPUT_PULLUP);
-  attachInterrupt(2, doEncoderC, CHANGE);
-  attachInterrupt(3, doEncoderD, CHANGE);
+  attachInterrupt(4, doEncoderC, CHANGE);
+  attachInterrupt(5, doEncoderD, CHANGE);
 
   // Initialize serial communication
   Serial.begin(115200);
