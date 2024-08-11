@@ -21,8 +21,8 @@ const int CH5_PIN = A6; // Gear
 // wheel encoder interrupts
 // pin 2,3,21,20,19,18
 // int 0,1,2, 3, 4, 5
-#define encoder0PinA 2 // interrupt 0      // encoder 1
-#define encoder0PinB 3 // interrupt 1
+#define encoder0PinA 21 // interrupt 2      // encoder 1
+#define encoder0PinB 20 // interrupt 3
 
 #define encoder1PinA 19 // interrupt 4     // encoder 2
 #define encoder1PinB 18 // interrupt 5
@@ -54,8 +54,8 @@ void velCallback(const geometry_msgs::Twist& vel)
 
     vel_linear = constrain(vel_linear,-1,1);     // try to keep it under control
     vel_angular = constrain(vel_angular,-1,1);
-    ros_speed = map(vel_linear, -1, 1, -255, 255);
-    ros_direction = map(vel_angular, -1, 1, -255, 255);
+    // ros_speed = map(vel_linear, -1, 1, -255, 255);
+    // ros_direction = map(vel_angular, -1, 1, -255, 255);
     // Serial.print("\t vel_linear: "); Serial.print(vel_linear);
     // Serial.print(", vel_linear: "); Serial.println(vel_angular);
 }
@@ -78,8 +78,8 @@ void setup() {
 
   pinMode(encoder0PinA, INPUT_PULLUP);    // encoder pins 0
   pinMode(encoder0PinB, INPUT_PULLUP);
-  attachInterrupt(0, doEncoderA, CHANGE);
-  attachInterrupt(1, doEncoderB, CHANGE);
+  attachInterrupt(2, doEncoderA, CHANGE);
+  attachInterrupt(3, doEncoderB, CHANGE);
 
   pinMode(encoder1PinA, INPUT_PULLUP);    // encoder pins 1
   pinMode(encoder1PinB, INPUT_PULLUP);
@@ -88,14 +88,14 @@ void setup() {
 
   // Initialize serial communication
   Serial.begin(115200);
-
+  // Serial1.begin(115200);
   // Set receiver pins as inputs
   pinMode(CH1_PIN, INPUT);
   pinMode(CH2_PIN, INPUT);
   pinMode(CH5_PIN, INPUT);
 
-  nh.initNode();
-  nh.subscribe(sub);
+  // nh.initNode();
+  // nh.subscribe(sub);
 }
 
 void loop() {
@@ -122,7 +122,7 @@ void loop() {
     }
     else{
       if(rc_gear == AUTO){
-        // Serial.print(">>>>> Auto mode >>>>>>> \t");
+        Serial.print(">>>>> Auto mode >>>>>>> \t");
         act_speed = ros_speed;
         act_direction = ros_direction;
       }
@@ -133,8 +133,8 @@ void loop() {
         Serial.print("\t Throttle: "); Serial.print(ch1Value);
         Serial.print(", Direction: "); Serial.print(ch2Value);
       }
-      // Serial.print("\t Speed: "); Serial.print(act_speed);
-      // Serial.print(", Direction: "); Serial.print(act_direction);
+      Serial.print("\t Speed: "); Serial.print(act_speed);
+      Serial.print(", Direction: "); Serial.print(act_direction);
       // Apply the calculated speed and direction to the motors
       controlMotors(act_speed, act_direction);
     }
@@ -153,8 +153,8 @@ void controlMotors(int speed, int direction) {
   // Set motor speeds and directions
   setMotorSpeed(DIR_A, PWM_A, leftMotorSpeed);
   setMotorSpeed(DIR_B, PWM_B, rightMotorSpeed);
-  // Serial.print("\t encoder0Pos: "); Serial.print(encoder0Pos);
-  // Serial.print(", encoder1Pos: "); Serial.println(encoder1Pos);
+  Serial.print("\t encoder0Pos: "); Serial.print(encoder0Pos);
+  Serial.print(", encoder1Pos: "); Serial.println(encoder1Pos);
 }
 
 void setMotorSpeed(int dirPin, int pwmPin, int speed) {
