@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="rviz_path" default="$(find local_goal_creator_ros)/launch/rviz.rviz"/>
+    <arg name="map_path" default="$(find a_star_ros)/maps/map.yaml"/>
+    <arg name="use_direction_in_path" default="true"/>
+
+    <include file="$(find local_goal_creator_ros)/launch/local_goal_creator.launch">
+        <arg name="output" value="screen"/>
+        <arg name="use_direction_in_path" value="$(arg use_direction_in_path)"/>
+        <arg name="robot_pose_topic" value="/initialpose"/>
+    </include>
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_path)"/>
+    <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_path)" output="screen"/>
+    <include file="$(find a_star_ros)/launch/a_star.launch"/>
+</launch>

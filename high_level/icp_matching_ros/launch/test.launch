@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 2d or 3d -->
+    <arg name="use_3d" default="false"/>
+    <!-- 2d config -->
+    <arg name="src_pcd_path" default="$(find icp_matching_ros)/pcd/src.pcd" unless="$(arg use_3d)"/>
+    <arg name="target_pcd_path" default="$(find icp_matching_ros)/pcd/target.pcd" unless="$(arg use_3d)"/>
+    <arg name="rviz_path" default="$(find icp_matching_ros)/launch/rviz_2d.rviz" unless="$(arg use_3d)"/>
+    <!-- 3d config -->
+    <arg name="src_pcd_path" default="$(find icp_matching_ros)/pcd/bun000.pcd" if="$(arg use_3d)"/>
+    <arg name="target_pcd_path" default="$(find icp_matching_ros)/pcd/bun045.pcd" if="$(arg use_3d)"/>
+    <arg name="rviz_path" default="$(find icp_matching_ros)/launch/rviz_3d.rviz" if="$(arg use_3d)"/>
+
+    <!-- launch nodes -->
+    <node pkg="icp_matching_ros" type="test_pcd_creator" name="test_pcd_creator" output="screen" unless="$(arg use_3d)">
+        <param name="src_pcd_path" value="$(arg src_pcd_path)"/>
+        <param name="target_pcd_path" value="$(arg target_pcd_path)"/>
+    </node>
+    <node pkg="icp_matching_ros" type="demo" name="icp_matching_demo" output="screen">
+        <param name="src_pcd_path" value="$(arg src_pcd_path)"/>
+        <param name="target_pcd_path" value="$(arg target_pcd_path)"/>
+        <param name="enable_downsampling" value="true" if="$(arg use_3d)"/>
+        <param name="sleep_time" value="0.1" if="$(arg use_3d)"/>
+    </node>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_path)"/>
+</launch>

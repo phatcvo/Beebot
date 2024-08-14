@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>scan_to_pcl_ros</name>
+  <version>0.0.0</version>
+  <description>The scan_to_pcl_ros package</description>
+  <maintainer email="arduicomvn@gmail.com">beebot</maintainer>
+  <license>BSD-3-Clause</license>
+  <url type="repository">https://github.com/phatcvo/scan_to_pcl_ros.git</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>laser_geometry</depend>
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>tf</depend>
+
+  <test_depend>rostest</test_depend>
+  <test_depend>roslint</test_depend>
+</package>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="output" default="log" doc="screen or log"/>
+    <arg name="target_dist_to_goal" default="0.5"/>
+    <arg name="use_direction_in_path" default="false"/>
+    <arg name="path_topic" default="/path"/>
+    <arg name="robot_pose_topic" default="/robot_pose"/>
+    <node pkg="local_goal_creator_ros" type="local_goal_creator_node" name="local_goal_creator" output="$(arg output)">
+        <param name="target_dist_to_goal" value="$(arg target_dist_to_goal)"/>
+        <param name="use_direction_in_path" value="$(arg use_direction_in_path)"/>
+        <remap from="/path" to="$(arg path_topic)"/>
+        <remap from="/robot_pose" to="$(arg robot_pose_topic)"/>
+    </node>
+</launch>

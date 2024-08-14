@@ -1,0 +1,33 @@
+# === EMCL ===
+# particle
+particle_num: 420
+
+# initial pose
+init_x: -2.0
+init_y: -0.5
+init_yaw: 0.0
+init_position_dev: 0.1
+init_orientation_dev: 0.05
+
+# resetting
+likelihood_th: 0.002
+reset_count_limit: 3
+expansion_position_dev: 0.07
+expansion_orientation_dev: 0.2
+
+# sensor
+laser_step: 4
+sensor_noise_ratio: 0.03
+
+
+# === OdomModel ===
+ff: 0.17
+fr: 0.0005
+rf: 0.13
+rr: 0.2
+
+
+# === Scan ====
+# If pointcloud is used, following parameters are used
+range_min: 0.12
+range_max: 3.5

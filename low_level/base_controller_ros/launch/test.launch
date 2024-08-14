@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="map_path" default="$(find turtlebot3_navigation)/maps/map.yaml"/>
+    <arg name="rviz_path" default="$(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
+
+    <include file="$(find base_controller_ros)/launch/base_controller.launch">
+        <arg name="output" value="screen"/>
+    </include>
+    <node pkg="joy" type="joy_node" name="joy_node" output="screen"/>
+    <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_path)" output="screen"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_path)"/>
+
+    <include file="$(find base_controller_ros)/launch/gazebo.launch"/>
+</launch>

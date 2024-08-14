@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- config file path  -->
+    <arg name="rviz_settings" default="$(find amr_system)/config/rviz/localizer.rviz"/>
+    <arg name="map_settings" default="$(find amr_system)/map/map.yaml"/>
+    <arg name="localizer_settings" default="$(find amr_system)/config/param/localizer.yaml"/>
+
+    <!-- static TF -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_transform_publisher" args="0 0 0 0 0 0 1 /base_link /laser"/>
+
+    <!-- node launch -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_settings)"/>
+    <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_settings)" output="screen"/>
+    <node pkg="amr_system" type="localizer_node" name="localizer" output="screen">
+        <rosparam command="load" file="$(arg localizer_settings)"/>
+    </node>
+    <node pkg="rosbag" type="play" name="play" args="$(env HOME)/bagfiles/localizer.bag"/>
+</launch>

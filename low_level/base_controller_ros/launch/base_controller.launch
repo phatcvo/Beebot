@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="max_linear_vel" default="0.25"/>
+    <arg name="max_angular_vel" default="1.0"/>
+    <arg name="cmd_vel_topic" default="/cmd_vel"/>
+    <arg name="planner_cmd_vel_topic" default="/planner/cmd_vel"/>
+    <arg name="output" default="log" doc="[screen, log]"/>
+
+    <node pkg="base_controller_ros" type="base_controller_node" name="base_controller" output="$(arg output)">
+        <param name="max_linear_vel" value="$(arg max_linear_vel)"/>
+        <param name="max_angular_vel" value="$(arg max_angular_vel)"/>
+        <remap from="/cmd_vel" to="$(arg cmd_vel_topic)"/>
+        <remap from="/planner/cmd_vel" to="$(arg planner_cmd_vel_topic)"/>
+    </node>
+</launch>

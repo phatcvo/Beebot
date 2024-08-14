@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>base_controller_ros</name>
+  <version>0.0.0</version>
+  <description>The base_controller_ros package</description>
+  <maintainer email="arduicomvn@gmail.com">beebot</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>geometry_msgs</depend>
+  <depend>joy</depend>
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+
+  <test_depend>rostest</test_depend>
+  <test_depend>roslint</test_depend>
+</package>

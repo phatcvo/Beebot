@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="output" default="log" doc="screen or log"/>
+    <arg name="config_file_path" default="$(find recovery_behavior_ros)/launch/test.yaml"/>
+    <arg name="cmd_vel_topic" default="/recovery/cmd_vel"/>
+    <arg name="cloud_topic" default="/cloud"/>
+
+    <node pkg="recovery_behavior_ros" type="recovery_behavior_node" name="recovery_behavior" output="$(arg output)">
+        <rosparam command="load" file="$(arg  config_file_path)"/>
+        <remap from="/recovery/cmd_vel" to="$(arg cmd_vel_topic)"/>
+        <remap from="/cloud" to="$(arg cloud_topic)"/>
+    </node>
+</launch>

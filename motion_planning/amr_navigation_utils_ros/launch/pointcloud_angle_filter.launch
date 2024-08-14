@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="output" default="log" doc="[screen, log]"/>
+    <arg name="angle_filter_config" default="$(find amr_navigation_utils_ros)/launch/pointcloud_angle_filter.yaml"/>
+    <arg name="cloud_filtered_topic" default="cloud_filtered"/>
+    <arg name="cloud_topic" default="/cloud"/>
+    <node pkg="amr_navigation_utils_ros" type="pointcloud_angle_filter_node" name="pointcloud_angle_filter" output="$(arg output)">
+        <rosparam command="load" file="$(arg angle_filter_config)"/>
+        <remap from="cloud_filtered" to="$(arg cloud_filtered_topic)"/>
+        <remap from="/cloud" to="$(arg cloud_topic)"/>
+    </node>
+</launch>
