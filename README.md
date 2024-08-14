@@ -1,11 +1,11 @@
-#### Git command line tutorial:
+#### Git tutorial:
 
 ##### Step 1 [initial]. Cloning a New Project into Your Workspace, go to `src`
 
-    git clone -b <branch name> https://github.com/phatcvo/Beebot.git   # cloning files from `develop` branch
-    git branch <your branch name>                                   # create <your branch name>
-    git checkout -b <your branch name>                              # create and switch <your branch name>
-    git push -u origin <your branch name>                           # pull your branch to origin
+    git clone -b main https://github.com/phatcvo/Beebot.git   # cloning files from `main` branch
+    git branch <your branch name>                             # create <your branch name>
+    git checkout -b <your branch name>                        # create and switch <your branch name>
+    git push -u origin <your branch name>                     # pull your branch to origin
 
 ##### Step 2. Check and switch
 
