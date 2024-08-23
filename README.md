@@ -10,5 +10,6 @@
 ## How to run
 
 ```
+export TURTLEBOT3_MODEL=burger
 roslaunch system_ros demo.launch
 ```
