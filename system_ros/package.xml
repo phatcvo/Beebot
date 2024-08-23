@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>system_ros</name>
+  <version>0.0.0</version>
+  <description>The system_ros package</description>
+  <maintainer email="phatcvo@todo.todo">phatcvo</maintainer>
+  <license>MIT</license>
+</package>

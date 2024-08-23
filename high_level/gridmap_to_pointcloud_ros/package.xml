@@ -3,7 +3,7 @@
   <name>gridmap_to_pointcloud_ros</name>
   <version>0.0.0</version>
   <description>The gridmap_to_pointcloud_ros package</description>
-  <maintainer email="arduicomvn@gmail.com">beebot</maintainer>
+  <maintainer email="phatcvo@todo.todo">phatcvo</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>catkin</buildtool_depend>

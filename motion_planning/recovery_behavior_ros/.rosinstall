@@ -1,4 +1,0 @@
-- git:
-    local-name: amr_navigation_utils_ros
-    uri: https://github.com/phatcvo/amr_navigation_utils_ros.git
-    version: master

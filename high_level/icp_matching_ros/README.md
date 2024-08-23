@@ -4,30 +4,6 @@ ROS implementation of ICP (Iterative Closest Point) matching
 
 Provide a library `icp_matching`, demo nodes.
 
-<p align="center">
-  <img src="https://github.com/phatcvo/amr_navigation_gifs/blob/master/images/icp_matching_demo1.gif" height="240px"/>
-  <img src="https://github.com/phatcvo/amr_navigation_gifs/blob/master/images/icp_matching_demo2.gif" height="240px"/>
-</p>
-
-## Environment
-
-- Ubuntu 20.04
-- ROS Noetic
-- PCL
-
-## Install and Build
-
-```
-# clone repository
-cd /path/to/your/catkin_ws/src
-git clone https://github.com/phatcvo/icp_matching_ros.git
-
-# build
-cd /path/to/your/catkin_ws
-rosdep install -riy --from-paths src --rosdistro noetic  # Install dependencies
-catkin build icp_matching_ros -DCMAKE_BUILD_TYPE=Release # Release build is recommended
-```
-
 ## Setup
 
 ```

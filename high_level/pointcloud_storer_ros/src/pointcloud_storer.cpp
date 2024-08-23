@@ -1,6 +1,6 @@
 /**
  * @file pointcloud_storer.cpp
- * @author beebot
+ * @author phatcvo
  * @brief Store pointclouds and poses
  * @copyright Copyright (c) 2024
  */

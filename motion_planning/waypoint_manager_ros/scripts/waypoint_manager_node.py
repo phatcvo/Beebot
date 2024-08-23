@@ -2,7 +2,7 @@
 
 """
 Waypoint Manager Node
-author: beebot
+author: phatcvo
 """
 
 from dataclasses import dataclass

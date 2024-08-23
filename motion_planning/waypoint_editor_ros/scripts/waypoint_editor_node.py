@@ -2,7 +2,7 @@
 
 """
 Waypoint editor node
-author: beebot
+author: phatcvo
 """
 
 import copy

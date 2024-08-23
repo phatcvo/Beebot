@@ -50,19 +50,6 @@ The ROS package of waypoint editing tool
 
 - [waypoint_manager_ros](https://github.com/phatcvo/waypoint_manager_ros.git)
 
-## Install and Build
-
-```
-# clone repository
-cd /path/to/your/catkin_ws/src
-git clone https://github.com/phatcvo/waypoint_editor_ros.git
-
-# build
-cd /path/to/your/catkin_ws
-rosdep install -riy --from-paths src --rosdistro noetic # Install dependencies
-catkin build waypoint_editor_ros
-```
-
 ## How to use
 
 ```

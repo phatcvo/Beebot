@@ -1,6 +1,6 @@
 /**
  * @file scan_to_pcl.cpp
- * @author beebot
+ * @author phatcvo
  * @brief Convert a sensor_msgs/LaserScan to a sensor_msgs/PointCloud
  * @copyright Copyright (c) 2024
  */

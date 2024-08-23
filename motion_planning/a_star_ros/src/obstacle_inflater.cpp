@@ -1,6 +1,6 @@
 /**
  * @file obstacle_inflater.cpp
- * @author beebot
+ * @author phatcvo
  * @brief C++ implementation of obstacle inflater
  * @copyright Copyright (c) 2024
  */

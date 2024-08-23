@@ -10,24 +10,6 @@ Publish the goal pose in order from id "parameter start + 1"
   <img src="images/waypoint_manager.png" height="320px"/>
 </p>
 
-## Environment
-
-- Ubuntu 20.04
-- ROS Noetic
-
-## Install and Build
-
-```
-# clone repository
-cd /path/to/your/catkin_ws/src
-git clone https://github.com/phatcvo/waypoint_manager_ros.git
-
-# build
-cd /path/to/your/catkin_ws
-rosdep install -riy --from-paths src --rosdistro noetic # Install dependencies
-catkin build waypoint_manager_ros
-```
-
 ## How to use
 
 ```

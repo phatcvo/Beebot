@@ -3,7 +3,7 @@
   <name>scan_to_pcl_ros</name>
   <version>0.0.0</version>
   <description>The scan_to_pcl_ros package</description>
-  <maintainer email="arduicomvn@gmail.com">beebot</maintainer>
+  <maintainer email="phatcvo@todo.todo">phatcvo</maintainer>
   <license>BSD-3-Clause</license>
   <url type="repository">https://github.com/phatcvo/scan_to_pcl_ros.git</url>
 

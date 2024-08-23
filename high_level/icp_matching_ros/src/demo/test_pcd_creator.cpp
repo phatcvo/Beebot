@@ -1,6 +1,6 @@
 /**
  * @file test_pcd_creator.cpp
- * @author beebot
+ * @author phatcvo
  * @brief Create a PCD file for icp_matching test
  * @copyright Copyright (c) 2024
  */

@@ -1,6 +1,6 @@
 /**
  * @file raycast_mapping.h
- * @author beebot
+ * @author phatcvo
  * @brief C++ implementation of Ray Casting Update Algorithm for 2D Mapping
  * @copyright Copyright (c) 2024
  */

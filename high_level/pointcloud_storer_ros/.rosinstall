@@ -1,4 +1,0 @@
-- git:
-    local-name: icp_matching_ros
-    uri: https://github.com/phatcvo/icp_matching_ros.git
-    version: master

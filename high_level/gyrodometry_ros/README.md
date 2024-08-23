@@ -1,26 +1,6 @@
 # gyrodometry_ros
 
-![Build Status](https://github.com/phatcvo/gyrodometry_ros/workflows/build/badge.svg)
-
 ROS implementation of Gyrodometry for 2D navigation
-
-## Environment
-
-- Ubuntu 20.04
-- ROS Noetic
-
-## Install and Build
-
-```
-# clone repository
-cd /path/to/your/catkin_ws/src
-git clone https://github.com/phatcvo/gyrodometry_ros.git
-
-# build
-cd /path/to/your/catkin_ws
-rosdep install -riy --from-paths src --rosdistro noetic # Install dependencies
-catkin build gyrodometry_ros -DCMAKE_BUILD_TYPE=Release # Release build is recommended
-```
 
 ## How to use
 

@@ -2,7 +2,7 @@
 
 """
 Edit client node
-author: beebot
+author: phatcvo
 """
 
 import signal

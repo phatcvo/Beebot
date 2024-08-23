@@ -1,30 +1,10 @@
 # gridmap_to_pointcloud_ros
 
-![Build Status](https://github.com/phatcvo/gridmap_to_pointcloud_ros/workflows/build/badge.svg)
-
 ROS package for converting gridmap to pointcloud
 
 <p align="center">
   <img src="images/gridmap_to_pointcloud.png" height="320px"/>
 </p>
-
-## Environment
-
-- Ubuntu 20.04
-- ROS Noetic
-
-## Install and Build
-
-```
-# clone repository
-cd /path/to/your/catkin_ws/src
-git clone https://github.com/phatcvo/gridmap_to_pointcloud_ros.git
-
-# build
-cd /path/to/your/catkin_ws
-rosdep install -riy --from-paths src --rosdistro noetic           # Install dependencies
-catkin build gridmap_to_pointcloud_ros -DCMAKE_BUILD_TYPE=Release # Release build is recommended
-```
 
 ## Running the demo
 

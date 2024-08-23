@@ -1,6 +1,6 @@
 /**
  * @file local_goal_creator.cpp
- * @author beebot
+ * @author phatcvo
  * @brief C++ implementation of local goal creator
  * @copyright Copyright (c) 2024
  */

@@ -1,6 +1,6 @@
 /**
  * @file gridmap_to_pointcloud.cpp
- * @author beebot
+ * @author phatcvo
  * @brief Convert gridmap to pointcloud
  * @copyright Copyright (c) 2024
  */

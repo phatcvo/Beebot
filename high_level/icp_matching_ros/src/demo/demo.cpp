@@ -1,6 +1,6 @@
 /**
  * @file demo.cpp
- * @author beebot
+ * @author phatcvo
  * @brief Demo for ICP matching
  * @copyright Copyright (c) 2024
  */

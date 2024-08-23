@@ -1,6 +1,6 @@
 /**
  * @file base_controller.cpp
- * @author beebot
+ * @author phatcvo
  * @brief base_controller for mobile robot
  * @copyright Copyright (c) 2024
  */

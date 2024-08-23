@@ -1,6 +1,6 @@
 /**
  * @file a_star.cpp
- * @author beebot
+ * @author phatcvo
  * @brief C++ implementation of A* algorithm
  * @copyright Copyright (c) 2024
  */

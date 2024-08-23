@@ -1,6 +1,6 @@
 /**
  * @file likelihood_field_gridmap.cpp
- * @author beebot
+ * @author phatcvo
  * @brief C++ implementation of likelihood field grid map
  * @copyright Copyright (c) 2024
  */

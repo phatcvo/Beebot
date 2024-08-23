@@ -1,6 +1,6 @@
 /**
  * @file icp_matching.h
- * @author beebot
+ * @author phatcvo
  * @brief ICP matching class
  * @copyright Copyright (c) 2024
  */

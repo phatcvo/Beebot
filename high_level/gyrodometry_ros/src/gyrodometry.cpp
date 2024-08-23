@@ -1,6 +1,6 @@
 /**
  * @file gyrodometry.cpp
- * @author beebot
+ * @author phatcvo
  * @brief C++ implementation of Gyrodometry for 2D navigation
  * @copyright Copyright (c) 2024
  */
