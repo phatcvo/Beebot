@@ -1,15 +1,6 @@
-# emcl_ros
+  # emcl_ros
 
 ROS implementation of emcl (mcl with expansion resetting)
-
-<p align="center">
-  <img src="https://github.com/phatcvo/amr_navigation_gifs/blob/master/images/emcl_demo1.gif" height="240px"/>
-  <img src="https://github.com/phatcvo/amr_navigation_gifs/blob/master/images/emcl_demo2.gif" height="240px"/>
-</p>
-<p align="center">
-  <img src="https://github.com/phatcvo/amr_navigation_gifs/blob/master/images/emcl_demo3.gif" height="240px"/>
-  <img src="https://github.com/phatcvo/amr_navigation_gifs/blob/master/images/emcl_demo4.gif" height="240px"/>
-</p>
 
 Support Dynamic Reconfigure
 
@@ -128,7 +119,5 @@ If pointcloud is used, following parameters are used.
 
 ## References
 
-- 上田隆一, "詳解 確率ロボティクス Python による基礎アルゴリズムの実装", Kodansya, 2019
 - https://github.com/ryuichiueda/emcl
-- 赤井直紀, "LiDAR を用いた高度自己位置推定システム - 移動ロボットのための自己位置推定の高性能化とその実装例", コロナ社, 2022
 - https://github.com/NaokiAkai/ALSEdu
