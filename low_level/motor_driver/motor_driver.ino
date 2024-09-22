@@ -54,10 +54,10 @@ void velCallback(const geometry_msgs::Twist& vel)
 
     vel_linear = constrain(vel_linear,-1,1);     // try to keep it under control
     vel_angular = constrain(vel_angular,-1,1);
-    // ros_speed = map(vel_linear, -1, 1, -255, 255);
-    // ros_direction = map(vel_angular, -1, 1, -255, 255);
-    // Serial.print("\t vel_linear: "); Serial.print(vel_linear);
-    // Serial.print(", vel_linear: "); Serial.println(vel_angular);
+    ros_speed = map(vel_linear, -1, 1, -255, 255);
+    ros_direction = map(vel_angular, -1, 1, -255, 255);
+    Serial3.print("\t vel_linear: "); Serial3.print(vel_linear);
+    Serial3.print(", vel_linear: "); Serial3.println(vel_angular);
 }
 
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel" , velCallback);     //create a subscriber for ROS cmd_vel topic
@@ -88,14 +88,14 @@ void setup() {
 
   // Initialize serial communication
   Serial.begin(115200);
-  // Serial1.begin(115200);
+  Serial3.begin(115200);
   // Set receiver pins as inputs
   pinMode(CH1_PIN, INPUT);
   pinMode(CH2_PIN, INPUT);
   pinMode(CH5_PIN, INPUT);
 
-  // nh.initNode();
-  // nh.subscribe(sub);
+  nh.initNode();
+  nh.subscribe(sub);
 }
 
 void loop() {
@@ -117,24 +117,24 @@ void loop() {
     // Check if the receiver is disconnected
     if (ch1Value < 1100 || ch2Value < 1100) {
         // Handle disconnection for CH1 (Throttle)
-        Serial.print("\t RC Disconnected! =>");
+        Serial3.print("\t RC Disconnected! =>");
         stopMotors();
     }
     else{
       if(rc_gear == AUTO){
-        Serial.print(">>>>> Auto mode >>>>>>> \t");
+        Serial3.print(">>>>> Auto mode >>>>>>> \t");
         act_speed = ros_speed;
         act_direction = ros_direction;
       }
       else {
-        Serial.print(">>>>> Manual mode >>>>>>> \t");
+        Serial3.print(">>>>> Manual mode >>>>>>> \t");
         act_speed = rc_speed;
         act_direction = rc_direction;
-        Serial.print("\t Throttle: "); Serial.print(ch1Value);
-        Serial.print(", Direction: "); Serial.print(ch2Value);
+        Serial3.print("\t Throttle: "); Serial3.print(ch1Value);
+        Serial3.print(", Direction: "); Serial3.print(ch2Value);
       }
-      Serial.print("\t Speed: "); Serial.print(act_speed);
-      Serial.print(", Direction: "); Serial.print(act_direction);
+      Serial3.print("\t Speed: "); Serial3.print(act_speed);
+      Serial3.print(", Direction: "); Serial3.print(act_direction);
       // Apply the calculated speed and direction to the motors
       controlMotors(act_speed, act_direction);
     }
@@ -153,8 +153,8 @@ void controlMotors(int speed, int direction) {
   // Set motor speeds and directions
   setMotorSpeed(DIR_A, PWM_A, leftMotorSpeed);
   setMotorSpeed(DIR_B, PWM_B, rightMotorSpeed);
-  Serial.print("\t encoder0Pos: "); Serial.print(encoder0Pos);
-  Serial.print(", encoder1Pos: "); Serial.println(encoder1Pos);
+  Serial3.print("\t encoder0Pos: "); Serial3.print(encoder0Pos);
+  Serial3.print(", encoder1Pos: "); Serial3.println(encoder1Pos);
 }
 
 void setMotorSpeed(int dirPin, int pwmPin, int speed) {
@@ -170,7 +170,7 @@ void setMotorSpeed(int dirPin, int pwmPin, int speed) {
 void stopMotors() {
   analogWrite(PWM_A, 0);
   analogWrite(PWM_B, 0);
-  Serial.println("Stopped");
+  Serial3.println("Stopped");
 }
 
 
