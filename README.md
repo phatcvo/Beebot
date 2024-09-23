@@ -12,4 +12,7 @@
 ```
 export TURTLEBOT3_MODEL=burger
 roslaunch system_ros demo.launch
+
+rosrun rosserial_python serial_node.py /dev/ttyACM0
 ```
+

@@ -1,11 +1,19 @@
 #include "ros.h"
 #include "MPU9250.h"
 #include <std_msgs/String.h>
+#include <sensor_msgs/Imu.h>
+#include <std_msgs/Float32.h>
 #include <geometry_msgs/Twist.h>
 #include <ros/time.h>
 
-ros::NodeHandle nh;
+
 MPU9250 mpu;
+sensor_msgs::Imu imu_msg;
+std_msgs::Float32 yaw_msg;
+
+ros::NodeHandle nh;
+ros::Publisher imu_publisher("imu_data", &imu_msg);
+ros::Publisher imu_yaw_pub("yaw", &yaw_msg);
 
 // Define motor control pins
 const int EN_A = 7;
@@ -98,7 +106,9 @@ void setup() {
 
   nh.initNode();
   nh.subscribe(sub);
-
+  nh.advertise(imu_publisher);
+  nh.advertise(imu_yaw_pub);
+  
   Wire.begin();
   mpu.setup();
 }
@@ -116,6 +126,32 @@ void loop() {
     Serial3.print(mpu.getPitch());
     Serial3.print(", ");
     Serial3.println(mpu.getYaw());
+    
+    // Fill the IMU message
+    imu_msg.header.stamp = nh.now();  // Timestamp
+    imu_msg.header.frame_id = "imu_link";  // Frame ID
+
+    // Set orientation to quaternion (replace with actual values if available)
+    imu_msg.orientation.x = mpu.getQuaternion(0);
+    imu_msg.orientation.y = mpu.getQuaternion(1);
+    imu_msg.orientation.z = mpu.getQuaternion(2);
+    imu_msg.orientation.w = mpu.getQuaternion(3);
+
+    // Set angular velocity from gyroscope data
+    imu_msg.angular_velocity.x = mpu.getGyro(0);
+    imu_msg.angular_velocity.y = mpu.getGyro(1);
+    imu_msg.angular_velocity.z = mpu.getGyro(2);
+
+    // Set linear acceleration from accelerometer data
+    imu_msg.linear_acceleration.x = mpu.getAcc(0);
+    imu_msg.linear_acceleration.y = mpu.getAcc(1);
+    imu_msg.linear_acceleration.z = mpu.getAcc(2);
+
+    yaw_msg.data = mpu.getYaw();
+    // Publish the IMU data
+    imu_publisher.publish(&imu_msg);
+    imu_yaw_pub.publish(&yaw_msg);
+    
     // Read the pulse width from the receiver
     ch1Value = pulseIn(CH1_PIN, HIGH, 50000); // Throttle
     ch2Value = pulseIn(CH2_PIN, HIGH, 50000); // Direction
