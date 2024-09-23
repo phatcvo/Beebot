@@ -1,9 +1,11 @@
 #include "ros.h"
+#include "MPU9250.h"
 #include <std_msgs/String.h>
 #include <geometry_msgs/Twist.h>
 #include <ros/time.h>
 
 ros::NodeHandle nh;
+MPU9250 mpu;
 
 // Define motor control pins
 const int EN_A = 7;
@@ -96,6 +98,9 @@ void setup() {
 
   nh.initNode();
   nh.subscribe(sub);
+
+  Wire.begin();
+  mpu.setup();
 }
 
 void loop() {
@@ -104,6 +109,13 @@ void loop() {
   if (currentMillis - previousMillis >= loopTime) {  // start timed loop for everything else
     previousMillis = currentMillis;
 
+    mpu.update();
+    Serial3.print("roll, pitch, yaw (x, y, z): ");
+    Serial3.print(mpu.getRoll());
+    Serial3.print(", ");
+    Serial3.print(mpu.getPitch());
+    Serial3.print(", ");
+    Serial3.println(mpu.getYaw());
     // Read the pulse width from the receiver
     ch1Value = pulseIn(CH1_PIN, HIGH, 50000); // Throttle
     ch2Value = pulseIn(CH2_PIN, HIGH, 50000); // Direction
@@ -117,7 +129,7 @@ void loop() {
     // Check if the receiver is disconnected
     if (ch1Value < 1100 || ch2Value < 1100) {
         // Handle disconnection for CH1 (Throttle)
-        Serial3.print("\t RC Disconnected! =>");
+        Serial3.print("RC Disconnected! =>");
         stopMotors();
     }
     else{
@@ -130,7 +142,7 @@ void loop() {
         Serial3.print(">>>>> Manual mode >>>>>>> \t");
         act_speed = rc_speed;
         act_direction = rc_direction;
-        Serial3.print("\t Throttle: "); Serial3.print(ch1Value);
+        Serial3.print("Throttle: "); Serial3.print(ch1Value);
         Serial3.print(", Direction: "); Serial3.print(ch2Value);
       }
       Serial3.print("\t Speed: "); Serial3.print(act_speed);
