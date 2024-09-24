@@ -9,10 +9,12 @@
 
 MPU9250 mpu;
 sensor_msgs::Imu imu_msg;
-std_msgs::Float32 yaw_msg;
+std_msgs::Float32 roll_msg, pitch_msg, yaw_msg;
 
 ros::NodeHandle nh;
 ros::Publisher imu_publisher("imu_data", &imu_msg);
+ros::Publisher imu_roll_pub("roll", &roll_msg);
+ros::Publisher imu_pitch_pub("pitch", &pitch_msg);
 ros::Publisher imu_yaw_pub("yaw", &yaw_msg);
 
 // Define motor control pins
@@ -107,6 +109,8 @@ void setup() {
   nh.initNode();
   nh.subscribe(sub);
   nh.advertise(imu_publisher);
+  nh.advertise(imu_roll_pub);
+  nh.advertise(imu_pitch_pub);
   nh.advertise(imu_yaw_pub);
   
   Wire.begin();
@@ -147,9 +151,13 @@ void loop() {
     imu_msg.linear_acceleration.y = mpu.getAcc(1);
     imu_msg.linear_acceleration.z = mpu.getAcc(2);
 
+    roll_msg.data = mpu.getRoll();
+    pitch_msg.data = mpu.getPitch();
     yaw_msg.data = mpu.getYaw();
     // Publish the IMU data
     imu_publisher.publish(&imu_msg);
+    imu_roll_pub.publish(&roll_msg);
+    imu_pitch_pub.publish(&pitch_msg);
     imu_yaw_pub.publish(&yaw_msg);
     
     // Read the pulse width from the receiver
