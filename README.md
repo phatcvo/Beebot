@@ -56,10 +56,13 @@ Should see something like this (hashed password):
 
 (Optional)
 Enable TLS (for secure connections): If you want to enable encryption (TLS) for MQTT communication:
-`listener <port_number>`
+
 `cafile /etc/mosquitto/certs/ca.crt`
+
 `certfile /etc/mosquitto/certs/server.crt`
+
 `keyfile /etc/mosquitto/certs/server.key`
+
 You would need to generate or obtain SSL/TLS certificates for this, which can be self-signed or from a certificate authority.
 
 Restart Mosquitto for the changes to take effect:
