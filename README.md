@@ -20,15 +20,19 @@ rosrun rosserial_python serial_node.py /dev/ttyACM0
 
 ### Step 1: Install Mosquitto as the MQTT broker (Raspberry Pi)
 
+```
 `sudo apt install mosquitto mosquitto-clients`
 
 `sudo systemctl enable mosquitto`
 
 `sudo systemctl start mosquitto`
 
+```
+
 - Check the status of Mosquitto:
 
   `sudo systemctl status mosquitto`
+  
 
   If it’s running, see something like:
 
