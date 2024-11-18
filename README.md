@@ -29,16 +29,22 @@ sudo systemctl start mosquitto
 
 - Check the status of Mosquitto:
 
-  `sudo systemctl status mosquitto`
+```
+sudo systemctl status mosquito
+```
   
 
   If it’s running, see something like:
 
-  `Active: active (running) ...`
+ ```
+ Active: active (running) ...
+```
 
 ### Step 2: Configure Mosquitto
 
-`sudo nano /etc/mosquitto/mosquitto.conf`
+```
+sudo nano /etc/mosquitto/mosquitto.conf`
+```
 
 Enable password authentication by adding this line to the config file:
 
@@ -49,12 +55,17 @@ password_file /etc/mosquitto/pwfile
 ```
 
 Set password by:
-`sudo mosquitto_passwd -c /etc/mosquitto/pwfile <username>`
+```
+sudo mosquitto_passwd -c /etc/mosquitto/pwfile <username>
+```
 
 Replace `<username>` with the name you want to use. You will be prompted to set a password.
 
 Verify that the password file exists:
-`cat /etc/mosquitto/pwfile`
+```
+cat /etc/mosquitto/pwfile
+```
+
 Should see something like this (hashed password):
 `<username>:$6$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
 
@@ -68,7 +79,9 @@ keyfile /etc/mosquitto/certs/server.key
 You would need to generate or obtain SSL/TLS certificates for this, which can be self-signed or from a certificate authority.
 
 Restart Mosquitto for the changes to take effect:
-`sudo systemctl restart mosquitto`
+```
+sudo systemctl restart mosquitto
+```
 
 ### Step 3: Install MQTT Client Tools on PCs (Clients)
 
@@ -81,7 +94,9 @@ sudo apt install libmosquitto-dev
 
 Test MQTT Publish from the PC1 (Client):
 
-`mosquitto_pub -h <broker_ip> -t "test/topic" -m "Hello from PC!" -u <username> -P <password>`
+```
+mosquitto_pub -h <broker_ip> -t "test/topic" -m "Hello from PC!" -u <username> -P <password>
+```
 
 Replace <broker_ip> with the actual IP address of your Raspberry Pi.
 
@@ -89,9 +104,11 @@ Test MQTT Subscribe from the PC2 (Client):
 
 Open another terminal and subscribe to the same topic:
 
-`mosquitto_sub -h <broker_ip> -t "test/topic" -u <username> -P <password>`
+```
+mosquitto_sub -h <broker_ip> -t "test/topic" -u <username> -P <password>
+```
 
-Should see the message "Hello from PC!" appear in the terminal of the subscribing client.
+Should see the message `Hello from PC!` appear in the terminal of the subscribing client.
 
 
 Ref: https://mosquitto.org/api/files/mosquitto-h.html
