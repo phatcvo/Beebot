@@ -40,8 +40,11 @@ rosrun rosserial_python serial_node.py /dev/ttyACM0
 
 Enable password authentication by adding this line to the config file:
 
+`listener <port_number>`
+`allow_anonymous false`
 `password_file /etc/mosquitto/pwfile`
 
+Set password by:
 `sudo mosquitto_passwd -c /etc/mosquitto/pwfile <username>`
 
 Replace `<username>` with the name you want to use. You will be prompted to set a password.
@@ -50,6 +53,14 @@ Verify that the password file exists:
 `cat /etc/mosquitto/pwfile`
 Should see something like this (hashed password):
 `<username>:$6$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+(Optional)
+Enable TLS (for secure connections): If you want to enable encryption (TLS) for MQTT communication:
+
+`listener <port_number>
+cafile /etc/mosquitto/certs/ca.crt
+certfile /etc/mosquitto/certs/server.crt
+keyfile /etc/mosquitto/certs/server.key`
+You would need to generate or obtain SSL/TLS certificates for this, which can be self-signed or from a certificate authority.
 
 Restart Mosquitto for the changes to take effect:
 `sudo systemctl restart mosquitto`
