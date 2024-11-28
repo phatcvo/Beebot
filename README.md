@@ -43,7 +43,7 @@ sudo systemctl status mosquito
 ### Step 2: Configure Mosquitto
 
 ```
-sudo nano /etc/mosquitto/mosquitto.conf`
+sudo nano /etc/mosquitto/mosquitto.conf
 ```
 
 Enable password authentication by adding this line to the config file:
@@ -57,6 +57,7 @@ password_file /etc/mosquitto/pwfile
 Set password by:
 ```
 sudo mosquitto_passwd -c /etc/mosquitto/pwfile <username>
+sudo chmod 644 /etc/mosquitto/pwfile
 ```
 
 Replace `<username>` with the name you want to use. You will be prompted to set a password.
