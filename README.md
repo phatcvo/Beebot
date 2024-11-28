@@ -82,6 +82,7 @@ You would need to generate or obtain SSL/TLS certificates for this, which can be
 Restart Mosquitto for the changes to take effect:
 ```
 sudo systemctl restart mosquitto
+mosquitto -c /etc/mosquitto/mosquitto.conf -v #to check if have issue
 ```
 
 ### Step 3: Install MQTT Client Tools on PCs (Clients)
