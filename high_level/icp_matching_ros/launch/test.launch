@@ -22,5 +22,5 @@
         <param name="enable_downsampling" value="true" if="$(arg use_3d)"/>
         <param name="sleep_time" value="0.1" if="$(arg use_3d)"/>
     </node>
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_path)"/>
+    <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_path)"/> -->
 </launch>

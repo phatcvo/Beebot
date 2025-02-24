@@ -7,6 +7,13 @@
 #include "ydlidar_config.h"
 #include <limits>       // std::numeric_limits
 
+#include <laser_geometry/laser_geometry.h>
+#include <ros/ros.h>
+#include <sensor_msgs/LaserScan.h>
+#include <sensor_msgs/PointCloud2.h>
+#include <string>
+#include <tf/transform_listener.h>
+
 #define SDKROSVerision "1.0.2"
 
 CYdLidar laser;
@@ -29,11 +36,11 @@ int main(int argc, char **argv) {
   ROS_INFO("YDLIDAR ROS Driver Version: %s", SDKROSVerision);
   ros::NodeHandle nh;
   ros::Publisher scan_pub = nh.advertise<sensor_msgs::LaserScan>("scan", 1);
-  ros::Publisher pc_pub = nh.advertise<sensor_msgs::PointCloud>("point_cloud",
-                          1);
+  ros::Publisher pc_pub = nh.advertise<sensor_msgs::PointCloud>("point_cloud", 1);
+  ros::Publisher cloud_pub_ = nh.advertise<sensor_msgs::PointCloud2>("/cloud", 1);
 //  ros::Publisher laser_fan_pub =
 //    nh.advertise<ydlidar_ros_driver::LaserFan>("laser_fan", 1);
-
+  tf::TransformListener tf_listener_;
   ros::NodeHandle nh_private("~");
   std::string str_optvalue = "/dev/ydlidar";
   nh_private.param<std::string>("port", str_optvalue, "/dev/ydlidar");
@@ -227,6 +234,14 @@ int main(int argc, char **argv) {
       scan_pub.publish(scan_msg);
       pc_pub.publish(pc_msg);
 //      laser_fan_pub.publish(fan);
+
+    laser_geometry::LaserProjection projector;
+    sensor_msgs::PointCloud2 cloud;
+    projector.transformLaserScanToPointCloud(frame_id, scan_msg, cloud, tf_listener_);
+    cloud.header.frame_id = frame_id;
+    cloud.header.stamp = ros::Time(0);//ros::Time::now();
+    cloud_pub_.publish(cloud);
+  
 
     } else {
       ROS_ERROR("Failed to get Lidar Data");

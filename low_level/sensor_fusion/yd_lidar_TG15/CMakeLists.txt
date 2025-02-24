@@ -18,6 +18,8 @@ find_package(catkin REQUIRED COMPONENTS
 	roscpp
 	rospy
 	sensor_msgs
+	laser_geometry
+  	tf
 	)
 
 ##################LaserFan ##########################
