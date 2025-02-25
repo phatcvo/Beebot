@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- <arg name="map_num" default="$(env MAPNUM)"/> -->
+    <node pkg="rviz" type="rviz" name="rviz" output="screen" args="-d $(find system_ros)/launch/motion.rviz"/>
+    <!-- <param name="map_num"  value="$(arg map_num)"/> -->
+</launch>
