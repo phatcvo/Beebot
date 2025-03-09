@@ -1,0 +1,35 @@
+##########JOY-BUTTONS##########
+key_type: 1 # [0] XBOX,  [1] PS4, [2] LOGITECH
+reset_mode_timeout: 10.0
+connection_timeout: 5.0
+### [0 X] ###
+### [1 A] ###
+### [2 B] ###
+### [3 Y] ###
+### [4 LB] ###
+### [5 RB] ###
+min_Linear: -1.0
+Max_Linear: 1.0
+min_Angular: -1.0
+Max_Angular: 1.0
+control_ratio: 8
+### [6 LT] ###
+### [7 RT] ###
+linear_step_control_size: 0.1
+angular_step_control_size: 0.1
+### [8 back] ###
+### [9 start] ###
+### [10 Button stick left] ###
+### [11 Button stick right] ###
+
+##########JOY-AXIS##########
+### [0 L/R Axis stick Left] ###
+### [1 U/D Axis stick Left] ###
+init_linear_vel: 0.5
+### [2 L/R Axis stick Right] ###
+init_angular_vel: 0.6
+### [3 U/D Axis stick Right] ###
+### [4 cross(+) key L/R] ###
+init_angular_step_scale: 0.2
+### [5 cross(+) key U/D] ###
+init_linear_step_scale: 0.2
