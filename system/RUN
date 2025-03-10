@@ -1,7 +1,7 @@
 #!/bin/bash
 workspace=~/beebot_ws
 
-# source ${workspace}/src/scripts/params.bash
+source ${workspace}/devel/setup.bash
 
 MY_PATH=$(readlink -f  $(dirname $0))
 WORKING_DIR='--working-directory'
@@ -40,20 +40,14 @@ fi
 
 echo ">>>>>>>>>>>>>> Begins"
 
-${TERMINAL} ${MASTER_DISPLAY_OPTION} ${WORKING_DIR}=${MY_PATH} ${OPTION_COMMAND}="bash -c 'roscore; ; exec bash -i'"&
+${TERMINAL} ${MASTER_DISPLAY_OPTION} ${WORKING_DIR}=${MY_PATH} ${OPTION_COMMAND}="bash -c 'roscore; ; exec bash -i'"
+sleep 2
 ${TERMINAL} ${SENSING_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch ydlidar_ros_driver TG15.launch; exec bash -i'"
-sleep 2
+sleep 5
+${TERMINAL} ${SENSING_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch arduino_serial arduino_serial.launch; exec bash -i'"
+sleep 5
 ${TERMINAL} ${SENSING_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch raycast_mapping_ros raycast_mapping.launch; exec bash -i'"
+${TERMINAL} ${MC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch remote_control remote_control.launch; exec bash -i'"
 sleep 2
-${TERMINAL} ${RVIZ_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch system_ros rviz.launch; exec bash -i'"
-# sleep 1
-# ${TERMINAL} ${LOC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/src/scripts/params.bash; roslaunch stpc_launch fake_localization.launch; exec bash -i'"
-# ${TERMINAL} ${PERCEPTION_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/src/scripts/params.bash; roslaunch loc_tf_fake traffic_light_fake.launch; exec bash -i'"
-# ${TERMINAL} ${MP_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/src/scripts/params.bash; roslaunch map_loader pointcloud_map_loader.launch; exec bash -i'"
-# ${TERMINAL} ${RVIZ_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch main rviz.launch; exec bash -i'"
-
-# sleep 2
-# ${TERMINAL} ${MP_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'python3 ${workspace}/src/motion_planning/mp/motion_planner/modules/button_signal/src/run_button_traffic.py; exec bash -i'"
-# ${TERMINAL} ${MP_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ~/.bashrc; roslaunch segwayrmp401_controller robotcontroller.launch; exec bash -i'"
-# ${TERMINAL} ${MP_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch main main_planner.launch; exec bash -i'"
+${TERMINAL} ${RVIZ_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch system rviz.launch; exec bash -i'"
 

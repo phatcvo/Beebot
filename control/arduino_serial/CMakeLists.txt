@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   serial
   geometry_msgs
+  message_generation
 )
 
 
@@ -46,7 +47,7 @@ target_link_libraries(
 
 install(
   TARGETS
-    arduino_serial
+  arduino_serial
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

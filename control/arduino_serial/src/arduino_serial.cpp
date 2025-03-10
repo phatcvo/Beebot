@@ -22,7 +22,7 @@ void ArduinoSerial::initForROS()
 void ArduinoSerial::callbackFromCmdVel(const geometry_msgs::TwistConstPtr &msg)
 {
     std::stringstream ss;
-    ss << msg->linear.x << "," << msg->angular.z << "," << msg->linear.z << "\n";
+    ss << msg->linear.x << "," << -msg->angular.z << "," << msg->linear.z << "\n";
     cmd_vel_str = ss.str();
 }
 
@@ -30,11 +30,11 @@ void ArduinoSerial::pub_arduino_feedback()
 {
     std_msgs::Int16MultiArray m_msg;
     m_msg.data.resize(3);
-    m_msg.data[0] = roll;
-    m_msg.data[1] = pitch;
-    m_msg.data[2] = yaw;
+    m_msg.data[0] = go_btn;
+    m_msg.data[1] = go_btn;
+    m_msg.data[2] = go_btn;
     printf("IMU -> Roll: %.2f, Pitch: %.2f, Yaw: %.2f\n", roll, pitch, yaw);
-    printf("Buttons -> sys_btn: %d, go_btn: %d, door_status: %d\n", sys_btn, go_btn, door_status);
+    printf("Buttons -> sys_btn: %d, go_btn: %d\n", sys_btn, go_btn);
     arduino_pub.publish(m_msg);
 }
 
@@ -73,7 +73,7 @@ void ArduinoSerial::run()
         if (serialPort.available() > 0) 
         {
             size_t available_bytes = serialPort.available();
-            const size_t PACKET_SIZE = 16;  // Header (1) + 3 floats (12) + 3 bytes (3)
+            const size_t PACKET_SIZE = 15;  // Header (1) + 3 floats (12) + 2 bytes (2)
             uint8_t buffer[PACKET_SIZE];
 
             if (available_bytes >= PACKET_SIZE) 
@@ -88,7 +88,6 @@ void ArduinoSerial::run()
 
                     sys_btn = buffer[13];
                     go_btn = buffer[14];
-                    door_status = buffer[15];
                 }
             }
         }

@@ -1,5 +1,5 @@
 ##########JOY-BUTTONS##########
-key_type: 0 # [0] XBOX,  [1] PS4, [2] LOGITECH
+key_type: 1 # [0] XBOX,  [1] PS4, [2] LOGITECH
 reset_mode_timeout: 10.0
 connection_timeout: 5.0
 ### [0 X] ###
