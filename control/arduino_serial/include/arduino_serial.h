@@ -14,6 +14,8 @@
 #include <std_msgs/Bool.h>
 #include <std_msgs/String.h>
 #include <std_msgs/Int16MultiArray.h>
+#include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/TwistStamped.h>
 
 using namespace std;
 class ArduinoSerial
@@ -24,31 +26,27 @@ public:
     void run();
 
 private:
-    ros::NodeHandle nh_;
     ros::NodeHandle private_nh_;
 
-    ros::Subscriber robot_state_sub;
+    ros::Subscriber cmd_vel_sub;
     ros::Publisher  arduino_pub;
     // Create a serial object
     serial::Serial serialPort;
-    std::string user_pwd_ = "9999,8,9,9,        ";
     
     std::string serial_port = "/dev/ttyACM0";
     int serial_baudrate = 115200;
 
-    int door_status=1;
-    int sys_btn = 0;
-    int go_btn = 0;
+    float roll, pitch, yaw;
+    uint8_t sys_btn, go_btn, door_status;
 
-    std::string start_marker = "<";
-    std::string end_marker = ">";
-    std::string delimiter = ",";
-   
+    std::string cmd_vel_str = "";
+
     void send_arduino();
     void pub_arduino_feedback(); 
     void initForROS();
     // subscribe
     void callbackFromPC(const std_msgs::StringConstPtr &msg);
+    void callbackFromCmdVel(const geometry_msgs::TwistConstPtr &msg);
 };
 
 

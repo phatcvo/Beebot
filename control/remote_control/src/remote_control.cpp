@@ -111,9 +111,8 @@ void Remote_Control::initParam(ros::NodeHandle& n)
 	ROS_INFO_STREAM("angular_step_control_size: "<< parameters.angular_step_control_size);
 }
 
-void Remote_Control::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
-{
-	m_nNoEstop = joy->buttons[PS4_BTN::A];
+void Remote_Control::PS4(const sensor_msgs::Joy::ConstPtr& joy){
+    m_nNoEstop = joy->buttons[PS4_BTN::A];
 	m_nEstop = joy->buttons[PS4_BTN::B];
 	m_nCross_control = joy->buttons[PS4_BTN::X];
 	m_nJoy_control = joy->buttons[PS4_BTN::Y];
@@ -133,6 +132,68 @@ void Remote_Control::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 	m_dLinear_stick2 = joy->axes[PS4_AXIS::Axis_UD2];
 	m_nAngular_cross = joy->axes[PS4_AXIS::Cross_key_LR];
 	m_nLinear_cross = joy->axes[PS4_AXIS::Cross_key_UD];
+}
+
+void Remote_Control::XBOX(const sensor_msgs::Joy::ConstPtr& joy){
+    m_nNoEstop = joy->buttons[XBOX_BTN::A];
+	m_nEstop = joy->buttons[XBOX_BTN::B];
+	m_nCross_control = joy->buttons[XBOX_BTN::X];
+	m_nJoy_control = joy->buttons[XBOX_BTN::Y];
+	m_nLinearSpeedDown = joy->buttons[XBOX_BTN::LB];
+	m_nLinearSpeedUp = joy->buttons[XBOX_BTN::RB];
+	
+	m_nAutoBack = joy->buttons[XBOX_BTN::back];
+	m_nAutoMode = joy->buttons[XBOX_BTN::start];
+	m_nManualMode = joy->buttons[XBOX_BTN::mode];
+	m_nStickButton_L = joy->buttons[XBOX_BTN::Button_stick_L];
+	m_nStickButton_R = joy->buttons[XBOX_BTN::Button_stick_R];
+
+    m_nAngularSpeedDown = joy->buttons[XBOX_AXIS::LT];
+	m_nAngularSpeedUp = joy->buttons[XBOX_AXIS::RT];
+	m_dAngular_stick = joy->axes[XBOX_AXIS::Axis_LR1];
+	m_dLinear_stick = joy->axes[XBOX_AXIS::Axis_UD1];
+	m_dAngular_stick2 = joy->axes[XBOX_AXIS::Axis_LR2];
+	m_dLinear_stick2 = joy->axes[XBOX_AXIS::Axis_UD2];
+	m_nAngular_cross = joy->axes[XBOX_AXIS::Cross_key_LR];
+	m_nLinear_cross = joy->axes[XBOX_AXIS::Cross_key_UD];
+}
+
+void Remote_Control::LOGITECH(const sensor_msgs::Joy::ConstPtr& joy){
+    m_nNoEstop = joy->buttons[LOGITECH_BTN::A];
+	m_nEstop = joy->buttons[LOGITECH_BTN::B];
+	m_nCross_control = joy->buttons[LOGITECH_BTN::X];
+	m_nJoy_control = joy->buttons[LOGITECH_BTN::Y];
+	m_nLinearSpeedDown = joy->buttons[LOGITECH_BTN::LB];
+	m_nLinearSpeedUp = joy->buttons[LOGITECH_BTN::RB];
+	m_nAngularSpeedDown = joy->buttons[LOGITECH_BTN::LT];
+	m_nAngularSpeedUp = joy->buttons[LOGITECH_BTN::RT];
+	m_nAutoBack = joy->buttons[LOGITECH_BTN::back];
+	m_nAutoMode = joy->buttons[LOGITECH_BTN::start];
+	m_nManualMode = joy->buttons[LOGITECH_BTN::mode];
+	m_nStickButton_L = joy->buttons[LOGITECH_BTN::Button_stick_L];
+	m_nStickButton_R = joy->buttons[LOGITECH_BTN::Button_stick_R];
+
+	m_dAngular_stick = joy->axes[LOGITECH_AXIS::Axis_LR1];
+	m_dLinear_stick = joy->axes[LOGITECH_AXIS::Axis_UD1];
+	m_dAngular_stick2 = joy->axes[LOGITECH_AXIS::Axis_LR2];
+	m_dLinear_stick2 = joy->axes[LOGITECH_AXIS::Axis_UD2];
+	m_nAngular_cross = joy->axes[LOGITECH_AXIS::Cross_key_LR];
+	m_nLinear_cross = joy->axes[LOGITECH_AXIS::Cross_key_UD];
+}
+
+
+void Remote_Control::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
+{
+    if(parameters.key_type == TYPE::PS4) {
+        PS4(joy);
+    } else if(parameters.key_type == TYPE::XBOX) {
+        XBOX(joy);
+    } else if(parameters.key_type == TYPE::LOGITECH) {
+        LOGITECH(joy);
+    } else {
+        ROS_ERROR("Invalid key type");
+    }
+
 
 	// Joy-controller Start
 	if(!m_binitStart_joy) {
@@ -161,7 +222,7 @@ void Remote_Control::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 		output.linear.x = m_dLinear_spd;
 		output.angular.z = m_dAngular_spd;
 		output.linear.z = m_nMode;
-		printf(_YELLOW_ "ControlCommand sent: %d, %lf, %lf\n" _RESET_, m_nMode, m_dLinear_spd, m_dAngular_spd);
+		printf(_YELLOW_ "ControlCommand sent: %lf, %lf, %d\n" _RESET_, m_dLinear_spd, m_dAngular_spd, m_nMode);
 		control_pub.publish(output);
 	}
 

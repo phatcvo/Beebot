@@ -31,7 +31,9 @@ namespace STATE
 }
 
 namespace TYPE{
+    const int XBOX = 0;
     const int PS4 = 1;
+    const int LOGITECH = 2;
 }
 // joy->buttons : [Index Button] = [0 A] [1 B] [2 X] [3 Y] [4 LB] [5 RB] [6 BACK] [7 START] [8 MODE] [9 Button stick left] [10 Button stick right]
 // joy->axes : [Index Axis] = [0 Axis LR1] [1 Axis UP1] [2 LT] [3 Axis LR2] [4 Axis UD2] [5 RT] [6 cross(+) key L/R] [7 cross(+) key U/D]
@@ -151,7 +153,9 @@ public:
 
 private:
     
-
+    void XBOX(const sensor_msgs::Joy::ConstPtr& joy);
+    void PS4(const sensor_msgs::Joy::ConstPtr& joy);
+    void LOGITECH(const sensor_msgs::Joy::ConstPtr& joy);
     bool E_stop(void);
     bool MODE(void);
     void CONTROL_MODE(void);

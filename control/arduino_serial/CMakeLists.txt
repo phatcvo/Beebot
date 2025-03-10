@@ -6,6 +6,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   serial
+  geometry_msgs
 )
 
 
@@ -22,6 +23,7 @@ catkin_package(
   rospy std_msgs
   DEPENDS system_lib
   serial
+  geometry_msgs
 )
 
 ###########
