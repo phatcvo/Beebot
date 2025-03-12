@@ -18,6 +18,8 @@ const int IN3 = 11;
 const int IN4 = 12;
 const int PWM_B = 6;
 
+const int LED1 = A0;
+const int LED2 = A1;
 const int sysPin = A2;
 const int goPin = A3;
 // wheel encoder interrupts
@@ -48,6 +50,9 @@ void setup() {
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
   pinMode(PWM_B, OUTPUT);
+  // LED
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
 
   // Initial direction the motors
   digitalWrite(IN1, LOW);
@@ -161,6 +166,7 @@ void controlMotors(int speed, int direction, int mode) {
 }
 
 void setMotorSpeed(int inPin1, int inPin2, int pwmPin, int speed, int mode) {
+  digitalWrite(LED1, HIGH);
   if (speed > 0 && mode != 0) {
     digitalWrite(inPin1, HIGH);
     digitalWrite(inPin2, LOW);
@@ -173,6 +179,7 @@ void setMotorSpeed(int inPin1, int inPin2, int pwmPin, int speed, int mode) {
     digitalWrite(inPin1, LOW);
     digitalWrite(inPin2, LOW);
     analogWrite(pwmPin, 0);
+    digitalWrite(LED2, HIGH);
   }
 }
 
