@@ -16,6 +16,7 @@ void ArduinoSerial::initForROS()
     printf("Serial baudrate: %d\n", serial_baudrate);
 
     arduino_pub = private_nh_.advertise<std_msgs::Int16MultiArray>("/arduino_feedback", 10);
+    oled_msg_pub = private_nh_.advertise<std_msgs::String>("/oled_msg", 10);
     cmd_vel_sub = private_nh_.subscribe("/cmd_vel", 10, &ArduinoSerial::callbackFromCmdVel, this);
 }
 
@@ -24,6 +25,9 @@ void ArduinoSerial::callbackFromCmdVel(const geometry_msgs::TwistConstPtr &msg)
     std::stringstream ss;
     ss << msg->linear.x << "," << -msg->angular.z << "," << msg->linear.z << "\n";
     cmd_vel_str = ss.str();
+    std_msgs::String oled_msg;
+    oled_msg.data = cmd_vel_str;
+    oled_msg_pub.publish(oled_msg);
 }
 
 void ArduinoSerial::pub_arduino_feedback()

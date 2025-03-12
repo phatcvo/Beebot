@@ -30,6 +30,7 @@ private:
 
     ros::Subscriber cmd_vel_sub;
     ros::Publisher  arduino_pub;
+    ros::Publisher oled_msg_pub;
     // Create a serial object
     serial::Serial serialPort;
     
