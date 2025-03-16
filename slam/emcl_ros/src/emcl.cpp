@@ -65,6 +65,7 @@ void EMCL::cloud_callback(const sensor_msgs::PointCloud2::ConstPtr &msg)
 void EMCL::initial_pose_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr &msg)
 {
   initialize(msg->pose.pose.position.x, msg->pose.pose.position.y, tf2::getYaw(msg->pose.pose.orientation));
+  printf(">>>>>>>>>>>>>>>>> %f, %f, %f\n", msg->pose.pose.position.x, msg->pose.pose.position.y, tf2::getYaw(msg->pose.pose.orientation));
 }
 
 void EMCL::laser_scan_callback(const sensor_msgs::LaserScan::ConstPtr &msg)
@@ -115,7 +116,7 @@ void EMCL::initialize(const float init_x, const float init_y, const float init_y
         norm_dist(init_x, emcl_param_.init_position_dev), norm_dist(init_y, emcl_param_.init_position_dev),
         norm_dist(init_yaw, emcl_param_.init_orientation_dev)));
   reset_weight();
-  ROS_WARN("Initialized");
+  ROS_WARN("Initialized: %f, %f, %f", init_x, init_y, init_yaw);
 }
 
 float EMCL::norm_dist(const float mean, const float stddev)

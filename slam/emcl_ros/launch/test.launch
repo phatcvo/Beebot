@@ -2,8 +2,8 @@
 <launch>
     <arg name="rviz_path" default="$(find emcl_ros)/launch/rviz.rviz"/>
     <arg name="map_path" default="$(find emcl_ros)/maps/map.yaml"/>
-    <arg name="use_cloud" default="true"/>
-    <arg name="use_dynamic_reconfigure" default="true"/>
+    <arg name="use_cloud" default="false"/>
+    <arg name="use_dynamic_reconfigure" default="false"/>
     <arg name="use_gyrodom" default="false"/>
 
     <include file="$(find emcl_ros)/launch/emcl.launch">
@@ -17,8 +17,8 @@
         <arg name="frame_id" default="base_footprint"/>
     </include>
 
-    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_world.launch"/>
-    <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch"/>
+    <!-- <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_world.launch"/> -->
+    <!-- <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch"/> -->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_path)"/>
     <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_path)" output="screen"/>
     <node pkg="rqt_reconfigure" type="rqt_reconfigure" name="emcl_reconf" if="$(arg use_dynamic_reconfigure)"/>

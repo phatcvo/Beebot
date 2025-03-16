@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-	<include file="$(find remote_control)/launch/remote_control.launch"/>
-    <include file="$(find mqtt_transmit)/launch/mqtt_master.launch" />
-</launch>

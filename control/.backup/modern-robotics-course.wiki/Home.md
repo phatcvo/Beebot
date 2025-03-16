@@ -1,0 +1,37 @@
+**IMPORTANT: All the materials including lessons, labs, and projects are proprietary to Dr. Madi Babaiasl and Saint Louis University. You can use them for educational purposes with proper attribution to the main source.**
+
+**If you implemented any of the projects, send your implementation to mecharithminfo@gmail.com and we can share it to the Mecharithm's social media with your name.**
+
+Welcome to the Modern Robotics course wiki. Click on the lesson from the menu to start learning! The Table of Contents below presents a chronological arrangement of lessons and labs covered throughout this course.
+
+<!-- ### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Modern-Robotics-Quizes">Modern Robotics Quizes</a> -->
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lesson-1:-Introduction">Lesson 1: Introduction</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lab-1:-Introducing-the-PincherX-100-Robot-Arm-and-Vision-Kit">Lab 1: Introducing the PincherX 100 Robot Arm and Vision-Kit</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Prerequisite-1:-Introduction-to-Robot-Operating-System-ROS2">Prerequisite 1: Introduction to Robot Operating System ROS2</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lab-2:-ROS2-Humble-Interface-Installation-&-Running-the-Robot-in-Simulation-&-Reality">Lab 2: ROS2 Humble Interface Installation & Running the Robot in Simulation & Reality</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/HW-1:-Introduction-to-Robot-Operating-System-ROS2">HW 1: Introduction to Robot Operating System ROS2</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Prerequisite-2:-Introduction-to-Python-Programming-with-Emphasis-on-Robotics-Applications">Prerequisite 2: Introduction to Python Programming with Emphasis on Robotics Applications</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lab-3:-Working-with-Python%E2%80%90ROS-API-and-a-Simple-Pick%E2%80%90and%E2%80%90Place-Task">Lab 3: Working with Python‐ROS API and a Simple Pick‐and‐Place Task</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lesson-2:-Degrees-of-Freedom-DOF-in-Robotics">Lesson 2: Degrees of Freedom DOF in Robotics</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lab-4:-Exploring-DOFs-and-Joint-Types-in-the-PincherX-100-Robot-Arm-plus-DOFs-Practice-Questions">Lab 4: Exploring DOFs and Joint Types in the PincherX 100 Robot Arm plus DOFs Practice Questions</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/HW-2:-Degrees-of-Freedom-DOF-in-Robotics">HW 2: Degrees of Freedom DOF in Robotics</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lesson-3:-Orientation-in-Robotics-%E2%80%90-Rotation-Matrices">Lesson 3: Orientation in Robotics - Rotation Matrices</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lab-5:-Tool-Orientation-of-PincherX-100-Robot-Arm-Using-Rotation-Matrices">Lab 5: Tool Orientation of PincherX 100 Robot Arm Using Rotation Matrices</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/HW-3:-Orientation-in-Robotics-%E2%80%90-Rotation-Matrices">HW 3: Orientation in Robotics - Rotation Matrices</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lesson-4:-Orientation-in-Robotics-%E2%80%90-Exponential-Coordinates,-and-Euler-Angles">Lesson 4: Orientation in Robotics - Exponential Coordinates, and Euler Angles</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lab-6:-Tool-Orientation-of-PincherX-100-Robot-Arm-Using-Exponential-Coordinates-and-Euler-Angles-Exercise-Question">Lab 6: Tool Orientation of PincherX 100 Robot Arm Using Exponential Coordinates and Euler Angles Exercise Question</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/HW-4:-Orientation-in-Robotics-%E2%80%90-Exponential-Coordinates,-and-Euler-Angles">HW 4: Orientation in Robotics - Exponential Coordinates, and Euler Angles</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lesson-5:-Pose-in-Robotics-%E2%80%90-Homogeneous-Transformation-Matrices">Lesson 5: Pose in Robotics - Homogeneous Transformation Matrices</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lab-7:-Pincherx-100-Robot-Arm's-Pose-in-Its-Zero-Position-and-Transformation-Matrices-for-Kinova's-Gen3-Robot-Arm">Lab 7: Pincherx 100 Robot Arm's Pose in Its Zero Position and Transformation Matrices for Kinova's Gen3 Robot Arm</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lesson-6:-Pose-in-Robotics-%E2%80%90-Exponential-Coordinates-of-Robot-Motions">Lesson 6: Pose in Robotics - Exponential Coordinates of Robot Motions</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lab-8:-Python-Code-for-All-the-Math-from-Lesson-3-up-to-Lesson-6">Lab 8: Python Code for All the Math from Lesson 3 up to Lesson 6</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lesson-7:-Forward-Kinematics-of-Robot-Arms-Using-Screw-Theory">Lesson 7: Forward Kinematics of Robot Arms Using Screw Theory</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lab-9:-PincherX-100-Robot-Arm's-Forward-Kinematics-Using-Screw-Theory">Lab 9: PincherX 100 Robot Arm's Forward Kinematics Using Screw Theory</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/HW-5:-Forward-Kinematics-of-Kinova's-Gen-3-6DOF-Robot-Arm-Using-Screw-Theory-and-Verifying-Using-RoboDK">HW 5: Forward Kinematics of Kinova's Gen 3 6DOF Robot Arm Using Screw Theory and Verifying Using RoboDK</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lesson-8:-Robot-Velocities-%E2%80%90-Angular-Velocities-&-Twists">Lesson 8: Robot Velocities ‐ Angular Velocities & Twists</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lesson-9:-Robot-Velocity-Kinematics-Using-Screw-Theory-%E2%80%90-Jacobian-Matrix">Lesson 9: Robot Velocity Kinematics Using Screw Theory ‐ Jacobian Matrix</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Project-1:-Computation-of-PincherX-100-End%E2%80%90effector-Twist-Using-ROS-2-Utilities-and-The-Derived-Jacobian-%E2%80%90-Did-someone-say-a-dancing-robot-arm%3F">Project 1: Computation of PincherX 100 End‐effector Twist Using ROS 2 Utilities and The Derived Jacobian ‐ Did someone say a dancing robot arm?</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Lesson-10:-Robot-Inverse-Kinematics-Using-Screw-Theory-%E2%80%90-Analytical-and-Numerical-Approaches">Lesson 10: Robot Inverse Kinematics Using Screw Theory ‐ Analytical and Numerical Approaches</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Project-2-%E2%80%90-Part-1:-Inverse-Kinematics-of-the-PX100-robot-arm-Using-both-Geometric-and-Numerical-Approaches">Project 2 ‐ Part 1: Inverse Kinematics of the PX100 robot arm Using both Geometric and Numerical Approaches</a>
+### <a href="https://github.com/madibabaiasl/modern-robotics-course/wiki/Project-2-%E2%80%90-Part-2:-Vision%E2%80%90Aided-Numerical-Inverse-Kinematics-of-the-PX100-robot-arm">Project 2 ‐ Part 2: Vision‐Aided Numerical Inverse Kinematics of the PX100 Robot Arm
+</a>
