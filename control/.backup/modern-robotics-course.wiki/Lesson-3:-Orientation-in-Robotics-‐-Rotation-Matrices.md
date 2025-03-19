@@ -49,20 +49,13 @@ In Robotics, frames are important. We use **frames** to represent the robot’s 
 
 - are right-handed, and this means that the cross product of the x and y axes is z, and so on:
 
-$`\displaylines{\hat{x} \times \hat{y} = \hat{z}\\
+$\displaylines {\hat{x} \times \hat{y} = \hat{z}\\
 \hat{y} \times \hat{z} = \hat{x}\\
-\hat{z} \times \hat{x} = \hat{y}}`$   
+\hat{z} \times \hat{x} = \hat{y}}$
 
 - are stationery! This is from Newton’s laws that the reference frames are always considered to be inertial.
 
-A **positive rotation** about an axis follows the **right-hand rule**. If you align your thumb with the axis of rotation, then the positive rotation is in the direction that the fingers curl:
-
-https://github.com/madibabaiasl/modern-robotics-I-course/assets/118206851/08b25a3e-ae14-4abe-a65d-cdd7285dacdf
-
-To conclude this part, let’s see a simple demonstration of the positive rotations about the coordinate axes attached to a robot joint:
-
-https://github.com/madibabaiasl/modern-robotics-I-course/assets/118206851/841d7d98-ff71-4d87-88aa-39981a244c13
-
+A **positive rotation** about an axis follows the **right-hand rule**.
 After these short preliminaries, let's go into detail about one of the ways to represent orientation in robotics. 
 
 # Rotation Matrix: An Implicit Representation of the Orientation
@@ -75,7 +68,7 @@ Suppose a robot in space as shown in the figure at the **beginning of this lesso
 
 The rotation matrix R can be defined as a representation of the **body frame unit axes** expressed in the **base frame** as:
 
-$`R = \begin{bmatrix}
+$R = \begin{bmatrix}
 \hat{x}_b & \hat{y}_b & \hat{z}_b
 \end{bmatrix} = \begin{pmatrix}
 \hat{x}_b.\hat{x}_s & \hat{y}_b.\hat{x}_s & \hat{z}_b.\hat{x}_s\\
@@ -85,7 +78,7 @@ $`R = \begin{bmatrix}
 r_{11} & r_{12} & r_{13}\\
 r_{21} & r_{22} & r_{23}\\
 r_{31} & r_{32} & r_{33}
-\end{pmatrix}`$
+\end{pmatrix}$
 
 The dot represents the **dot product** between the two vectors, and since the coordinate axes are of unit lengths, it represents the **cosine** of the angle between the two vectors. 
 
