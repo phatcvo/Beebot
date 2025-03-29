@@ -76,7 +76,7 @@ void setup() {
 
   // Initialize serial communication
   Serial.begin(115200);
-  Serial3.begin(115200);
+  Serial1.begin(115200);
   
    Wire.begin();
    delay(5);
@@ -85,8 +85,8 @@ void setup() {
 }
 
 void loop() {
-  if (Serial3.available()) {
-    String input = Serial3.readStringUntil('\n');  // Read until newline
+  if (Serial1.available()) {
+    String input = Serial1.readStringUntil('\n');  // Read until newline
     int firstComma = input.indexOf(',');
     int secondComma = input.indexOf(',', firstComma + 1); // Find second comma
 
@@ -111,16 +111,17 @@ void loop() {
 
     //update IMU data
     sixDOF.getEuler(angles);
-    
-    Serial.print("Roll: "); Serial.print(angles[0]);
-    Serial.print(", pitch: "); Serial.print(angles[1]);
-    Serial.print(", yaw: "); Serial.print(angles[2]);
-    Serial.print(", sys_btn: "); Serial.print(sys_btn);
-    Serial.print(", go_btn: "); Serial.println(go_btn);
+
     
     Serial.print("Speed: "); Serial.print(cmd_speed);
     Serial.print(", Direction: "); Serial.print(cmd_direction);
-    Serial.print(", mode: "); Serial.print(mode);
+    Serial.print(", mode: "); Serial.print(mode);  
+    Serial.print("\tRoll: "); Serial.print(angles[0]);
+    Serial.print(", pitch: "); Serial.print(angles[1]);
+    Serial.print(", yaw: "); Serial.print(angles[2]);
+    Serial.print(", sys_btn: "); Serial.print(sys_btn);
+    Serial.print(", go_btn: "); Serial.print(go_btn);
+
     // Apply the calculated speed and direction to the motors
     controlMotors(cmd_speed, cmd_direction, mode);
 
@@ -148,7 +149,7 @@ void sendIMUData(float roll, float pitch, float yaw, uint8_t sys, uint8_t go) {
     buffer[14] = go;
 
     // Send binary data
-    Serial3.write(buffer, sizeof(buffer));
+    Serial1.write(buffer, sizeof(buffer));
 }
 void controlMotors(int speed, int direction, int mode) {
   int leftMotorSpeed = speed + direction;
