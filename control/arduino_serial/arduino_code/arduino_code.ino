@@ -11,12 +11,12 @@ float angles[3];
 float roll, pitch, yaw;
 int sys_btn, go_btn, door_status;
 // Define motor control pins
-const int IN1 = 7;
-const int IN2 = 8;
 const int PWM_A = 5;
-const int IN3 = 11;
-const int IN4 = 12;
-const int PWM_B = 6;
+const int IN1 = 6;
+const int IN2 = 7;
+const int IN3 = 10;
+const int IN4 = 11;
+const int PWM_B = 12;
 
 const int LED1 = A0;
 const int LED2 = A1;
@@ -25,11 +25,11 @@ const int goPin = A3;
 // wheel encoder interrupts
 // pin 2,3,21,20,19,18
 // int 0,1,2, 3, 4, 5
-#define encoder0PinA 2 // interrupt 2      // encoder 1
-#define encoder0PinB 9 // interrupt 3
+#define encoder0PinA 2 // encoder 1
+#define encoder0PinB 8 
 
-#define encoder1PinA 3 // interrupt 4     // encoder 2
-#define encoder1PinB 10 // interrupt 5
+#define encoder1PinA 3 // encoder 2
+#define encoder1PinB 9
 
 volatile long encoder0Pos = 0;    // encoder 1
 volatile long encoder1Pos = 0;    // encoder 2
@@ -75,8 +75,8 @@ void setup() {
   attachInterrupt(5, doEncoderD, CHANGE);
 
   // Initialize serial communication
+  Serial3.begin(115200);
   Serial.begin(115200);
-  Serial1.begin(115200);
   
    Wire.begin();
    delay(5);
@@ -85,8 +85,8 @@ void setup() {
 }
 
 void loop() {
-  if (Serial1.available()) {
-    String input = Serial1.readStringUntil('\n');  // Read until newline
+  if (Serial3.available()) {
+    String input = Serial3.readStringUntil('\n');  // Read until newline
     int firstComma = input.indexOf(',');
     int secondComma = input.indexOf(',', firstComma + 1); // Find second comma
 
@@ -149,7 +149,7 @@ void sendIMUData(float roll, float pitch, float yaw, uint8_t sys, uint8_t go) {
     buffer[14] = go;
 
     // Send binary data
-    Serial1.write(buffer, sizeof(buffer));
+    Serial3.write(buffer, sizeof(buffer));
 }
 void controlMotors(int speed, int direction, int mode) {
   int leftMotorSpeed = speed + direction;
