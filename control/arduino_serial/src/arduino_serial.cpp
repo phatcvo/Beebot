@@ -35,10 +35,10 @@ void ArduinoSerial::pub_arduino_feedback()
     std_msgs::Int16MultiArray m_msg;
     m_msg.data.resize(3);
     m_msg.data[0] = go_btn;
-    m_msg.data[1] = go_btn;
-    m_msg.data[2] = go_btn;
+    m_msg.data[1] = bat_percent;
+    m_msg.data[2] = (uint8_t)yaw;
     printf("IMU -> Roll: %.2f, Pitch: %.2f, Yaw: %.2f\n", roll, pitch, yaw);
-    printf("Buttons -> sys_btn: %d, go_btn: %d\n", sys_btn, go_btn);
+    printf("Battery: %d%, go_btn: %d\n", bat_percent, go_btn);
     arduino_pub.publish(m_msg);
 }
 
@@ -90,7 +90,7 @@ void ArduinoSerial::run()
                     memcpy(&pitch, &buffer[5], sizeof(float));
                     memcpy(&yaw, &buffer[9], sizeof(float));
 
-                    sys_btn = buffer[13];
+                    bat_percent = buffer[13];
                     go_btn = buffer[14];
                 }
             }

@@ -38,7 +38,7 @@ private:
     int serial_baudrate = 115200;
 
     float roll, pitch, yaw;
-    uint8_t sys_btn, go_btn, door_status;
+    uint8_t bat_percent, go_btn;
 
     std::string cmd_vel_str = "";
 
