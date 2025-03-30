@@ -6,10 +6,6 @@
 // Set the FreeSixIMU object
 FreeSixIMU sixDOF = FreeSixIMU();
 
-// yaw pitch roll
-float angles[3]; 
-float roll, pitch, yaw;
-int sys_btn, go_btn, door_status;
 // Define motor control pins
 const int PWM_A = 5;
 const int IN1 = 6;
@@ -17,11 +13,11 @@ const int IN2 = 7;
 const int IN3 = 10;
 const int IN4 = 11;
 const int PWM_B = 12;
+const int voltagePin = A0; 
+const int goPin = A1;
+ 
 
-const int LED1 = A0;
-const int LED2 = A1;
-const int sysPin = A2;
-const int goPin = A3;
+#define ALPHA 0.15  
 // wheel encoder interrupts
 // pin 2,3,21,20,19,18
 // int 0,1,2, 3, 4, 5
@@ -34,13 +30,25 @@ const int goPin = A3;
 volatile long encoder0Pos = 0;    // encoder 1
 volatile long encoder1Pos = 0;    // encoder 2
 
+const float R1 = 10000.0;  // 10kΩ
+const float R2 = 4700.0;   // 4.7kΩ
+const float scaleFactor = (R1 + R2) / R2;
+// yaw pitch roll
+float angles[3]; 
+float roll, pitch, yaw;
+float filteredBattery = 0;
+int batteryPercent = 0;
+int go_btn;
 int cmd_speed;
 int cmd_direction;
 int mode;
 
 unsigned long currentMillis;
 unsigned long previousMillis;
-int loopTime = 10;
+const int loopTime = 10;
+unsigned long previousBatteryMillis = 0;  
+const long batteryInterval = 1000;
+
 
 void setup() {
   // Set all the motor control pins to outputs
@@ -50,9 +58,6 @@ void setup() {
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
   pinMode(PWM_B, OUTPUT);
-  // LED
-  pinMode(LED1, OUTPUT);
-  pinMode(LED2, OUTPUT);
 
   // Initial direction the motors
   digitalWrite(IN1, LOW);
@@ -61,7 +66,6 @@ void setup() {
   digitalWrite(IN4, LOW);
 
   // Button
-  pinMode(sysPin, INPUT);
   pinMode(goPin, INPUT);
 
   pinMode(encoder0PinA, INPUT_PULLUP);    // encoder pins 0
@@ -109,9 +113,16 @@ void loop() {
   if (currentMillis - previousMillis >= loopTime) {  // start timed loop for everything else
     previousMillis = currentMillis;
 
+    if (currentMillis - previousBatteryMillis >= batteryInterval) {
+      previousBatteryMillis = currentMillis;
+      // Serial.print("voltage: "); Serial.print(readBatteryVoltage());
+      filteredBattery = (1 - ALPHA) * filteredBattery + ALPHA * readBatteryVoltage();
+      float batPercent = (filteredBattery - 10.2) / (12.6 - 10.2) * 100.0 + 4;
+      batteryPercent = constrain(batPercent, 0, 100);
+    }
     //update IMU data
     sixDOF.getEuler(angles);
-
+    go_btn = digitalRead(goPin);
     
     Serial.print("Speed: "); Serial.print(cmd_speed);
     Serial.print(", Direction: "); Serial.print(cmd_direction);
@@ -119,19 +130,17 @@ void loop() {
     Serial.print("\tRoll: "); Serial.print(angles[0]);
     Serial.print(", pitch: "); Serial.print(angles[1]);
     Serial.print(", yaw: "); Serial.print(angles[2]);
-    Serial.print(", sys_btn: "); Serial.print(sys_btn);
     Serial.print(", go_btn: "); Serial.print(go_btn);
+    Serial.print(", Battery Voltage: "); Serial.println(batteryPercent);  
 
     // Apply the calculated speed and direction to the motors
     controlMotors(cmd_speed, cmd_direction, mode);
 
-    sys_btn = digitalRead(sysPin);
-    go_btn = digitalRead(goPin);
-
     // Send data to PC
-    sendIMUData(angles[0], angles[1], angles[2], sys_btn, go_btn);
+    sendIMUData(angles[0], angles[1], angles[2], batteryPercent, go_btn);
   }
-  delay(10);
+  
+  
 }
 // Function to send IMU & button data over Serial
 void sendIMUData(float roll, float pitch, float yaw, uint8_t sys, uint8_t go) {
@@ -162,12 +171,11 @@ void controlMotors(int speed, int direction, int mode) {
   // Set motor speeds and directions
   setMotorSpeed(IN1, IN2, PWM_A, leftMotorSpeed, mode);
   setMotorSpeed(IN4, IN3, PWM_B, rightMotorSpeed, mode);
-  Serial.print(", enA: "); Serial.print(encoder0Pos);
-  Serial.print(", enB: "); Serial.println(encoder1Pos);
+  // Serial.print(", enA: "); Serial.print(encoder0Pos);
+  // Serial.print(", enB: "); Serial.println(encoder1Pos);
 }
 
 void setMotorSpeed(int inPin1, int inPin2, int pwmPin, int speed, int mode) {
-  digitalWrite(LED1, HIGH);
   if (speed > 0 && mode != 0) {
     digitalWrite(inPin1, HIGH);
     digitalWrite(inPin2, LOW);
@@ -180,10 +188,19 @@ void setMotorSpeed(int inPin1, int inPin2, int pwmPin, int speed, int mode) {
     digitalWrite(inPin1, LOW);
     digitalWrite(inPin2, LOW);
     analogWrite(pwmPin, 0);
-    digitalWrite(LED2, HIGH);
   }
 }
 
+float readBatteryVoltage() {
+  long sum = 0;
+  for (int i = 0; i < 10; i++) {
+    sum += analogRead(voltagePin);
+    delay(2);
+  }
+  float avgADC = sum / 10.0;  
+  float voltage = (avgADC / 1023.0) * 5.0 * scaleFactor;  
+  return voltage;
+}
 // ****** encoder 0 ******
 
 void doEncoderA(){  
