@@ -32,7 +32,7 @@ volatile long encoder1Pos = 0;    // encoder 2
 
 const float R1 = 10000.0;  // 10kΩ
 const float R2 = 4700.0;   // 4.7kΩ
-const float scaleFactor = (R1 + R2) / R2;
+const float scaleFactor = (R1 + R2 + 100) / R2;
 // yaw pitch roll
 float angles[3]; 
 float roll, pitch, yaw;
@@ -110,14 +110,14 @@ void loop() {
     }
   }
   currentMillis = millis(); 
-  if (currentMillis - previousMillis >= loopTime) {  // start timed loop for everything else
+  if (currentMillis - previousMillis >= loopTime) {
     previousMillis = currentMillis;
 
     if (currentMillis - previousBatteryMillis >= batteryInterval) {
       previousBatteryMillis = currentMillis;
       // Serial.print("voltage: "); Serial.print(readBatteryVoltage());
       filteredBattery = (1 - ALPHA) * filteredBattery + ALPHA * readBatteryVoltage();
-      float batPercent = (filteredBattery - 10.2) / (12.6 - 10.2) * 100.0 + 4;
+      float batPercent = (filteredBattery - 10.2) / (12.6 - 10.2) * 100.0;
       batteryPercent = constrain(batPercent, 0, 100);
     }
     //update IMU data
@@ -131,7 +131,8 @@ void loop() {
     Serial.print(", pitch: "); Serial.print(angles[1]);
     Serial.print(", yaw: "); Serial.print(angles[2]);
     Serial.print(", go_btn: "); Serial.print(go_btn);
-    Serial.print(", Battery Voltage: "); Serial.println(batteryPercent);  
+    Serial.print(", Bat: "); Serial.print(readBatteryVoltage());
+    Serial.print("V,"); Serial.print(batteryPercent); Serial.println("%"); 
 
     // Apply the calculated speed and direction to the motors
     controlMotors(cmd_speed, cmd_direction, mode);
