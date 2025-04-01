@@ -17,7 +17,7 @@ const int voltagePin = A0;
 const int goPin = A1;
  
 
-#define ALPHA 0.15  
+#define ALPHA 0.2  
 // wheel encoder interrupts
 // pin 2,3,21,20,19,18
 // int 0,1,2, 3, 4, 5
@@ -30,9 +30,9 @@ const int goPin = A1;
 volatile long encoder0Pos = 0;    // encoder 1
 volatile long encoder1Pos = 0;    // encoder 2
 
-const float R1 = 10000.0;  // 10kΩ
-const float R2 = 4700.0;   // 4.7kΩ
-const float scaleFactor = (R1 + R2 + 100) / R2;
+const float R1 = 2000.0;  // 10kΩ
+const float R2 = 1000.0;   // 4.7kΩ
+const float scaleFactor = (R1 + R2 + 15) / R2;
 // yaw pitch roll
 float angles[3]; 
 float roll, pitch, yaw;
@@ -131,7 +131,8 @@ void loop() {
     Serial.print(", pitch: "); Serial.print(angles[1]);
     Serial.print(", yaw: "); Serial.print(angles[2]);
     Serial.print(", go_btn: "); Serial.print(go_btn);
-    Serial.print(", Bat: "); Serial.print(readBatteryVoltage());
+    
+    Serial.print(", Bat: "); Serial.print(filteredBattery);
     Serial.print("V,"); Serial.print(batteryPercent); Serial.println("%"); 
 
     // Apply the calculated speed and direction to the motors
