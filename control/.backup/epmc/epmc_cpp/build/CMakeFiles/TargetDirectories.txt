@@ -1,0 +1,3 @@
+/home/stpc/beebot_ws/src/Beebot/control/epmc_cpp/build/CMakeFiles/rebuild_cache.dir
+/home/stpc/beebot_ws/src/Beebot/control/epmc_cpp/build/CMakeFiles/edit_cache.dir
+/home/stpc/beebot_ws/src/Beebot/control/epmc_cpp/build/CMakeFiles/motor_control.dir

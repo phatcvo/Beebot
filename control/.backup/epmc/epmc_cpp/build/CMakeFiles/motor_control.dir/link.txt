@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/motor_control.dir/examples/motor_control.cpp.o -o motor_control  -lserial 
