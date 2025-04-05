@@ -22,10 +22,10 @@ const int goPin = A1;
 // pin 2,3,21,20,19,18
 // int 0,1,2, 3, 4, 5
 #define encoder0PinA 2 // encoder 1
-#define encoder0PinB 8 
+#define encoder0PinB 3 
 
-#define encoder1PinA 3 // encoder 2
-#define encoder1PinB 9
+#define encoder1PinA 19 // encoder 2
+#define encoder1PinB 18
 
 volatile long encoder0Pos = 0;    // encoder 1
 volatile long encoder1Pos = 0;    // encoder 2
@@ -71,11 +71,11 @@ void setup() {
   pinMode(encoder0PinA, INPUT_PULLUP);    // encoder pins 0
   pinMode(encoder0PinB, INPUT_PULLUP);
   attachInterrupt(0, doEncoderA, CHANGE);
-  attachInterrupt(3, doEncoderB, CHANGE);
+  attachInterrupt(1, doEncoderB, CHANGE);
 
   pinMode(encoder1PinA, INPUT_PULLUP);    // encoder pins 1
   pinMode(encoder1PinB, INPUT_PULLUP);
-  attachInterrupt(1, doEncoderC, CHANGE);
+  attachInterrupt(4, doEncoderC, CHANGE);
   attachInterrupt(5, doEncoderD, CHANGE);
 
   // Initialize serial communication
@@ -133,7 +133,7 @@ void loop() {
     Serial.print(", go_btn: "); Serial.print(go_btn);
     
     Serial.print(", Bat: "); Serial.print(filteredBattery);
-    Serial.print("V,"); Serial.print(batteryPercent); Serial.println("%"); 
+    Serial.print("V,"); Serial.print(batteryPercent); Serial.print("%,"); 
 
     // Apply the calculated speed and direction to the motors
     controlMotors(cmd_speed, cmd_direction, mode);
@@ -173,8 +173,8 @@ void controlMotors(int speed, int direction, int mode) {
   // Set motor speeds and directions
   setMotorSpeed(IN1, IN2, PWM_A, leftMotorSpeed, mode);
   setMotorSpeed(IN4, IN3, PWM_B, rightMotorSpeed, mode);
-  // Serial.print(", enA: "); Serial.print(encoder0Pos);
-  // Serial.print(", enB: "); Serial.println(encoder1Pos);
+  Serial.print(", enA: "); Serial.print(encoder0Pos);
+  Serial.print(", enB: "); Serial.println(encoder1Pos);
 }
 
 void setMotorSpeed(int inPin1, int inPin2, int pwmPin, int speed, int mode) {

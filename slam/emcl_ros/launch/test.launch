@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="rviz_path" default="$(find emcl_ros)/launch/rviz.rviz"/>
-    <arg name="map_path" default="$(find emcl_ros)/maps/map.yaml"/>
+    <arg name="map_path" default="$(find emcl_ros)/maps/vmegarover_samplemap.yaml"/>
     <arg name="use_cloud" default="false"/>
     <arg name="use_dynamic_reconfigure" default="false"/>
     <arg name="use_gyrodom" default="false"/>
