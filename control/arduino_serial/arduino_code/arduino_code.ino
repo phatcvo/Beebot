@@ -21,8 +21,8 @@ const int goPin = A1;
 // wheel encoder interrupts
 // pin 2,3,21,20,19,18
 // int 0,1,2, 3, 4, 5
-#define encoder0PinA 2 // encoder 1
-#define encoder0PinB 3 
+#define encoder0PinA 21 // encoder 1
+#define encoder0PinB 20 
 
 #define encoder1PinA 19 // encoder 2
 #define encoder1PinB 18
@@ -70,8 +70,8 @@ void setup() {
 
   pinMode(encoder0PinA, INPUT_PULLUP);    // encoder pins 0
   pinMode(encoder0PinB, INPUT_PULLUP);
-  attachInterrupt(0, doEncoderA, CHANGE);
-  attachInterrupt(1, doEncoderB, CHANGE);
+  attachInterrupt(2, doEncoderA, CHANGE);
+  attachInterrupt(3, doEncoderB, CHANGE);
 
   pinMode(encoder1PinA, INPUT_PULLUP);    // encoder pins 1
   pinMode(encoder1PinB, INPUT_PULLUP);
