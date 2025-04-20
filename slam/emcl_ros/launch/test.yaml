@@ -3,9 +3,9 @@
 particle_num: 420
 
 # initial pose
-init_x: -2.0
-init_y: -0.5
-init_yaw: 0.0
+init_x: 6.2
+init_y: -2.5
+init_yaw: 90.0
 init_position_dev: 0.1
 init_orientation_dev: 0.05
 
