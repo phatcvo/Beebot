@@ -134,7 +134,7 @@ class GraphFrame(tb.Frame):
                                           self.xStartOffsetPnt, self.h,
                                           fill="black",width=2)
     self.plotGraphBuffer.append(yAxisline)
-    text = self.canvas.create_text(self.xStartOffsetPnt-30, self.yStartOffsetPnt+8,
+    text = self.canvas.create_text(self.xStartOffsetPnt-50, self.yStartOffsetPnt+8,
                                     text="(rad/s)", fill="green", font=('Helvetica 7 bold'), angle=90.0)
     self.plotGraphBuffer.append(text)
     

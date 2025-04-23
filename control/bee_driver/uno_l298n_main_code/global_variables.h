@@ -4,7 +4,7 @@
 #include "adaptiveLPF.h"
 #include "l298n_motor_driver.h"
 #include "simple_pid_control.h"
-
+#define ALPHA 0.2 
 ///////////////////////////////////////////////////
 // store encoder pulsePerRev needed by encoder
 float encA_ppr = 1000.0;
@@ -12,8 +12,8 @@ float encB_ppr = 1000.0;
 unsigned long encA_stopFreq = 10000; // in us
 unsigned long encB_stopFreq = 10000; // in us
 
-int encA_clkPin = 2, encA_dirPin = 3; // encA_ppr parameter is decleared globally in the global_variables.h file.
-int encB_clkPin = 8, encB_dirPin = 9; // encB_ppr parameter is decleared globally in the global_variables.h file.
+int encA_clkPin = 2, encA_dirPin = 8; // encA_ppr parameter is decleared globally in the global_variables.h file.
+int encB_clkPin = 3, encB_dirPin = 9; // encB_ppr parameter is decleared globally in the global_variables.h file.
 
 QuadEncoder encA(encA_clkPin, encA_dirPin, encA_ppr);
 QuadEncoder encB(encB_clkPin, encB_dirPin, encB_ppr);
@@ -62,7 +62,7 @@ SimplePID pidMotorA(kpA, kiA, kdA, outMin, outMax);
 SimplePID pidMotorB(kpB, kiB, kdB, outMin, outMax);
 
 // check if in PID or PWM mode
-bool pidMode = false; // true-PID MODE, false-SETUP MODE
+bool pidMode = true; // true-PID MODE, false-SETUP MODE
 
 // initial i2cAddress
 int i2cAddress = 1;
@@ -90,5 +90,19 @@ float maxVelB = calc_wB_allowable(); // in radians/sec
 
 // for command timeout.
 unsigned long cmdVelTimeout, cmdVelTimeoutSampleTime = 0; // ms -> (1000/sampleTime) hz
+
+const int voltagePin = A0; 
+const int goPin = A1;
+const float R1 = 2000.0;  // 10kΩ
+const float R2 = 1000.0;   // 4.7kΩ
+const float scaleFactor = (R1 + R2 + 15) / R2;
+// yaw pitch roll
+float angles[3]; 
+float roll, pitch, yaw;
+float filteredBattery = 0;
+int batteryPercent = 0;
+int go_btn;
+unsigned long previousBatteryMillis = 0;  
+const long batteryInterval = 1000;
 
 #endif

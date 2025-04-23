@@ -9,28 +9,28 @@ long maxLong = 2147000000, minLong = -2147000000;
 
 void initLed0()
 {
-  pinMode(A0, OUTPUT);
+  pinMode(A2, OUTPUT);
 }
 void onLed0()
 {
-  digitalWrite(A0, HIGH);
+  digitalWrite(A2, HIGH);
 }
 void offLed0()
 {
-  digitalWrite(A0, LOW);
+  digitalWrite(A2, LOW);
 }
 
 void initLed1()
 {
-  pinMode(A1, OUTPUT);
+  pinMode(A3, OUTPUT);
 }
 void onLed1()
 {
-  digitalWrite(A1, HIGH);
+  digitalWrite(A3, HIGH);
 }
 void offLed1()
 {
-  digitalWrite(A1, LOW);
+  digitalWrite(A3, LOW);
 }
 
 ///////// DIFFERENT TASK FOR SERIAL AND I2C COMMUNICATION //////////

@@ -6,7 +6,6 @@ from beer.pages.I2CSetupPage import I2CSetupFrame
 from beer.pages.ResetSetupPage import ResetSetupFrame
 from beer.pages.EncSetupPage import EncSetupFrame
 from beer.pages.PidSetupPage import PidSetupFrame
-from beer.pages.imuPage import IMUFrame
 
 
 
