@@ -1,6 +1,6 @@
-#include "l298n_motor_control.h"
+#include "l298n_motor_driver.h"
 
-L298NMotorControl::L298NMotorControl(int IN1_pin, int IN2_pin, int en_pin)
+L298NMotorDriver::L298NMotorDriver(int IN1_pin, int IN2_pin, int en_pin)
 {
   in1Pin = IN1_pin;
   in2Pin = IN2_pin;
@@ -14,7 +14,7 @@ L298NMotorControl::L298NMotorControl(int IN1_pin, int IN2_pin, int en_pin)
   digitalWrite(in2Pin, LOW);
 }
 
-void L298NMotorControl::sendPWM(int pwmVal)
+void L298NMotorDriver::sendPWM(int pwmVal)
 {
   if (pwmVal > 0)
   {
@@ -33,26 +33,26 @@ void L298NMotorControl::sendPWM(int pwmVal)
   }
 }
 
-int L298NMotorControl::getDirection()
+int L298NMotorDriver::getDirection()
 {
   return dir;
 }
 
-void L298NMotorControl::setForwardDirection()
+void L298NMotorDriver::setForwardDirection()
 {
   dir = 1;
   digitalWrite(in1Pin, HIGH);
   digitalWrite(in2Pin, LOW);
 }
 
-void L298NMotorControl::setReverseDirection()
+void L298NMotorDriver::setReverseDirection()
 {
   dir = 0;
   digitalWrite(in1Pin, LOW);
   digitalWrite(in2Pin, HIGH);
 }
 
-void L298NMotorControl::setHalt()
+void L298NMotorDriver::setHalt()
 {
   dir = 0;
   digitalWrite(in1Pin, LOW);

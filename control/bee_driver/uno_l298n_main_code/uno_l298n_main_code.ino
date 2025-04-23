@@ -1,5 +1,5 @@
 #include <Wire.h>
-#include "global_eeprom_variables.h"
+#include "global_variables.h"
 #include "serial_i2c_comm_api.h"
 
 ///////// my sepcial delay function ///////////////
@@ -13,7 +13,7 @@ void delayMs(int ms)
 //////////////////////////////////////////////////
 
 // low pass filter (lpf) variables/parameters are decleared
-// globally in the global_eeprom_variables.h file.
+// globally in the global_variables.h file.
 
 void lpfInit()
 {
@@ -25,7 +25,7 @@ void lpfInit()
 }
 
 // encoder variables/parameters are decleared
-// globally in the global_eeprom_variables.h file.
+// globally in the global_variables.h file.
 
 void encoderInit()
 {
@@ -77,10 +77,10 @@ void readEncoderB()
 ////////////////////////////////////////////////////////////////
 
 // motor_bridge_control varaiables/parameters are decleared
-// globally in the global_eeprom_variables.h file.
+// globally in the global_variables.h file.
 
 // PID variables/parameters are decleared
-// globally in the global_eeprom_variables.h file.
+// globally in the global_variables.h file.
 
 void pidInit()
 {

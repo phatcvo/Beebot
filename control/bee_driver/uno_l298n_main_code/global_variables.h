@@ -1,8 +1,8 @@
-#ifndef GLOBAL_EEPROM_VARIABLES
-#define GLOBAL_EEPROM_VARIABLES
+#ifndef GLOBAL_VARIABLES
+#define GLOBAL_VARIABLES
 #include "encoder_setup.h"
-#include "adaptive_low_pass_filter.h"
-#include "l298n_motor_control.h"
+#include "adaptiveLPF.h"
+#include "l298n_motor_driver.h"
 #include "simple_pid_control.h"
 
 ///////////////////////////////////////////////////
@@ -12,8 +12,8 @@ float encB_ppr = 1000.0;
 unsigned long encA_stopFreq = 10000; // in us
 unsigned long encB_stopFreq = 10000; // in us
 
-int encA_clkPin = 2, encA_dirPin = 3; // encA_ppr parameter is decleared globally in the global_params_eeprom.h file.
-int encB_clkPin = 8, encB_dirPin = 9; // encB_ppr parameter is decleared globally in the global_params_eeprom.h file.
+int encA_clkPin = 2, encA_dirPin = 3; // encA_ppr parameter is decleared globally in the global_variables.h file.
+int encB_clkPin = 8, encB_dirPin = 9; // encB_ppr parameter is decleared globally in the global_variables.h file.
 
 QuadEncoder encA(encA_clkPin, encA_dirPin, encA_ppr);
 QuadEncoder encB(encB_clkPin, encB_dirPin, encB_ppr);
@@ -36,11 +36,11 @@ AdaptiveLowPassFilter lpfB(orderB, cutOffFreqB);
 
 // motor A H-Bridge Connection
 int IN1 = 6, IN2 = 7, enA = 5;
-L298NMotorControl motorA(IN1, IN2, enA);
+L298NMotorDriver motorA(IN1, IN2, enA);
 
 // motor B H-Bridge Connection
 int IN3 = 10, IN4 = 11, enB = 12;
-L298NMotorControl motorB(IN3, IN4, enB);
+L298NMotorDriver motorB(IN3, IN4, enB);
 
 ///////////////////////////////////////////////
 float outMin = -255.0, outMax = 255.0;

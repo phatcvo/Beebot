@@ -1,10 +1,10 @@
-#ifndef L298N_MOTOR_CONTROL_H
-#define L298N_MOTOR_CONTROL_H
+#ifndef L298N_MOTOR_DRIVER_H
+#define L298N_MOTOR_DRIVER_H
 #include <Arduino.h>
 
-class L298NMotorControl {
+class L298NMotorDriver {
   public:
-    L298NMotorControl(int IN1_pin, int IN2_pin, int en_pin);
+    L298NMotorDriver(int IN1_pin, int IN2_pin, int en_pin);
 
     void sendPWM(int pwmVal);
     int getDirection();

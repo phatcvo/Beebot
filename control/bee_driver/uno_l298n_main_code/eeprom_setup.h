@@ -1,7 +1,7 @@
 /////////////////// STORING AND READING PARAMETERS FROM EEPROM /////////////////
 #include <EEPROM.h>
 #include <Wire.h>
-#include "global_eeprom_variables.h"
+#include "global_variables.h"
 
 int KP_A_ADDRESS = 0;
 int KP_B_ADDRESS = 4;
