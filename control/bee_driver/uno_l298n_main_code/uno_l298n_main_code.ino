@@ -1,12 +1,6 @@
 #include <Wire.h>
 #include "global_variables.h"
 #include "serial_i2c_comm_api.h"
-#include <FreeSixIMU.h>
-#include <FIMU_ADXL345.h>
-#include <FIMU_ITG3200.h>
-
-// Set the FreeSixIMU object
-FreeSixIMU sixDOF = FreeSixIMU();
 
 ///////// my sepcial delay function ///////////////
 void delayMs(int ms)
@@ -106,12 +100,9 @@ unsigned long pidStopTime, pidStopSampleTime = 250;      // ms -> (1000/sampleTi
 void setup()
 {
   Serial.begin(115200);
-  Serial3.begin(115200);
   Serial.setTimeout(2);
 
   Wire.begin();
-  delay(5);
-  sixDOF.init(); //begin the IMU
   initLed0();
   initLed1();
 
@@ -147,29 +138,6 @@ void setup()
 
 void loop()
 {  
-  if (millis() - previousBatteryMillis >= batteryInterval) {
-    previousBatteryMillis = millis();
-    
-    filteredBattery = (1 - ALPHA) * filteredBattery + ALPHA * readBatteryVoltage();
-    float batPercent = (filteredBattery - 10.2) / (12.6 - 10.2) * 100.0;
-    batteryPercent = constrain(batPercent, 0, 100);
-  }
-  //update IMU data
-  sixDOF.getEuler(angles);
-  go_btn = digitalRead(goPin);
-  
-  // Serial.print("Speed: "); Serial.print(cmd_speed);
-  // Serial.print(", Direction: "); Serial.print(cmd_direction);
-  // Serial.print(", mode: "); Serial.print(mode);  
-  // Serial.print("\tyaw: "); Serial.print(angles[0]);
-  // Serial.print(", pitch: "); Serial.print(angles[1]);
-  // Serial.print(", roll: "); Serial.print(angles[2]);
-  // Serial.print(", go_btn: "); Serial.print(go_btn);
-  
-  // Serial.print(", Bat: "); Serial.print(filteredBattery);
-  // Serial.print("V,"); Serial.print(batteryPercent); Serial.println("%"); 
-  // Send data to PC
-  sendIMUData(angles[0], angles[1], angles[2], batteryPercent, go_btn);
   ///// do not touch ////////
   ///// useful for velocity reading to check when rotation has stopped
   encA.resetFrequency();
@@ -241,34 +209,4 @@ void loop()
     }
   }
   /////////////////////////////////////////////////////////////
-}
-
-// Function to send IMU & button data over Serial
-void sendIMUData(float yaw, float pitch, float roll, uint8_t sys, uint8_t go) {
-    uint8_t buffer[14]; // Header (1) + 3 floats (12) + 3 bytes (2)
-
-    buffer[0] = 0xEE;  // Header for synchronization
-
-    // Copy floats (roll, pitch, yaw) into buffer
-    memcpy(&buffer[1], &yaw, sizeof(float));
-    memcpy(&buffer[5], &pitch, sizeof(float));
-    memcpy(&buffer[9], &roll, sizeof(float));
-
-    // Copy button states
-    buffer[13] = sys;
-    buffer[14] = go;
-
-    // Send binary data
-    // Serial3.write(buffer, sizeof(buffer));
-}
-
-float readBatteryVoltage() {
-  long sum = 0;
-  for (int i = 0; i < 10; i++) {
-    sum += analogRead(voltagePin);
-    delay(2);
-  }
-  float avgADC = sum / 10.0;  
-  float voltage = (avgADC / 1023.0) * 5.0 * scaleFactor;  
-  return voltage;
 }

@@ -4,7 +4,7 @@
 #include "adaptiveLPF.h"
 #include "l298n_motor_driver.h"
 #include "simple_pid_control.h"
-#define ALPHA 0.2 
+
 ///////////////////////////////////////////////////
 // store encoder pulsePerRev needed by encoder
 float encA_ppr = 1000.0;
@@ -39,7 +39,7 @@ int IN1 = 6, IN2 = 7, enA = 5;
 L298NMotorDriver motorA(IN1, IN2, enA);
 
 // motor B H-Bridge Connection
-int IN3 = 10, IN4 = 11, enB = 12;
+int IN3 = 11, IN4 = 10, enB = 12;
 L298NMotorDriver motorB(IN3, IN4, enB);
 
 ///////////////////////////////////////////////
@@ -90,19 +90,5 @@ float maxVelB = calc_wB_allowable(); // in radians/sec
 
 // for command timeout.
 unsigned long cmdVelTimeout, cmdVelTimeoutSampleTime = 0; // ms -> (1000/sampleTime) hz
-
-const int voltagePin = A0; 
-const int goPin = A1;
-const float R1 = 2000.0;  // 10kΩ
-const float R2 = 1000.0;   // 4.7kΩ
-const float scaleFactor = (R1 + R2 + 15) / R2;
-// yaw pitch roll
-float angles[3]; 
-float roll, pitch, yaw;
-float filteredBattery = 0;
-int batteryPercent = 0;
-int go_btn;
-unsigned long previousBatteryMillis = 0;  
-const long batteryInterval = 1000;
 
 #endif

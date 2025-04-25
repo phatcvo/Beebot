@@ -1,0 +1,7 @@
+pyserial
+ttkbootstrap
+numpy
+matplotlib
+scipy
+termcolor
+pyinstaller

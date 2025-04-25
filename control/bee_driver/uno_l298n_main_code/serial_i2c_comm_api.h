@@ -9,27 +9,33 @@ long maxLong = 2147000000, minLong = -2147000000;
 
 void initLed0()
 {
-  pinMode(A2, OUTPUT);
+  pinMode(A0, OUTPUT);
+  pinMode(A1, OUTPUT);
 }
 void onLed0()
 {
-  digitalWrite(A2, HIGH);
+  digitalWrite(A0, HIGH);
+  digitalWrite(A1, LOW);
 }
 void offLed0()
 {
-  digitalWrite(A2, LOW);
+  digitalWrite(A0, LOW);
+  digitalWrite(A1, LOW);
 }
 
 void initLed1()
 {
+  pinMode(A2, OUTPUT);
   pinMode(A3, OUTPUT);
 }
 void onLed1()
 {
-  digitalWrite(A3, HIGH);
+  digitalWrite(A2, HIGH);
+  digitalWrite(A3, LOW);
 }
 void offLed1()
 {
+  digitalWrite(A2, LOW);
   digitalWrite(A3, LOW);
 }
 
@@ -495,7 +501,8 @@ void serialReceiveAndSendData()
   {
     while (Serial.available())
     {
-      serMsg = Serial.readString();
+      serMsg = Serial.readStringUntil('\n');
+      // serMsg = Serial.readString();
     }
     serMsg.trim();
     if (serMsg != "")
