@@ -1,10 +1,10 @@
 #include <Wire.h>
-#include <FreeSixIMU.h>
-#include <FIMU_ADXL345.h>
-#include <FIMU_ITG3200.h>
+// #include <FreeSixIMU.h>
+// #include <FIMU_ADXL345.h>
+// #include <FIMU_ITG3200.h>
 #include <string.h>
 // Set the FreeSixIMU object
-FreeSixIMU sixDOF = FreeSixIMU();
+// FreeSixIMU sixDOF = FreeSixIMU();
 
 // Define motor control pins
 const int PWM_A = 5;
@@ -82,32 +82,32 @@ void setup() {
   // Serial3.begin(115200);
   Serial.begin(115200);
   Wire.begin();
-  delay(5);
-  sixDOF.init(); //begin the IMU
-  delay(5);
+  // delay(5);
+  // sixDOF.init(); //begin the IMU
+  // delay(5);
 }
 
 void loop() {
-  // if (Serial3.available()) {
-  //   String input = Serial3.readStringUntil('\n');  // Read until newline
-  //   int firstComma = input.indexOf(',');
-  //   int secondComma = input.indexOf(',', firstComma + 1); // Find second comma
+  if (Serial.available()) {
+    String input = Serial.readStringUntil('\n');  // Read until newline
+    int firstComma = input.indexOf(',');
+    int secondComma = input.indexOf(',', firstComma + 1); // Find second comma
 
-  //   if (firstComma > 0 && secondComma > firstComma) {
-  //       float vel_linear = input.substring(0, firstComma).toFloat();
-  //       float vel_angular = input.substring(firstComma + 1, secondComma).toFloat();
-  //       mode = input.substring(secondComma + 1).toFloat();
+    if (firstComma > 0 && secondComma > firstComma) {
+        float vel_linear = input.substring(0, firstComma).toFloat();
+        float vel_angular = input.substring(firstComma + 1, secondComma).toFloat();
+        mode = input.substring(secondComma + 1).toFloat();
 
-  //       // Keep values within -1 to 1 range
-  //       vel_linear = constrain(vel_linear, -1.0, 1.0);
-  //       vel_angular = constrain(vel_angular, -1.0, 1.0);
-  //       mode = constrain(mode, 0, 1);
+        // Keep values within -1 to 1 range
+        vel_linear = constrain(vel_linear, -1.0, 1.0);
+        vel_angular = constrain(vel_angular, -1.0, 1.0);
+        mode = constrain(mode, 0, 1);
 
-  //       // Map to motor control range
-  //       cmd_speed = (int)map(vel_linear * 100, -100, 100, -255, 255);
-  //       cmd_direction = (int)map(vel_angular * 100, -100, 100, -255, 255);
-  //   }
-  // }
+        // Map to motor control range
+        cmd_speed = (int)map(vel_linear * 100, -100, 100, -255, 255);
+        cmd_direction = (int)map(vel_angular * 100, -100, 100, -255, 255);
+    }
+  }
   currentMillis = millis(); 
   if (currentMillis - previousMillis >= loopTime) {
     previousMillis = currentMillis;
@@ -119,26 +119,26 @@ void loop() {
       float batPercent = (filteredBattery - 10.2) / (12.6 - 10.2) * 100.0;
       batteryPercent = constrain(batPercent, 0, 100);
     }
-    //update IMU data
-    sixDOF.getEuler(angles);
-    go_btn = digitalRead(goPin);
+    // //update IMU data
+    // sixDOF.getEuler(angles);
+    // go_btn = digitalRead(goPin);
     
-    Serial.print("Speed: "); Serial.print(cmd_speed);
-    Serial.print(", Direction: "); Serial.print(cmd_direction);
-    Serial.print(", mode: "); Serial.print(mode);  
-    Serial.print("\tyaw: "); Serial.print(angles[0]);
-    Serial.print(", pitch: "); Serial.print(angles[1]);
-    Serial.print(", roll: "); Serial.print(angles[2]);
-    Serial.print(", go_btn: "); Serial.print(go_btn);
+    // Serial.print("Speed: "); Serial.print(cmd_speed);
+    // Serial.print(", Direction: "); Serial.print(cmd_direction);
+    // Serial.print(", mode: "); Serial.print(mode);  
+    // Serial.print("\tyaw: "); Serial.print(angles[0]);
+    // Serial.print(", pitch: "); Serial.print(angles[1]);
+    // Serial.print(", roll: "); Serial.print(angles[2]);
+    // Serial.print(", go_btn: "); Serial.print(go_btn);
     
-    Serial.print(", Bat: "); Serial.print(filteredBattery);
-    Serial.print("V,"); Serial.print(batteryPercent); Serial.print("%,"); 
+    // Serial.print(", Bat: "); Serial.print(filteredBattery);
+    // Serial.print("V,"); Serial.print(batteryPercent); Serial.print("%,"); 
 
     // Apply the calculated speed and direction to the motors
     controlMotors(cmd_speed, cmd_direction, mode);
 
     // Send data to PC
-    sendIMUData(angles[0], angles[1], angles[2], batteryPercent, go_btn);
+    // sendIMUData(angles[0], angles[1], angles[2], batteryPercent, go_btn);
   }
   
   
@@ -172,8 +172,8 @@ void controlMotors(int speed, int direction, int mode) {
   // Set motor speeds and directions
   setMotorSpeed(IN1, IN2, PWM_A, leftMotorSpeed, mode);
   setMotorSpeed(IN4, IN3, PWM_B, rightMotorSpeed, mode);
-  Serial.print(", enA: "); Serial.print(encoder0Pos);
-  Serial.print(", enB: "); Serial.println(encoder1Pos);
+  // Serial.print(", enA: "); Serial.print(encoder0Pos);
+  // Serial.print(", enB: "); Serial.println(encoder1Pos);
 }
 
 void setMotorSpeed(int inPin1, int inPin2, int pwmPin, int speed, int mode) {
