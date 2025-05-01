@@ -4,16 +4,14 @@
 
 class L298NMotorDriver {
   public:
-    // L298NMotorDriver(int IN1_pin, int IN2_pin, int en_pin);
-    L298NMotorDriver(int DR_pin, int PWM_pin, int EN_pin);
+    L298NMotorDriver(int IN1_pin, int IN2_pin, int en_pin);
 
-    void sendPWM(int pwmVal, bool invert);
+    void sendPWM(int pwmVal);
     int getDirection();
     void test();
 
   private:
-    // int in1Pin, in2Pin, enPin;
-    int drPin, pwmPin, enPin;
+    int in1Pin, in2Pin, enPin;
     int dir = 1;
 
     void setForwardDirection();

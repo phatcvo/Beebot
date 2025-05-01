@@ -1,20 +1,20 @@
-#include <stdio.h>
+#include <Wire.h>
+// #include <FreeSixIMU.h>
+// #include <FIMU_ADXL345.h>
+// #include <FIMU_ITG3200.h>
 #include <string.h>
-#include <SoftwareSerial.h>
+// Set the FreeSixIMU object
+// FreeSixIMU sixDOF = FreeSixIMU();
 
 // Define motor control pins
-const int DR1 = 5;//pwmA
-const int PWM1 = 6;//in1
-const int EN1 = 7;//in2
-const int DR2 = 10;//in3
-const int PWM2 = 11;//in4
-const int EN2 = 12;//pwmB
+const int PWM_A = 5;
+const int IN1 = 6;
+const int IN2 = 7;
+const int IN3 = 11;
+const int IN4 = 10;
+const int PWM_B = 12;
 const int voltagePin = A0; 
 const int goPin = A1;
-// software serial
-#define rxPin 13
-#define txPin 4
-SoftwareSerial portOne(rxPin, txPin);
  
 
 #define ALPHA 0.2  
@@ -30,10 +30,12 @@ SoftwareSerial portOne(rxPin, txPin);
 volatile long encoder0Pos = 0;    // encoder 1
 volatile long encoder1Pos = 0;    // encoder 2
 
-const float R1 = 30000.0;  // 10kΩ
-const float R2 = 7500.0;   // 4.7kΩ
-const float scaleFactor = (R1 + R2) / R2;
-
+const float R1 = 2000.0;  // 10kΩ
+const float R2 = 1000.0;   // 4.7kΩ
+const float scaleFactor = (R1 + R2 + 15) / R2;
+// yaw pitch roll
+float angles[3]; 
+float roll, pitch, yaw;
 float filteredBattery = 0;
 int batteryPercent = 0;
 int go_btn;
@@ -45,23 +47,23 @@ unsigned long currentMillis;
 unsigned long previousMillis;
 const int loopTime = 10;
 unsigned long previousBatteryMillis = 0;  
-const long batteryInterval = 100;
+const long batteryInterval = 1000;
 
 
 void setup() {
   // Set all the motor control pins to outputs
-  pinMode(PWM1, OUTPUT);
-  pinMode(EN1, OUTPUT);
-  pinMode(DR1, OUTPUT);
-  pinMode(PWM2, OUTPUT);
-  pinMode(EN2, OUTPUT);
-  pinMode(DR2, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(PWM_A, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  pinMode(PWM_B, OUTPUT);
 
   // Initial direction the motors
-  digitalWrite(EN1, LOW);
-  digitalWrite(DR1, LOW);
-  digitalWrite(EN2, LOW);
-  digitalWrite(DR2, LOW);
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
 
   // Button
   pinMode(goPin, INPUT);
@@ -77,8 +79,12 @@ void setup() {
   // attachInterrupt(5, doEncoderD, CHANGE);
 
   // Initialize serial communication
+  // Serial3.begin(115200);
   Serial.begin(115200);
-  portOne.begin(115200);
+  Wire.begin();
+  // delay(5);
+  // sixDOF.init(); //begin the IMU
+  // delay(5);
 }
 
 void loop() {
@@ -101,8 +107,6 @@ void loop() {
         cmd_speed = (int)map(vel_linear * 100, -100, 100, -255, 255);
         cmd_direction = (int)map(vel_angular * 100, -100, 100, -255, 255);
     }
-  }else{
-    
   }
   currentMillis = millis(); 
   if (currentMillis - previousMillis >= loopTime) {
@@ -115,64 +119,76 @@ void loop() {
       float batPercent = (filteredBattery - 10.2) / (12.6 - 10.2) * 100.0;
       batteryPercent = constrain(batPercent, 0, 100);
     }
-
-    go_btn = digitalRead(goPin);
+    // //update IMU data
+    // sixDOF.getEuler(angles);
+    // go_btn = digitalRead(goPin);
     
     // Serial.print("Speed: "); Serial.print(cmd_speed);
     // Serial.print(", Direction: "); Serial.print(cmd_direction);
     // Serial.print(", mode: "); Serial.print(mode);  
+    // Serial.print("\tyaw: "); Serial.print(angles[0]);
+    // Serial.print(", pitch: "); Serial.print(angles[1]);
+    // Serial.print(", roll: "); Serial.print(angles[2]);
     // Serial.print(", go_btn: "); Serial.print(go_btn);
     
     // Serial.print(", Bat: "); Serial.print(filteredBattery);
-    // Serial.print("V,"); Serial.print(batteryPercent);
+    // Serial.print("V,"); Serial.print(batteryPercent); Serial.print("%,"); 
 
     // Apply the calculated speed and direction to the motors
     controlMotors(cmd_speed, cmd_direction, mode);
+
     // Send data to PC
-    sendIMUData(go_btn, encoder0Pos, encoder1Pos, batteryPercent);
+    // sendIMUData(angles[0], angles[1], angles[2], batteryPercent, go_btn);
   }
   
   
 }
 // Function to send IMU & button data over Serial
-void sendIMUData(uint8_t go_btn, long encoderA, long encoderB, int batteryPercent) {
-    uint8_t buffer[15];
+void sendIMUData(float yaw, float pitch, float roll, uint8_t sys, uint8_t go) {
+    uint8_t buffer[14]; // Header (1) + 3 floats (12) + 3 bytes (2)
 
     buffer[0] = 0xEE;  // Header for synchronization
-    memcpy(&buffer[1], &encoderA, sizeof(long));
-    memcpy(&buffer[6], &encoderB, sizeof(long));
-    memcpy(&buffer[11], &batteryPercent, sizeof(int));
-    buffer[14] = go_btn;
-    
+
+    // Copy floats (roll, pitch, yaw) into buffer
+    memcpy(&buffer[1], &yaw, sizeof(float));
+    memcpy(&buffer[5], &pitch, sizeof(float));
+    memcpy(&buffer[9], &roll, sizeof(float));
+
+    // Copy button states
+    buffer[13] = sys;
+    buffer[14] = go;
+
     // Send binary data
-    // Serial.write(buffer, sizeof(buffer));
+    // Serial3.write(buffer, sizeof(buffer));
 }
 void controlMotors(int speed, int direction, int mode) {
-  int leftMotorSpeed = speed - direction;
-  int rightMotorSpeed = speed + direction;
+  int leftMotorSpeed = speed + direction;
+  int rightMotorSpeed = speed - direction;
 
   // Constrain motor speeds to valid range
   leftMotorSpeed = constrain(leftMotorSpeed, -255, 255);
   rightMotorSpeed = constrain(rightMotorSpeed, -255, 255);
 
   // Set motor speeds and directions
-  setMotorSpeed(DR1, PWM1, EN1, leftMotorSpeed, mode);
-  setMotorSpeed(DR2, PWM2, EN2, rightMotorSpeed, mode);
+  setMotorSpeed(IN1, IN2, PWM_A, leftMotorSpeed, mode);
+  setMotorSpeed(IN4, IN3, PWM_B, rightMotorSpeed, mode);
   // Serial.print(", enA: "); Serial.print(encoder0Pos);
   // Serial.print(", enB: "); Serial.println(encoder1Pos);
 }
 
-void setMotorSpeed(int drPin, int pwmPin, int enPin, int speed, int mode) {
+void setMotorSpeed(int inPin1, int inPin2, int pwmPin, int speed, int mode) {
   if (speed > 0 && mode != 0) {
-    digitalWrite(drPin, HIGH);
-    digitalWrite(enPin, HIGH);
+    digitalWrite(inPin1, HIGH);
+    digitalWrite(inPin2, LOW);
     analogWrite(pwmPin, abs(speed));
   } else if (speed < 0 && mode != 0) {
-    digitalWrite(drPin, LOW);
-    digitalWrite(enPin, HIGH);
+    digitalWrite(inPin1, LOW);
+    digitalWrite(inPin2, HIGH);
     analogWrite(pwmPin, abs(speed));
   } else {
-    digitalWrite(enPin, LOW);
+    digitalWrite(inPin1, LOW);
+    digitalWrite(inPin2, LOW);
+    analogWrite(pwmPin, 0);
   }
 }
 

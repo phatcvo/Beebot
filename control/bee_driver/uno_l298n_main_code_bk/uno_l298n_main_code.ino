@@ -161,8 +161,8 @@ void loop()
     outputA = pidMotorA.compute(targetA, filteredAngVelA); // targetA is among the global params
     outputB = pidMotorB.compute(targetB, filteredAngVelB); // targetB is among the global params
 
-    motorA.sendPWM((int)outputA, false);
-    motorB.sendPWM((int)outputB, true);
+    motorA.sendPWM((int)outputA);
+    motorB.sendPWM((int)outputB);
   }
   // if ((millis() - pidTime) >= pidSampleTime) {
   //   pidTime = millis();

@@ -133,8 +133,8 @@ String setMotorsPwm(int valA, int valB)
 {
   if (!pidMode)
   {
-    motorA.sendPWM((int)rdirA * valA, false);
-    motorB.sendPWM((int)rdirB * valB, true);
+    motorA.sendPWM((int)rdirA * valA);
+    motorB.sendPWM((int)rdirB * valB);
     cmdVelTimeout = millis();
     return "1";
   }
@@ -161,16 +161,16 @@ String setPidModeFunc(int mode)
   if (mode == 0)
   {
     pidMode = false;
-    motorA.sendPWM(0, false);
-    motorB.sendPWM(0, true);
+    motorA.sendPWM(0);
+    motorB.sendPWM(0);
     pidMotorA.begin();
     pidMotorB.begin();
   }
   else if (mode == 1)
   {
     pidMode = true;
-    motorA.sendPWM(0, false);
-    motorB.sendPWM(0, true);
+    motorA.sendPWM(0);
+    motorB.sendPWM(0);
     pidMotorA.begin();
     pidMotorB.begin();
   }

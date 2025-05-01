@@ -334,7 +334,7 @@ void Remote_Control::CALC_SPEED(void)
 {
 	if(m_nControlMode==STATE::JOY) {
 		m_dLinear_spd=m_dLinear_scale*m_dLinear_stick;
-		m_dAngular_spd=m_dAngular_scale*m_dAngular_stick;
+		m_dAngular_spd=m_dAngular_scale*m_dAngular_stick2;
 		printf(_GREEN_ "[Y-->X] CONTROL MODE: JOY\n" _RESET_);
 		cout<<"Linear spd : "<<m_dLinear_spd<<" (m/s)"<<endl;
 		cout<<"Angular spd: "<<m_dAngular_spd<<" (rad/s)"<<endl;

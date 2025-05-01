@@ -12,8 +12,8 @@ float encB_ppr = 1000.0;
 unsigned long encA_stopFreq = 10000; // in us
 unsigned long encB_stopFreq = 10000; // in us
 
-int encA_clkPin = 3, encA_dirPin = 9; // encA_ppr parameter is decleared globally in the global_variables.h file.
-int encB_clkPin = 2, encB_dirPin = 8; // encB_ppr parameter is decleared globally in the global_variables.h file.
+int encA_clkPin = 2, encA_dirPin = 8; // encA_ppr parameter is decleared globally in the global_variables.h file.
+int encB_clkPin = 3, encB_dirPin = 9; // encB_ppr parameter is decleared globally in the global_variables.h file.
 
 QuadEncoder encA(encA_clkPin, encA_dirPin, encA_ppr);
 QuadEncoder encB(encB_clkPin, encB_dirPin, encB_ppr);
@@ -35,12 +35,12 @@ AdaptiveLowPassFilter lpfA(orderA, cutOffFreqA);
 AdaptiveLowPassFilter lpfB(orderB, cutOffFreqB);
 
 // motor A H-Bridge Connection
-int DR1 = 5, PWM1 = 6, EN1 = 7;
-L298NMotorDriver motorA(DR1, PWM1, EN1);
+int IN1 = 6, IN2 = 7, enA = 5;
+L298NMotorDriver motorA(IN1, IN2, enA);
 
 // motor B H-Bridge Connection
-int DR2 = 10, PWM2 = 11, EN2 = 12;
-L298NMotorDriver motorB(DR2, PWM2, EN2);
+int IN3 = 11, IN4 = 10, enB = 12;
+L298NMotorDriver motorB(IN3, IN4, enB);
 
 ///////////////////////////////////////////////
 float outMin = -255.0, outMax = 255.0;
@@ -62,7 +62,7 @@ SimplePID pidMotorA(kpA, kiA, kdA, outMin, outMax);
 SimplePID pidMotorB(kpB, kiB, kdB, outMin, outMax);
 
 // check if in PID or PWM mode
-bool pidMode = true; // true-PID MODE, false-SETUP MODE
+bool pidMode = false; // true-PID MODE, false-SETUP MODE
 
 // initial i2cAddress
 int i2cAddress = 1;
