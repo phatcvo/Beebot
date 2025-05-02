@@ -334,7 +334,7 @@ void Remote_Control::CALC_SPEED(void)
 {
 	if(m_nControlMode==STATE::JOY) {
 		m_dLinear_spd=m_dLinear_scale*m_dLinear_stick;
-		m_dAngular_spd=m_dAngular_scale*m_dAngular_stick2;
+		m_dAngular_spd=m_dAngular_scale*m_dAngular_stick;
 		printf(_GREEN_ "[Y-->X] CONTROL MODE: JOY\n" _RESET_);
 		cout<<"Linear spd : "<<m_dLinear_spd<<" (m/s)"<<endl;
 		cout<<"Angular spd: "<<m_dAngular_spd<<" (rad/s)"<<endl;
@@ -382,7 +382,7 @@ void Remote_Control::checkConnection(const ros::TimerEvent& event) {
 	if ((ros::Time::now() - last_received_time).toSec() > parameters.reset_mode_timeout) {  
         isResetMode = true;  
 	}
-	printf("timeout: [%.1fs] --> [%.1fs] isConnected[%d] --> [%.1fs] isResetMode[%d] \n", (ros::Time::now() - last_received_time).toSec(), parameters.connection_timeout, isConnected, parameters.reset_mode_timeout, isResetMode);
+	// printf("timeout: [%.1fs] --> [%.1fs] isConnected[%d] --> [%.1fs] isResetMode[%d] \n", (ros::Time::now() - last_received_time).toSec(), parameters.connection_timeout, isConnected, parameters.reset_mode_timeout, isResetMode);
 	if(!isConnected){
 		m_dLinear_spd = 0.0;
 		m_dAngular_spd = 0.0;

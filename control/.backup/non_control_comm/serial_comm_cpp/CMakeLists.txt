@@ -4,23 +4,23 @@ project(serial_comm_cpp)
 # FIND_PACKAGE(Boost REQUIRED)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  std_msgs
+  serial
   geometry_msgs
+  message_generation
 )
 
-# include_directories(include)
-# add_executable( motor_control src/motor_control.cpp )
-# target_link_libraries( motor_control serial )
-
-
-
-
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 catkin_package(
 	INCLUDE_DIRS include
-	LIBRARIES motor_control
+	LIBRARIES serial_comm_cpp
 	CATKIN_DEPENDS 
-	roscpp 
-	geometry_msgs
+	roscpp std_msgs
+	geometry_msgs serial
 	DEPENDS system_lib
 )
 
@@ -30,19 +30,19 @@ include_directories(
   ${Boost_INCLUDE_DIR}
 )
 
-add_executable(motor_control src/motor_control.cpp
+add_executable(serial_comm_cpp src/serial_comm_cpp.cpp
 )
 
-target_link_libraries(motor_control serial
+target_link_libraries(serial_comm_cpp serial
   ${catkin_LIBRARIES}
 )
-add_dependencies(motor_control
+add_dependencies(serial_comm_cpp
   ${catkin_EXPORTED_TARGETS}
 )
 ## Install executables and/or libraries
 install(
 	TARGETS
-	motor_control
+	serial_comm_cpp
 	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

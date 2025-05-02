@@ -28,6 +28,10 @@ void ArduinoSerial::callbackFromCmdVel(const geometry_msgs::TwistConstPtr &msg)
     std_msgs::String oled_msg;
     oled_msg.data = cmd_vel_str;
     oled_msg_pub.publish(oled_msg);
+    float cmdVel = 5*msg->linear.x; // in rad/sec
+    float cmdAgu = 5*msg->angular.z; // in rad/sec
+    // printf("cmdVel: %f, cmdAgu: %f \n", cmdVel, cmdAgu);
+    sendTargetVel(-(cmdVel + cmdAgu), cmdVel - cmdAgu); 
 }
 
 void ArduinoSerial::pub_arduino_feedback()
@@ -68,36 +72,57 @@ void ArduinoSerial::run()
         return;
     }
 
-    usleep(200000);
+    usleep(10000);
+    auto prevTime = std::chrono::system_clock::now();
     while (ros::ok() && serialPort.isOpen())
     {
         // printf("========================= \n");
         ros::spinOnce();
 
-        if (serialPort.available() > 0) 
+        // if (serialPort.available() > 0) 
+        // {
+        //     size_t available_bytes = serialPort.available();
+        //     const size_t PACKET_SIZE = 15;  // Header (1) + 3 floats (12) + 2 bytes (2)
+        //     uint8_t buffer[PACKET_SIZE];
+
+        //     if (available_bytes >= PACKET_SIZE) 
+        //     {
+        //         size_t bytes_read = serialPort.read(buffer, PACKET_SIZE);
+
+        //         if (bytes_read == PACKET_SIZE && buffer[0] == 0xEE) 
+        //         {
+        //             memcpy(&roll, &buffer[1], sizeof(float));
+        //             memcpy(&pitch, &buffer[5], sizeof(float));
+        //             memcpy(&yaw, &buffer[9], sizeof(float));
+
+        //             bat_percent = buffer[13];
+        //             go_btn = buffer[14];
+        //         }
+        //     }
+        // }
+
+        // pub_arduino_feedback();
+        // send_arduino();
+
+        duration = (std::chrono::system_clock::now() - prevTime);
+        if (duration.count() > sampleTime)
         {
-            size_t available_bytes = serialPort.available();
-            const size_t PACKET_SIZE = 15;  // Header (1) + 3 floats (12) + 2 bytes (2)
-            uint8_t buffer[PACKET_SIZE];
-
-            if (available_bytes >= PACKET_SIZE) 
+            try
             {
-                size_t bytes_read = serialPort.read(buffer, PACKET_SIZE);
-
-                if (bytes_read == PACKET_SIZE && buffer[0] == 0xEE) 
-                {
-                    memcpy(&roll, &buffer[1], sizeof(float));
-                    memcpy(&pitch, &buffer[5], sizeof(float));
-                    memcpy(&yaw, &buffer[9], sizeof(float));
-
-                    bat_percent = buffer[13];
-                    go_btn = buffer[14];
-                }
+                getMotorsPos(angPosA, angPosB); // gets angPosA, angPosB
+                getMotorsVel(angVelA, angVelB); // gets angVelA, angVelB
             }
-        }
+            catch (...)
+            {
+            // std::cout << "motorA_readings: [" << angPosA << std::fixed << std::setprecision(4) << "," << angVelA << std::fixed << std::setprecision(4) << "]" << std::endl;
+            // std::cout << "motorB_readings: [" << angPosB << std::fixed << std::setprecision(4) << "," << angVelB << std::fixed << std::setprecision(4) << "]" << '\n' << std::endl;
+            }
 
-        pub_arduino_feedback();
-        send_arduino();
+            std::cout << "motorA_readings: [" << angPosA << std::fixed << std::setprecision(2) << "," << angVelA << std::fixed << std::setprecision(2) << "]" << std::endl;
+            std::cout << "motorB_readings: [" << angPosB << std::fixed << std::setprecision(2) << "," << angVelB << std::fixed << std::setprecision(2) << "]" << '\n' << std::endl;
+
+            prevTime = std::chrono::system_clock::now();
+        }
         loop_rate.sleep();
     }
 

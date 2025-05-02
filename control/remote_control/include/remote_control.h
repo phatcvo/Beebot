@@ -115,12 +115,12 @@ namespace LOGITECH_BTN
 
 namespace LOGITECH_AXIS
 {
-    const double Axis_LR1 = 0;
-    const double Axis_UD1 = 1;
-    const double Axis_LR2 = 2;
-    const double Axis_UD2 = 3;
-    const double Cross_key_LR = 4;
-    const double Cross_key_UD = 5;
+    const double Axis_LR1 = 2;
+    const double Axis_UD1 = 3;
+    const double Axis_LR2 = 4;
+    const double Axis_UD2 = 5;
+    const double Cross_key_LR = 0;
+    const double Cross_key_UD = 1;
 }
 class Remote_Control
 {

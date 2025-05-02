@@ -1,0 +1,7 @@
+<launch>
+  
+  <node pkg="serial_comm_cpp" type="serial_comm_cpp" name="serial_comm_cpp" output="screen" respawn="true" respawn_delay="10">
+    <param name="port" value="/dev/ttyACM0"/>
+    <param name="baud" value="115200"/>
+  </node>
+</launch>

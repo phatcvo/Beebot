@@ -9,18 +9,18 @@ long maxLong = 2147000000, minLong = -2147000000;
 
 void initLed0()
 {
-  pinMode(A0, OUTPUT);
-  pinMode(A1, OUTPUT);
+  pinMode(A4, OUTPUT);
+  pinMode(A5, OUTPUT);
 }
 void onLed0()
 {
-  digitalWrite(A0, HIGH);
-  digitalWrite(A1, LOW);
+  digitalWrite(A4, HIGH);
+  digitalWrite(A5, LOW);
 }
 void offLed0()
 {
-  digitalWrite(A0, LOW);
-  digitalWrite(A1, LOW);
+  digitalWrite(A4, LOW);
+  digitalWrite(A5, LOW);
 }
 
 void initLed1()
