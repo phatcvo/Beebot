@@ -98,29 +98,30 @@ namespace PS4_AXIS
 // joy->axes : [Index Axis] = [0 Axis LR1] [1 Axis UP1] [2 LT] [3 Axis LR2] [4 Axis UD2] [5 RT] [6 cross(+) key L/R] [7 cross(+) key U/D]
 namespace LOGITECH_BTN
 {
-    const int A = 1;
-    const int B = 2;
-    const int X = 0;
+    const int A = 0;
+    const int B = 1;
+    const int X = 2;
     const int Y = 3;
     const int LB = 4;
     const int RB = 5;
-    const int LT = 6;
-    const int RT = 7;
-    const int back = 8;
-    const int start = 9;
-    const int mode = 9;
-    const int Button_stick_L = 10;
-    const int Button_stick_R = 11;
+    
+    const int back = 6;
+    const int start = 7;
+    const int mode = 8;
+    const int Button_stick_L = 9;
+    const int Button_stick_R = 10;
 }
 
 namespace LOGITECH_AXIS
 {
-    const double Axis_LR1 = 2;
-    const double Axis_UD1 = 3;
-    const double Axis_LR2 = 4;
-    const double Axis_UD2 = 5;
-    const double Cross_key_LR = 0;
-    const double Cross_key_UD = 1;
+    const double Axis_LR1 = 0;
+    const double Axis_UD1 = 1;
+    const double Axis_LR2 = 3;
+    const double Axis_UD2 = 4;
+    const int LT = 2;
+    const int RT = 5;
+    const double Cross_key_LR = 6;
+    const double Cross_key_UD = 7;
 }
 class Remote_Control
 {

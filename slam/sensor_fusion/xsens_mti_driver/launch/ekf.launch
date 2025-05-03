@@ -1,0 +1,10 @@
+<launch>
+    <!-- Use groups if you want to launch several nodes for multiple devices.
+    Make sure to use different param files for each sensor. -->
+    <!-- <group ns="sensor_1"> -->
+    <node name="imu_covariance_injector" pkg="xsens_mti_driver" type="imu_covariance_injector.py" output="screen" />
+        <node pkg="robot_localization" type="ekf_localization_node" name="ekf_odom_node" output="screen">
+            <param name="config_file" value="$(find xsens_mti_driver)/param/ekf.yaml"/>
+        </node>
+    <!-- </group> -->
+</launch>

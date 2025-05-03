@@ -13,7 +13,7 @@
 
 LocalMapCreator::LocalMapCreator(void) : private_nh_("~"), tf_listener_(tf_buffer_)
 {
-  private_nh_.param<std::string>("frame_id", frame_id_, "base_footprint");
+  private_nh_.param<std::string>("frame_id", frame_id_, "laser");
   private_nh_.param<float>("map_reso", map_reso_, 0.05);
   private_nh_.param<float>("map_size", map_size_, 10.0);
   private_nh_.param<float>("yaw_reso", yaw_reso_, 0.087);

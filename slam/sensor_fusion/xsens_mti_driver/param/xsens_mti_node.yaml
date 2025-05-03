@@ -22,16 +22,16 @@ pub_mag: true
 pub_angular_velocity: true
 pub_acceleration:  true
 pub_free_acceleration: true
-pub_dq: false
-pub_dv: false
-pub_sampletime: false
+pub_dq: true
+pub_dv: true
+pub_sampletime: true
 pub_temperature: true
 pub_pressure: true
-pub_gnss: false
-pub_twist: false
-pub_transform: false
-pub_positionLLA: false
-pub_velocity: false
+pub_gnss: true
+pub_twist: true
+pub_transform: true
+pub_positionLLA: true
+pub_velocity: true
 
 
 ## Sensor standard deviation [x,y,z] (optional)

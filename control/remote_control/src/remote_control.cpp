@@ -165,8 +165,6 @@ void Remote_Control::LOGITECH(const sensor_msgs::Joy::ConstPtr& joy){
 	m_nJoy_control = joy->buttons[LOGITECH_BTN::Y];
 	m_nLinearSpeedDown = joy->buttons[LOGITECH_BTN::LB];
 	m_nLinearSpeedUp = joy->buttons[LOGITECH_BTN::RB];
-	m_nAngularSpeedDown = joy->buttons[LOGITECH_BTN::LT];
-	m_nAngularSpeedUp = joy->buttons[LOGITECH_BTN::RT];
 	m_nAutoBack = joy->buttons[LOGITECH_BTN::back];
 	m_nAutoMode = joy->buttons[LOGITECH_BTN::start];
 	m_nManualMode = joy->buttons[LOGITECH_BTN::mode];
@@ -177,6 +175,8 @@ void Remote_Control::LOGITECH(const sensor_msgs::Joy::ConstPtr& joy){
 	m_dLinear_stick = joy->axes[LOGITECH_AXIS::Axis_UD1];
 	m_dAngular_stick2 = joy->axes[LOGITECH_AXIS::Axis_LR2];
 	m_dLinear_stick2 = joy->axes[LOGITECH_AXIS::Axis_UD2];
+	m_nAngularSpeedDown = joy->buttons[LOGITECH_AXIS::LT];
+	m_nAngularSpeedUp = joy->buttons[LOGITECH_AXIS::RT];
 	m_nAngular_cross = joy->axes[LOGITECH_AXIS::Cross_key_LR];
 	m_nLinear_cross = joy->axes[LOGITECH_AXIS::Cross_key_UD];
 }

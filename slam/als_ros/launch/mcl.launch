@@ -35,14 +35,14 @@
 
     <!-- If use_odom_tf is false, transformation from the map to base link is directly broadcast.
          If your odometry node does not broadcast transformation between odometry and base link, this must be false. -->
-    <arg name="use_odom_tf" default="true" />
+    <arg name="use_odom_tf" default="false" />
 
     <!-- MCL parameters -->
 
     <!-- Initial pose (x [m], y [m], yaw [deg]) -->
-    <arg name="initial_pose_x" default="-2.0" />
-    <arg name="initial_pose_y" default="-0.5" />
-    <arg name="initial_pose_yaw" default="0.0" />
+    <arg name="initial_pose_x" default="-0.63" />
+    <arg name="initial_pose_y" default="0.33" />
+    <arg name="initial_pose_yaw" default="-170.0" />
 
     <!-- Initial noise -->
     <arg name="initial_noise_x" default="0.02" />
