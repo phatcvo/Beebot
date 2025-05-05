@@ -4,7 +4,7 @@
 ##  - nothing: the driver scans for devices and selects the first found.
 # device_id: '077007EF' # uppercase hex string
 # port: '/dev/imu_xsens'
-port: '/dev/ttyUSB0'
+port: '/dev/ttyUSB1'
 baudrate: 115200 # non necessary for some devices
 
 ## Log file (optional), placed in ~/.ros/ otherwise use absolute path

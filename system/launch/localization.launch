@@ -3,6 +3,6 @@
     <arg name="ns" default="loc"/>
     <include file="$(find scan_to_pcl_ros)/launch/scan_to_pcl.launch" ns="$(arg ns)"/>
     <include file="$(find raycast_mapping_ros)/launch/raycast_mapping.launch" ns="$(arg ns)"/>
-    <include file="$(find emcl_ros)/launch/emcl.launch" ns="$(arg ns)"/>
-    <!-- <include file="$(find als_ros)/launch/mcl.launch"/> -->
+    <!-- <include file="$(find emcl_ros)/launch/emcl.launch" ns="$(arg ns)"/> -->
+    <include file="$(find als_ros)/launch/mcl.launch"/>
 </launch>

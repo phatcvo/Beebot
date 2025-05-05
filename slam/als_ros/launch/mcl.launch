@@ -35,7 +35,7 @@
 
     <!-- If use_odom_tf is false, transformation from the map to base link is directly broadcast.
          If your odometry node does not broadcast transformation between odometry and base link, this must be false. -->
-    <arg name="use_odom_tf" default="false" />
+    <arg name="use_odom_tf" default="true" />
 
     <!-- MCL parameters -->
 

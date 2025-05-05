@@ -44,10 +44,18 @@ ${TERMINAL} ${MASTER_DISPLAY_OPTION} ${WORKING_DIR}=${MY_PATH} ${OPTION_COMMAND}
 sleep 2
 ${TERMINAL} ${SENSING_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch ydlidar_ros_driver TG15.launch; exec bash -i'"
 sleep 5
+${TERMINAL} ${SENSING_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch xsens_mti_driver xsens_mti_node.launch; exec bash -i'"
+${TERMINAL} ${SENSING_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch xsens_mti_driver ekf.launch; exec bash -i'"
+sleep 5
+${TERMINAL} ${MC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch remote_control remote_control.launch; exec bash -i'"
 ${TERMINAL} ${SENSING_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch arduino_serial arduino_serial.launch; exec bash -i'"
 sleep 5
-${TERMINAL} ${SENSING_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch raycast_mapping_ros raycast_mapping.launch; exec bash -i'"
-${TERMINAL} ${MC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch remote_control remote_control.launch; exec bash -i'"
+# ${TERMINAL} ${LOC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch scan_to_pcl_ros scan_to_pcl.launch; exec bash -i'"
+# ${TERMINAL} ${LOC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch raycast_mapping_ros raycast_mapping.launch; exec bash -i'"
+# ${TERMINAL} ${LOC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch als_ros mcl.launch; exec bash -i'"
+${TERMINAL} ${LOC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch system localization.launch; exec bash -i'"
 sleep 2
-${TERMINAL} ${RVIZ_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch system rviz.launch; exec bash -i'"
+${TERMINAL} ${MP_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch system navigation.launch; exec bash -i'"
+sleep 5
+${TERMINAL} ${RVIZ_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch system demo.launch; exec bash -i'"
 
