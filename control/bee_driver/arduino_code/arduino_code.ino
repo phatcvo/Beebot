@@ -129,7 +129,7 @@ void loop() {
     // Apply the calculated speed and direction to the motors
     controlMotors(cmd_speed, cmd_direction, mode);
     // Send data to PC
-//    sendIMUData(go_btn, encoder0Pos, encoder1Pos, batteryPercent);
+    // sendIMUData(go_btn, encoder0Pos, encoder1Pos, batteryPercent);
   }
   
   

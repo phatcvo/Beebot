@@ -62,7 +62,7 @@ SimplePID pidMotorA(kpA, kiA, kdA, outMin, outMax);
 SimplePID pidMotorB(kpB, kiB, kdB, outMin, outMax);
 
 // check if in PID or PWM mode
-bool pidMode = true; // true-PID MODE, false-SETUP MODE
+bool pidMode = false; // true-PID MODE, false-SETUP MODE
 
 // initial i2cAddress
 int i2cAddress = 1;

@@ -23,6 +23,7 @@ void ArduinoSerial::initForROS()
 void ArduinoSerial::callbackFromCmdVel(const geometry_msgs::TwistConstPtr &msg)
 {
     std::stringstream ss;
+    int mode = int(msg->linear.z);
     ss << msg->linear.x << "," << -msg->angular.z << "," << msg->linear.z << "\n";
     cmd_vel_str = ss.str();
     std_msgs::String oled_msg;
