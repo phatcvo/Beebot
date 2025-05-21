@@ -24,7 +24,7 @@ public:
    */
   ScanToPcl(void) : private_nh_("~")
   {
-    private_nh_.param<std::string>("frame_id", frame_id_, std::string("base_scan"));
+    private_nh_.param<std::string>("frame_id", frame_id_, std::string("laser"));
     cloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>("/cloud", 1);
     laser_scan_sub_ = nh_.subscribe("/scan", 1, &ScanToPcl::laser_scan_callback, this, ros::TransportHints().reliable().tcpNoDelay());
 
@@ -45,7 +45,7 @@ private:
     sensor_msgs::PointCloud2 cloud;
     projector.transformLaserScanToPointCloud(frame_id_, *msg, cloud, tf_listener_);
 // ros::Time(0)
-    cloud.header.frame_id = "base_scan";
+    cloud.header.frame_id = "laser";
     cloud.header.stamp = ros::Time(0);//ros::Time::now();
     cloud_pub_.publish(cloud);
   }

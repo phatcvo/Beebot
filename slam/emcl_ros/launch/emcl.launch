@@ -2,7 +2,7 @@
 <launch>
     <arg name="output" default="log" doc="screen or log"/>
     <arg name="config_file_path" default="$(find emcl_ros)/launch/test.yaml"/>
-    <arg name="use_cloud" default="false"/>
+    <arg name="use_cloud" default="true"/>
     <arg name="use_dynamic_reconfigure" default="false"/>
     <arg name="estimated_pose_topic" default="/emcl_pose"/>
     <arg name="cloud_topic" default="/cloud"/>

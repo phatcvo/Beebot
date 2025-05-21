@@ -40,9 +40,9 @@
     <!-- MCL parameters -->
 
     <!-- Initial pose (x [m], y [m], yaw [deg]) -->
-    <arg name="initial_pose_x" default="6.2" />
-    <arg name="initial_pose_y" default="-2.5" />
-    <arg name="initial_pose_yaw" default="90.0" />
+    <arg name="initial_pose_x" default="-0.63" />
+    <arg name="initial_pose_y" default="0.33" />
+    <arg name="initial_pose_yaw" default="-170.0" />
 
     <!-- Initial noise -->
     <arg name="initial_noise_x" default="0.02" />

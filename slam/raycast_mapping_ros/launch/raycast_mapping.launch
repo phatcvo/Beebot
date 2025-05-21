@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="output" default="log" doc="screen or log"/>
-    <arg name="frame_id" default="base_scan"/>
+    <arg name="frame_id" default="laser"/>
     <arg name="map_reso" default="0.05"/>
     <arg name="map_size" default="10.0"/>
     <arg name="yaw_reso" default="0.087"/>

@@ -1,26 +1,16 @@
-# Xsens MTi driver for ROS
-
-# Changelog:
-This package is almost completely taken from the ROS example in the MT SDK.
-Changes done with respect to the orginal source:
- - Adapted CMakelists.txt to also install TARGETS
- - Adapted CMakelists.txt to run a PRE-BUILD command that builds libraries needed for the executable
- - Removed all trailing whitespaces
-
-# Documentation:
-  For this you need the full MT SDK which can be downloaded from: https://www.xsens.com/software-downloads
-  You can find the full documentation in "<your MT SDK directory>/doc/xsensdeviceapi/doc/html/index.html" under "ROS MTi driver" section.
-
 # Prerequisites:
   - ROS Kinetic or Melodic
   - C/C++ Compiler: GCC 5.4.0 or MSVC 14.0
   - C++11
 
 # Building:
-  CMakelists.txt has been adapted from official xsens package.
-  It now automatically builds the library via a PRE_BUILD call
-
-  Therefore a simple catkin build --this should suffice
+sudo chmod o+rw xsens_mti_driver
+  cd ../lxscontroller && make clean && make
+  cd ../xscommon && make clean && make
+  cd ../xstypes   && make clean && make
+  cd <your_ws>
+  catkin_make clean
+  catkin_make
 
 # Running:
   - Configure your MTi device to output desired data (e.g. for display example - orientation output) via MT Manager

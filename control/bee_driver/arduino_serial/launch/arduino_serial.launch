@@ -1,7 +1,7 @@
 <launch>
   
   <node pkg="arduino_serial" type="arduino_serial" name="arduino_serial" output="screen" respawn="true" respawn_delay="15">
-    <param name="port" value="/dev/ttyACM0"/>
+    <param name="port" value="/dev/ttyACM1"/>
     <param name="baud" value="115200"/>
   </node>
 </launch>

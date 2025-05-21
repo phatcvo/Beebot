@@ -1,0 +1,10 @@
+<launch>
+    <param name="use_sim_time" value="false"/>
+        <!-- Static transform from base_link to imu_link -->
+    <node pkg="tf" type="static_transform_publisher" name="imu_to_base" args="0 0 0 0 0 0 base_link imu_link 100"/>
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_imu" output="screen">
+        <rosparam file="$(find xsens_mti_driver)/param/ekf.yaml" command="load"/>
+        <remap from="/odometry/filtered" to="/odom"/>
+    </node>
+
+</launch>
