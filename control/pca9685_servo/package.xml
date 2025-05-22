@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>pca9685_servo</name>
+  <version>0.0.1</version>
+  <description>PCA9685 Servo Control Node</description>
+
+  <maintainer email="vophat0607@gmail.com">phatcvo</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <exec_depend>roscpp</exec_depend>
+</package>
