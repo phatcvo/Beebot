@@ -94,15 +94,26 @@ private:
 PCA9685* pwm_driver = nullptr;
 
 // Callback to receive microsecond servo pulse values
-void servoCallback(const std_msgs::UInt16::ConstPtr& msg) {
+void steeringCallback(const std_msgs::UInt16::ConstPtr& msg) {
     int pulse_us = msg->data;
-    if (pulse_us < 500 || pulse_us > 2500) {
-        ROS_WARN("Pulse out of range (500–2500us): %d", pulse_us);
+    if (pulse_us < 1200 || pulse_us > 2200) {
+        ROS_WARN("Pulse out of range (1200-2200): %d", pulse_us);
         return;
     }
 
     pwm_driver->setServoPulse(0, pulse_us);  // channel 0
-    ROS_INFO("Set pulse width: %dus", pulse_us);
+    ROS_INFO("Set steering pulse width: %dus", pulse_us);
+}
+
+void speedingCallback(const std_msgs::UInt16::ConstPtr& msg) {
+    int pulse_us = msg->data;
+    if (pulse_us < 1200 || pulse_us > 2200) {
+        ROS_WARN("Pulse out of range (1200-2200): %d", pulse_us);
+        return;
+    }
+
+    pwm_driver->setServoPulse(1, pulse_us);  // channel 1
+    ROS_INFO("Set speeding pulse width: %dus", pulse_us);
 }
 
 int main(int argc, char** argv) {
@@ -111,8 +122,8 @@ int main(int argc, char** argv) {
 
     pwm_driver = new PCA9685();
 
-    ros::Subscriber sub = nh.subscribe("servo_angle_us", 10, servoCallback);
-
+    ros::Subscriber sub1 = nh.subscribe("steering", 10, steeringCallback);
+    ros::Subscriber sub2 = nh.subscribe("speeding", 10, speedingCallback);
     ros::spin();
 
     delete pwm_driver;
