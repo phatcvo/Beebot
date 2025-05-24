@@ -53,9 +53,9 @@ sleep 5
 # ${TERMINAL} ${LOC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch scan_to_pcl_ros scan_to_pcl.launch; exec bash -i'"
 # ${TERMINAL} ${LOC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch raycast_mapping_ros raycast_mapping.launch; exec bash -i'"
 # ${TERMINAL} ${LOC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch als_ros mcl.launch; exec bash -i'"
-${TERMINAL} ${LOC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch system localization.launch; exec bash -i'"
-sleep 2
-${TERMINAL} ${MP_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch system navigation.launch; exec bash -i'"
-sleep 5
+# ${TERMINAL} ${LOC_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch system localization.launch; exec bash -i'"
+# sleep 2
+# ${TERMINAL} ${MP_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch system navigation.launch; exec bash -i'"
+# sleep 5
 ${TERMINAL} ${RVIZ_DISPLAY_OPTION} ${OPTION_COMMAND}="bash -c 'source ${workspace}/devel/setup.bash; roslaunch system demo.launch; exec bash -i'"
 
