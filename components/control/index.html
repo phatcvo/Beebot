@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Control &amp; Hardware Interface – Beebot Documentation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../assets/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">🤖 Beebot</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../getting-started/index.html"> 
+<span class="menu-text">Getting Started</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-components" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Components</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-components">    
+        <li>
+    <a class="dropdown-item" href="../../components/slam/index.html">
+ <span class="dropdown-text">SLAM &amp; Localization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../components/motion/index.html">
+ <span class="dropdown-text">Motion Planning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../components/control/index.html">
+ <span class="dropdown-text">Control Systems</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../components/system/index.html">
+ <span class="dropdown-text">System Integration</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-api-reference" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">API Reference</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-api-reference">    
+        <li>
+    <a class="dropdown-item" href="../../api/nodes.html">
+ <span class="dropdown-text">ROS Nodes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../api/topics.html">
+ <span class="dropdown-text">Topics &amp; Messages</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../api/parameters.qmd">
+ <span class="dropdown-text">Parameters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../api/services.qmd">
+ <span class="dropdown-text">Services</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../tutorials/index.qmd"> 
+<span class="menu-text">Tutorials</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../hardware/index.qmd"> 
+<span class="menu-text">Hardware</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/phatcvo/Beebot"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../components/control/index.html">Control &amp; Hardware Interface</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../components/slam/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SLAM &amp; Localization</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../components/slam/advanced-localization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advanced Localization System</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text">components/slam/mapping.qmd</span>
+  </li>
+        <li class="sidebar-item">
+ <span class="menu-text">components/slam/sensor-fusion.qmd</span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../components/motion/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Motion Planning &amp; Control</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text">components/motion/global-planning.qmd</span>
+  </li>
+        <li class="sidebar-item">
+ <span class="menu-text">components/motion/local-planning.qmd</span>
+  </li>
+        <li class="sidebar-item">
+ <span class="menu-text">components/motion/waypoint-management.qmd</span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../components/control/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Control &amp; Hardware Interface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text">components/control/remote-control.qmd</span>
+  </li>
+        <li class="sidebar-item">
+ <span class="menu-text">components/control/arduino-interface.qmd</span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../components/system/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">System Integration</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text">components/system/launch-files.qmd</span>
+  </li>
+        <li class="sidebar-item">
+ <span class="menu-text">components/system/visualization.qmd</span>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#control-hardware-interface" id="toc-control-hardware-interface" class="nav-link active" data-scroll-target="#control-hardware-interface">Control &amp; Hardware Interface</a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#core-components" id="toc-core-components" class="nav-link" data-scroll-target="#core-components">Core Components</a>
+  <ul class="collapse">
+  <li><a href="#arduino-serial-interface" id="toc-arduino-serial-interface" class="nav-link" data-scroll-target="#arduino-serial-interface">Arduino Serial Interface</a></li>
+  <li><a href="#remote-control-system" id="toc-remote-control-system" class="nav-link" data-scroll-target="#remote-control-system">Remote Control System</a></li>
+  <li><a href="#robot-eyes-display" id="toc-robot-eyes-display" class="nav-link" data-scroll-target="#robot-eyes-display">Robot Eyes Display</a></li>
+  </ul></li>
+  <li><a href="#system-architecture" id="toc-system-architecture" class="nav-link" data-scroll-target="#system-architecture">System Architecture</a>
+  <ul class="collapse">
+  <li><a href="#control-flow-hierarchy" id="toc-control-flow-hierarchy" class="nav-link" data-scroll-target="#control-flow-hierarchy">Control Flow Hierarchy</a></li>
+  <li><a href="#real-time-performance" id="toc-real-time-performance" class="nav-link" data-scroll-target="#real-time-performance">Real-time Performance</a></li>
+  </ul></li>
+  <li><a href="#hardware-interface-details" id="toc-hardware-interface-details" class="nav-link" data-scroll-target="#hardware-interface-details">Hardware Interface Details</a>
+  <ul class="collapse">
+  <li><a href="#arduino-communication-protocol" id="toc-arduino-communication-protocol" class="nav-link" data-scroll-target="#arduino-communication-protocol">Arduino Communication Protocol</a></li>
+  <li><a href="#motor-control-system" id="toc-motor-control-system" class="nav-link" data-scroll-target="#motor-control-system">Motor Control System</a></li>
+  <li><a href="#sensor-integration" id="toc-sensor-integration" class="nav-link" data-scroll-target="#sensor-integration">Sensor Integration</a></li>
+  </ul></li>
+  <li><a href="#configuration" id="toc-configuration" class="nav-link" data-scroll-target="#configuration">Configuration</a>
+  <ul class="collapse">
+  <li><a href="#launch-files-and-parameters" id="toc-launch-files-and-parameters" class="nav-link" data-scroll-target="#launch-files-and-parameters">Launch Files and Parameters</a></li>
+  <li><a href="#hardware-specific-parameters" id="toc-hardware-specific-parameters" class="nav-link" data-scroll-target="#hardware-specific-parameters">Hardware-Specific Parameters</a></li>
+  </ul></li>
+  <li><a href="#safety-systems" id="toc-safety-systems" class="nav-link" data-scroll-target="#safety-systems">Safety Systems</a>
+  <ul class="collapse">
+  <li><a href="#emergency-stop-implementation" id="toc-emergency-stop-implementation" class="nav-link" data-scroll-target="#emergency-stop-implementation">Emergency Stop Implementation</a></li>
+  <li><a href="#collision-avoidance" id="toc-collision-avoidance" class="nav-link" data-scroll-target="#collision-avoidance">Collision Avoidance</a></li>
+  </ul></li>
+  <li><a href="#performance-monitoring" id="toc-performance-monitoring" class="nav-link" data-scroll-target="#performance-monitoring">Performance Monitoring</a>
+  <ul class="collapse">
+  <li><a href="#system-metrics" id="toc-system-metrics" class="nav-link" data-scroll-target="#system-metrics">System Metrics</a></li>
+  <li><a href="#key-performance-indicators" id="toc-key-performance-indicators" class="nav-link" data-scroll-target="#key-performance-indicators">Key Performance Indicators</a></li>
+  </ul></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a>
+  <ul class="collapse">
+  <li><a href="#common-hardware-issues" id="toc-common-hardware-issues" class="nav-link" data-scroll-target="#common-hardware-issues">Common Hardware Issues</a></li>
+  <li><a href="#diagnostic-tools" id="toc-diagnostic-tools" class="nav-link" data-scroll-target="#diagnostic-tools">Diagnostic Tools</a></li>
+  </ul></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Control &amp; Hardware Interface</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Robot control systems and hardware communication</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="control-hardware-interface" class="level1">
+<h1>Control &amp; Hardware Interface</h1>
+<p>The Control &amp; Hardware Interface subsystem manages all interactions between the high-level ROS software stack and the robot’s physical hardware components. This includes motor control, sensor data acquisition, remote control interfaces, and real-time safety systems.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>The control system implements a layered architecture that provides both autonomous operation and manual remote control capabilities:</p>
+<pre class="mermaid"><code>graph TB
+    subgraph "High-Level Control"
+        NAV[Navigation Stack&lt;br/&gt;move_base]
+        RC[Remote Control&lt;br/&gt;Xbox Controller]
+        WEB[Web Interface&lt;br/&gt;MQTT Bridge]
+    end
+    
+    subgraph "Control Arbitration"
+        ARB[Control Arbitrator&lt;br/&gt;Priority Management]
+        SAFETY[Safety Monitor&lt;br/&gt;Emergency Stop]
+    end
+    
+    subgraph "Hardware Interface"
+        SERIAL[Arduino Serial&lt;br/&gt;Communication]
+        MQTT[MQTT Bridge&lt;br/&gt;Wireless Control]
+        EYES[Robot Eyes&lt;br/&gt;Status Display]
+    end
+    
+    subgraph "Hardware Layer"
+        ARDUINO[Arduino Controller&lt;br/&gt;Mega 2560]
+        MOTORS[Motor Controllers&lt;br/&gt;PWM Drivers]
+        SENSORS[Sensor Array&lt;br/&gt;Bumpers, Encoders]
+        DISPLAY[LED Display&lt;br/&gt;Status LEDs]
+    end
+    
+    NAV --&gt; |cmd_vel| ARB
+    RC --&gt; |joy| ARB
+    WEB --&gt; |mqtt_cmd| ARB
+    
+    ARB --&gt; SERIAL
+    ARB --&gt; MQTT
+    SAFETY --&gt; ARB
+    
+    SERIAL --&gt; ARDUINO
+    MQTT --&gt; WEB
+    EYES --&gt; DISPLAY
+    
+    ARDUINO --&gt; MOTORS
+    ARDUINO --&gt; SENSORS
+    
+    MOTORS --&gt; |PWM| MotorHW[Physical Motors]
+    SENSORS --&gt; |Digital/Analog| SensorHW[Physical Sensors]
+    
+    style ARB fill:#e1f5fe
+    style SERIAL fill:#f3e5f5
+    style ARDUINO fill:#fff3e0</code></pre>
+</section>
+<section id="core-components" class="level2">
+<h2 class="anchored" data-anchor-id="core-components">Core Components</h2>
+<section id="arduino-serial-interface" class="level3">
+<h3 class="anchored" data-anchor-id="arduino-serial-interface"><a href="arduino-interface.qmd">Arduino Serial Interface</a></h3>
+<p>The primary hardware communication layer:</p>
+<ul>
+<li><strong>High-speed Serial Communication</strong> at 115200 baud</li>
+<li><strong>Bidirectional Protocol</strong> for commands and sensor feedback</li>
+<li><strong>Real-time Control Loop</strong> with microsecond timing</li>
+<li><strong>Error Detection and Recovery</strong> with CRC checking</li>
+</ul>
+</section>
+<section id="remote-control-system" class="level3">
+<h3 class="anchored" data-anchor-id="remote-control-system"><a href="remote-control.qmd">Remote Control System</a></h3>
+<p>Multiple remote control interfaces:</p>
+<ul>
+<li><strong>Xbox Controller Support</strong> with analog stick control</li>
+<li><strong>MQTT Wireless Interface</strong> for mobile app control</li>
+<li><strong>Web-based Control Panel</strong> for monitoring and commands</li>
+<li><strong>Voice Control Integration</strong> through external interfaces</li>
+</ul>
+</section>
+<section id="robot-eyes-display" class="level3">
+<h3 class="anchored" data-anchor-id="robot-eyes-display"><a href="robot-eyes.qmd">Robot Eyes Display</a></h3>
+<p>Visual status and interaction system:</p>
+<ul>
+<li><strong>Animated LED Matrix Display</strong> showing robot emotions and status</li>
+<li><strong>Status Indication</strong> for operational modes and alerts</li>
+<li><strong>Interactive Feedback</strong> responding to user interactions</li>
+<li><strong>Diagnostic Display</strong> for system health monitoring</li>
+</ul>
+</section>
+</section>
+<section id="system-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="system-architecture">System Architecture</h2>
+<section id="control-flow-hierarchy" class="level3">
+<h3 class="anchored" data-anchor-id="control-flow-hierarchy">Control Flow Hierarchy</h3>
+<pre class="mermaid"><code>graph TD
+    subgraph "Priority Levels"
+        P1[Emergency Stop&lt;br/&gt;Priority 1]
+        P2[Safety Systems&lt;br/&gt;Priority 2]  
+        P3[Manual Control&lt;br/&gt;Priority 3]
+        P4[Autonomous Nav&lt;br/&gt;Priority 4]
+        P5[Background Tasks&lt;br/&gt;Priority 5]
+    end
+    
+    subgraph "Control Sources"
+        ESTOP[Hardware E-Stop]
+        BUMPER[Bumper Sensors]
+        XBOX[Xbox Controller]
+        MQTT[MQTT Commands]
+        MOVEBASE[move_base]
+        MAINT[Maintenance]
+    end
+    
+    subgraph "Hardware Output"
+        PWM[Motor PWM]
+        BRAKE[Motor Brake]
+        LED[Status LEDs]
+    end
+    
+    ESTOP --&gt; P1
+    BUMPER --&gt; P2
+    XBOX --&gt; P3
+    MQTT --&gt; P3
+    MOVEBASE --&gt; P4
+    MAINT --&gt; P5
+    
+    P1 --&gt; PWM
+    P2 --&gt; BRAKE
+    P3 --&gt; PWM
+    P4 --&gt; PWM
+    P5 --&gt; LED
+    
+    style P1 fill:#ffebee
+    style P2 fill:#fff3e0
+    style P3 fill:#e8f5e8
+    style P4 fill:#e1f5fe</code></pre>
+</section>
+<section id="real-time-performance" class="level3">
+<h3 class="anchored" data-anchor-id="real-time-performance">Real-time Performance</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>System Component</th>
+<th>Update Rate</th>
+<th>Latency</th>
+<th>Critical Path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Arduino Control Loop</strong></td>
+<td>1000 Hz</td>
+<td>&lt;1 ms</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td><strong>Serial Communication</strong></td>
+<td>100 Hz</td>
+<td>5-10 ms</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td><strong>Xbox Controller</strong></td>
+<td>30 Hz</td>
+<td>15-30 ms</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td><strong>MQTT Bridge</strong></td>
+<td>10 Hz</td>
+<td>50-100 ms</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td><strong>Safety Monitor</strong></td>
+<td>50 Hz</td>
+<td>10-20 ms</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="hardware-interface-details" class="level2">
+<h2 class="anchored" data-anchor-id="hardware-interface-details">Hardware Interface Details</h2>
+<section id="arduino-communication-protocol" class="level3">
+<h3 class="anchored" data-anchor-id="arduino-communication-protocol">Arduino Communication Protocol</h3>
+<section id="message-format" class="level4">
+<h4 class="anchored" data-anchor-id="message-format">Message Format</h4>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Command message structure</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> MotorCommand <span class="op">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> header<span class="op">;</span>           <span class="co">// 0xFF start byte</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> <span class="dt">cmd_type</span><span class="op">;</span>         <span class="co">// Command type identifier</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int16_t</span> left_vel<span class="op">;</span>         <span class="co">// Left motor velocity (-1000 to +1000)</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int16_t</span> right_vel<span class="op">;</span>        <span class="co">// Right motor velocity (-1000 to +1000)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> checksum<span class="op">;</span>         <span class="co">// Simple XOR checksum</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">// Sensor feedback structure  </span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> SensorFeedback <span class="op">{</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> header<span class="op">;</span>           <span class="co">// 0xFF start byte</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> <span class="dt">sensor_type</span><span class="op">;</span>      <span class="co">// Sensor type identifier</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int32_t</span> left_encoder<span class="op">;</span>     <span class="co">// Left encoder count</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int32_t</span> right_encoder<span class="op">;</span>    <span class="co">// Right encoder count</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> bumper_state<span class="op">;</span>     <span class="co">// Bumper contact bits</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint16_t</span> battery_voltage<span class="op">;</span> <span class="co">// Battery voltage (mV)</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> checksum<span class="op">;</span>         <span class="co">// Simple XOR checksum</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="communication-timing" class="level4">
+<h4 class="anchored" data-anchor-id="communication-timing">Communication Timing</h4>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Serial communication parameters</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">baud_rate</span><span class="kw">:</span><span class="at"> </span><span class="dv">115200</span><span class="co">              # Bits per second</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data_bits</span><span class="kw">:</span><span class="at"> </span><span class="dv">8</span><span class="co">                   # Data bits per byte</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">parity</span><span class="kw">:</span><span class="at"> none</span><span class="co">                   # No parity bit</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">stop_bits</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="co">                   # Stop bits</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">flow_control</span><span class="kw">:</span><span class="at"> none</span><span class="co">             # No hardware flow control</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Timing parameters</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">command_timeout</span><span class="kw">:</span><span class="at"> </span><span class="dv">100</span><span class="co">           # Command timeout (ms)</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">sensor_update_rate</span><span class="kw">:</span><span class="at"> </span><span class="dv">100</span><span class="co">        # Sensor feedback rate (Hz)</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">connection_timeout</span><span class="kw">:</span><span class="at"> </span><span class="dv">1000</span><span class="co">       # Connection timeout (ms)</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">retry_attempts</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span><span class="co">              # Communication retry count</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="motor-control-system" class="level3">
+<h3 class="anchored" data-anchor-id="motor-control-system">Motor Control System</h3>
+<section id="differential-drive-configuration" class="level4">
+<h4 class="anchored" data-anchor-id="differential-drive-configuration">Differential Drive Configuration</h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Robot physical parameters</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">double</span> WHEEL_BASE <span class="op">=</span> <span class="fl">0.35</span><span class="op">;</span>        <span class="co">// Distance between wheels (m)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">double</span> WHEEL_RADIUS <span class="op">=</span> <span class="fl">0.075</span><span class="op">;</span>     <span class="co">// Wheel radius (m)  </span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">double</span> MAX_LINEAR_VEL <span class="op">=</span> <span class="fl">1.0</span><span class="op">;</span>     <span class="co">// Maximum linear velocity (m/s)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">double</span> MAX_ANGULAR_VEL <span class="op">=</span> <span class="fl">2.0</span><span class="op">;</span>    <span class="co">// Maximum angular velocity (rad/s)</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Convert twist to wheel velocities</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> twistToWheelVelocities<span class="op">(</span><span class="at">const</span> geometry_msgs<span class="op">::</span>Twist<span class="op">&amp;</span> twist<span class="op">,</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                           <span class="dt">double</span><span class="op">&amp;</span> left_vel<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> right_vel<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> v <span class="op">=</span> twist<span class="op">.</span>linear<span class="op">.</span>x<span class="op">;</span>          <span class="co">// Linear velocity</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> w <span class="op">=</span> twist<span class="op">.</span>angular<span class="op">.</span>z<span class="op">;</span>         <span class="co">// Angular velocity</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    left_vel <span class="op">=</span> <span class="op">(</span>v <span class="op">-</span> w <span class="op">*</span> WHEEL_BASE <span class="op">/</span> <span class="fl">2.0</span><span class="op">)</span> <span class="op">/</span> WHEEL_RADIUS<span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    right_vel <span class="op">=</span> <span class="op">(</span>v <span class="op">+</span> w <span class="op">*</span> WHEEL_BASE <span class="op">/</span> <span class="fl">2.0</span><span class="op">)</span> <span class="op">/</span> WHEEL_RADIUS<span class="op">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="pid-control-implementation" class="level4">
+<h4 class="anchored" data-anchor-id="pid-control-implementation">PID Control Implementation</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// PID controller for each motor</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MotorPID <span class="op">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">kp_</span><span class="op">,</span> <span class="va">ki_</span><span class="op">,</span> <span class="va">kd_</span><span class="op">;</span>               <span class="co">// PID gains</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">prev_error_</span><span class="op">;</span>                 <span class="co">// Previous error</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">integral_</span><span class="op">;</span>                   <span class="co">// Error integral</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">output_min_</span><span class="op">,</span> <span class="va">output_max_</span><span class="op">;</span>    <span class="co">// Output limits</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> compute<span class="op">(</span><span class="dt">double</span> setpoint<span class="op">,</span> <span class="dt">double</span> measured<span class="op">,</span> <span class="dt">double</span> dt<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> error <span class="op">=</span> setpoint <span class="op">-</span> measured<span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">integral_</span> <span class="op">+=</span> error <span class="op">*</span> dt<span class="op">;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> derivative <span class="op">=</span> <span class="op">(</span>error <span class="op">-</span> <span class="va">prev_error_</span><span class="op">)</span> <span class="op">/</span> dt<span class="op">;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> output <span class="op">=</span> <span class="va">kp_</span> <span class="op">*</span> error <span class="op">+</span> <span class="va">ki_</span> <span class="op">*</span> <span class="va">integral_</span> <span class="op">+</span> <span class="va">kd_</span> <span class="op">*</span> derivative<span class="op">;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> constrain<span class="op">(</span>output<span class="op">,</span> <span class="va">output_min_</span><span class="op">,</span> <span class="va">output_max_</span><span class="op">);</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">prev_error_</span> <span class="op">=</span> error<span class="op">;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> output<span class="op">;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="sensor-integration" class="level3">
+<h3 class="anchored" data-anchor-id="sensor-integration">Sensor Integration</h3>
+<section id="encoder-feedback-processing" class="level4">
+<h4 class="anchored" data-anchor-id="encoder-feedback-processing">Encoder Feedback Processing</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Odometry calculation from encoder data</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> OdometryCalculator <span class="op">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int32_t</span> <span class="va">last_left_ticks_</span><span class="op">,</span> <span class="va">last_right_ticks_</span><span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">x_</span><span class="op">,</span> <span class="va">y_</span><span class="op">,</span> <span class="va">theta_</span><span class="op">;</span>              <span class="co">// Robot pose</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> <span class="dt">int</span> TICKS_PER_REV <span class="op">=</span> <span class="dv">1440</span><span class="op">;</span>    <span class="co">// Encoder resolution</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> updateOdometry<span class="op">(</span><span class="dt">int32_t</span> left_ticks<span class="op">,</span> <span class="dt">int32_t</span> right_ticks<span class="op">,</span> <span class="dt">double</span> dt<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Calculate wheel distances</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int32_t</span> delta_left <span class="op">=</span> left_ticks <span class="op">-</span> <span class="va">last_left_ticks_</span><span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int32_t</span> delta_right <span class="op">=</span> right_ticks <span class="op">-</span> <span class="va">last_right_ticks_</span><span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> left_dist <span class="op">=</span> <span class="op">(</span>delta_left <span class="op">*</span> <span class="fl">2.0</span> <span class="op">*</span> M_PI <span class="op">*</span> WHEEL_RADIUS<span class="op">)</span> <span class="op">/</span> TICKS_PER_REV<span class="op">;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> right_dist <span class="op">=</span> <span class="op">(</span>delta_right <span class="op">*</span> <span class="fl">2.0</span> <span class="op">*</span> M_PI <span class="op">*</span> WHEEL_RADIUS<span class="op">)</span> <span class="op">/</span> TICKS_PER_REV<span class="op">;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Calculate robot motion</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> distance <span class="op">=</span> <span class="op">(</span>left_dist <span class="op">+</span> right_dist<span class="op">)</span> <span class="op">/</span> <span class="fl">2.0</span><span class="op">;</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> delta_theta <span class="op">=</span> <span class="op">(</span>right_dist <span class="op">-</span> left_dist<span class="op">)</span> <span class="op">/</span> WHEEL_BASE<span class="op">;</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Update pose</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">theta_</span> <span class="op">+=</span> delta_theta<span class="op">;</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">x_</span> <span class="op">+=</span> distance <span class="op">*</span> cos<span class="op">(</span><span class="va">theta_</span><span class="op">);</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">y_</span> <span class="op">+=</span> distance <span class="op">*</span> sin<span class="op">(</span><span class="va">theta_</span><span class="op">);</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">last_left_ticks_</span> <span class="op">=</span> left_ticks<span class="op">;</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">last_right_ticks_</span> <span class="op">=</span> right_ticks<span class="op">;</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="configuration" class="level2">
+<h2 class="anchored" data-anchor-id="configuration">Configuration</h2>
+<section id="launch-files-and-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="launch-files-and-parameters">Launch Files and Parameters</h3>
+<section id="arduino-serial-interface-1" class="level4">
+<h4 class="anchored" data-anchor-id="arduino-serial-interface-1">Arduino Serial Interface</h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">launch</span>&gt;</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Arduino serial communication --&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">node</span><span class="ot"> name=</span><span class="st">"arduino_serial"</span><span class="ot"> pkg=</span><span class="st">"arduino_serial"</span><span class="ot"> type=</span><span class="st">"arduino_serial_node"</span><span class="ot"> output=</span><span class="st">"screen"</span>&gt;</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Serial port configuration --&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"port"</span><span class="ot"> value=</span><span class="st">"/dev/ttyUSB0"</span>/&gt;</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"baud"</span><span class="ot"> value=</span><span class="st">"115200"</span>/&gt;</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Robot parameters --&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"wheel_base"</span><span class="ot"> value=</span><span class="st">"0.35"</span>/&gt;</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"wheel_radius"</span><span class="ot"> value=</span><span class="st">"0.075"</span>/&gt;</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"ticks_per_revolution"</span><span class="ot"> value=</span><span class="st">"1440"</span>/&gt;</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Control parameters --&gt;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"timeout"</span><span class="ot"> value=</span><span class="st">"1.0"</span>/&gt;</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"publish_odom"</span><span class="ot"> value=</span><span class="st">"true"</span>/&gt;</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"publish_tf"</span><span class="ot"> value=</span><span class="st">"true"</span>/&gt;</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- PID parameters --&gt;</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"pid_kp"</span><span class="ot"> value=</span><span class="st">"1.0"</span>/&gt;</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"pid_ki"</span><span class="ot"> value=</span><span class="st">"0.1"</span>/&gt;</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"pid_kd"</span><span class="ot"> value=</span><span class="st">"0.05"</span>/&gt;</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">node</span>&gt;</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">launch</span>&gt;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="remote-control-configuration" class="level4">
+<h4 class="anchored" data-anchor-id="remote-control-configuration">Remote Control Configuration</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Xbox controller mapping</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">controller_config</span><span class="kw">:</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">  # Axis mappings</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">linear_axis</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="co">              # Left stick vertical (forward/backward)</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">angular_axis</span><span class="kw">:</span><span class="at"> </span><span class="dv">0</span><span class="co">             # Right stick horizontal (turn)</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">  # Button mappings  </span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">deadman_button</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span><span class="co">           # Left shoulder button (LB)</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">turbo_button</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span><span class="co">             # Right shoulder button (RB)</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">mode_button</span><span class="kw">:</span><span class="at"> </span><span class="dv">6</span><span class="co">              # Back button (mode switch)</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">estop_button</span><span class="kw">:</span><span class="at"> </span><span class="dv">7</span><span class="co">             # Start button (emergency stop)</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">  # Velocity scaling</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">max_linear_vel</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.8</span><span class="co">         # Maximum linear velocity (m/s)</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">max_angular_vel</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.5</span><span class="co">        # Maximum angular velocity (rad/s)</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">turbo_multiplier</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.5</span><span class="co">       # Turbo mode velocity multiplier</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">  # Deadzone and filtering</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">deadzone</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.1</span><span class="co">               # Joystick deadzone</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filter_alpha</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.8</span><span class="co">           # Low-pass filter coefficient</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="mqtt-bridge-configuration" class="level4">
+<h4 class="anchored" data-anchor-id="mqtt-bridge-configuration">MQTT Bridge Configuration</h4>
+<div class="sourceCode" id="cb10"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MQTT broker configuration</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mqtt_config</span><span class="kw">:</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">broker_host</span><span class="kw">:</span><span class="at"> </span><span class="st">"localhost"</span><span class="co">    # MQTT broker address</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">broker_port</span><span class="kw">:</span><span class="at"> </span><span class="dv">1883</span><span class="co">           # MQTT broker port</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">client_id</span><span class="kw">:</span><span class="at"> </span><span class="st">"beebot_control"</span><span class="co"> # MQTT client identifier</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">  # Topic configuration</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">command_topic</span><span class="kw">:</span><span class="at"> </span><span class="st">"beebot/cmd_vel"</span><span class="co">       # Command input topic</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">status_topic</span><span class="kw">:</span><span class="at"> </span><span class="st">"beebot/status"</span><span class="co">         # Status output topic</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">odom_topic</span><span class="kw">:</span><span class="at"> </span><span class="st">"beebot/odom"</span><span class="co">            # Odometry output topic</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">  # Connection parameters</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">keep_alive</span><span class="kw">:</span><span class="at"> </span><span class="dv">60</span><span class="co">              # Keep alive interval (s)</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">qos_level</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="co">               # Quality of service level</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">retain</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span><span class="co">              # Retain messages</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">  # Security (if enabled)</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">use_auth</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span><span class="co">            # Enable authentication</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">username</span><span class="kw">:</span><span class="at"> </span><span class="st">""</span><span class="co">               # MQTT username</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">password</span><span class="kw">:</span><span class="at"> </span><span class="st">""</span><span class="co">               # MQTT password</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="hardware-specific-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="hardware-specific-parameters">Hardware-Specific Parameters</h3>
+<section id="motor-controller-settings" class="level4">
+<h4 class="anchored" data-anchor-id="motor-controller-settings">Motor Controller Settings</h4>
+<div class="sourceCode" id="cb11"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Motor controller configuration</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MOTOR_PWM_FREQUENCY </span><span class="dv">20000</span><span class="pp">      </span><span class="co">// 20 kHz PWM frequency</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MOTOR_PWM_RESOLUTION </span><span class="dv">12</span><span class="pp">        </span><span class="co">// 12-bit PWM resolution (0-4095)</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MOTOR_BRAKE_PIN_LEFT </span><span class="dv">22</span><span class="pp">        </span><span class="co">// Left motor brake pin</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MOTOR_BRAKE_PIN_RIGHT </span><span class="dv">23</span><span class="pp">       </span><span class="co">// Right motor brake pin</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MOTOR_CURRENT_SENSE_LEFT </span>A0<span class="pp">    </span><span class="co">// Left motor current sense</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MOTOR_CURRENT_SENSE_RIGHT </span>A1<span class="pp">   </span><span class="co">// Right motor current sense</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Current limiting</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MAX_MOTOR_CURRENT </span><span class="fl">5.0</span><span class="pp">          </span><span class="co">// Maximum motor current (A)</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="pp">#define CURRENT_LIMIT_TIME </span><span class="dv">100</span><span class="pp">         </span><span class="co">// Current limit duration (ms)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="sensor-pin-configuration" class="level4">
+<h4 class="anchored" data-anchor-id="sensor-pin-configuration">Sensor Pin Configuration</h4>
+<div class="sourceCode" id="cb12"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Encoder connections</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#define ENCODER_LEFT_A </span><span class="dv">2</span><span class="pp">               </span><span class="co">// Left encoder channel A (interrupt)</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define ENCODER_LEFT_B </span><span class="dv">3</span><span class="pp">               </span><span class="co">// Left encoder channel B</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#define ENCODER_RIGHT_A </span><span class="dv">18</span><span class="pp">             </span><span class="co">// Right encoder channel A (interrupt)  </span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#define ENCODER_RIGHT_B </span><span class="dv">19</span><span class="pp">             </span><span class="co">// Right encoder channel B</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Bumper sensors</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#define BUMPER_FRONT_LEFT </span><span class="dv">4</span><span class="pp">            </span><span class="co">// Front left bumper</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#define BUMPER_FRONT_RIGHT </span><span class="dv">5</span><span class="pp">           </span><span class="co">// Front right bumper</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="pp">#define BUMPER_REAR_LEFT </span><span class="dv">6</span><span class="pp">             </span><span class="co">// Rear left bumper</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="pp">#define BUMPER_REAR_RIGHT </span><span class="dv">7</span><span class="pp">            </span><span class="co">// Rear right bumper</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">// Status indicators</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="pp">#define STATUS_LED_PIN </span><span class="dv">13</span><span class="pp">              </span><span class="co">// Status LED (built-in)</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="pp">#define BUZZER_PIN </span><span class="dv">8</span><span class="pp">                   </span><span class="co">// Status buzzer</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="pp">#define BATTERY_SENSE_PIN </span>A2<span class="pp">           </span><span class="co">// Battery voltage sense</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="safety-systems" class="level2">
+<h2 class="anchored" data-anchor-id="safety-systems">Safety Systems</h2>
+<section id="emergency-stop-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="emergency-stop-implementation">Emergency Stop Implementation</h3>
+<section id="hardware-e-stop" class="level4">
+<h4 class="anchored" data-anchor-id="hardware-e-stop">Hardware E-Stop</h4>
+<div class="sourceCode" id="cb13"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Emergency stop interrupt handler</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> emergencyStopISR<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Immediately stop all motors</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    digitalWrite<span class="op">(</span>MOTOR_BRAKE_PIN_LEFT<span class="op">,</span> HIGH<span class="op">);</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    digitalWrite<span class="op">(</span>MOTOR_BRAKE_PIN_RIGHT<span class="op">,</span> HIGH<span class="op">);</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    analogWrite<span class="op">(</span>MOTOR_PWM_LEFT<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    analogWrite<span class="op">(</span>MOTOR_PWM_RIGHT<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Set emergency stop flag</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    emergency_stop_active <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Flash status LED</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    digitalWrite<span class="op">(</span>STATUS_LED_PIN<span class="op">,</span> HIGH<span class="op">);</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="software-safety-monitor" class="level4">
+<h4 class="anchored" data-anchor-id="software-safety-monitor">Software Safety Monitor</h4>
+<div class="sourceCode" id="cb14"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SafetyMonitor <span class="op">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    ros<span class="op">::</span>Time <span class="va">last_command_time_</span><span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> <span class="va">bumper_triggered_</span><span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">min_battery_voltage_</span><span class="op">;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> checkSafety<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Command timeout check</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">((</span>ros<span class="op">::</span>Time<span class="op">::</span>now<span class="op">()</span> <span class="op">-</span> <span class="va">last_command_time_</span><span class="op">).</span>toSec<span class="op">()</span> <span class="op">&gt;</span> COMMAND_TIMEOUT<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>            ROS_WARN<span class="op">(</span><span class="st">"Command timeout - stopping robot"</span><span class="op">);</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Bumper collision check</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span><span class="va">bumper_triggered_</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>            ROS_WARN<span class="op">(</span><span class="st">"Bumper collision detected - stopping robot"</span><span class="op">);</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Battery voltage check</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>getBatteryVoltage<span class="op">()</span> <span class="op">&lt;</span> <span class="va">min_battery_voltage_</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>            ROS_WARN<span class="op">(</span><span class="st">"Low battery voltage - stopping robot"</span><span class="op">);</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="collision-avoidance" class="level3">
+<h3 class="anchored" data-anchor-id="collision-avoidance">Collision Avoidance</h3>
+<section id="multi-layer-protection" class="level4">
+<h4 class="anchored" data-anchor-id="multi-layer-protection">Multi-layer Protection</h4>
+<ol type="1">
+<li><strong>Hardware Bumpers</strong>: Physical contact detection</li>
+<li><strong>Sensor Fusion</strong>: LiDAR + ultrasonic sensors<br>
+</li>
+<li><strong>Predictive Avoidance</strong>: Forward trajectory simulation</li>
+<li><strong>Emergency Braking</strong>: Immediate motor cutoff</li>
+</ol>
+</section>
+</section>
+</section>
+<section id="performance-monitoring" class="level2">
+<h2 class="anchored" data-anchor-id="performance-monitoring">Performance Monitoring</h2>
+<section id="system-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="system-metrics">System Metrics</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Monitor control loop performance</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> echo /arduino_serial/diagnostics</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check communication latency</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> echo /arduino_serial/latency</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Monitor motor controller status</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> echo /motor_controller/status</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># View safety system status</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> echo /safety_monitor/status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="key-performance-indicators" class="level3">
+<h3 class="anchored" data-anchor-id="key-performance-indicators">Key Performance Indicators</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Target</th>
+<th>Acceptable</th>
+<th>Critical</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Control Loop Frequency</strong></td>
+<td>&gt;100 Hz</td>
+<td>&gt;50 Hz</td>
+<td>&lt;20 Hz</td>
+</tr>
+<tr class="even">
+<td><strong>Communication Latency</strong></td>
+<td>&lt;10 ms</td>
+<td>&lt;50 ms</td>
+<td>&gt;100 ms</td>
+</tr>
+<tr class="odd">
+<td><strong>Command Response Time</strong></td>
+<td>&lt;20 ms</td>
+<td>&lt;100 ms</td>
+<td>&gt;200 ms</td>
+</tr>
+<tr class="even">
+<td><strong>Safety Check Frequency</strong></td>
+<td>&gt;50 Hz</td>
+<td>&gt;20 Hz</td>
+<td>&lt;10 Hz</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+<section id="common-hardware-issues" class="level3">
+<h3 class="anchored" data-anchor-id="common-hardware-issues">Common Hardware Issues</h3>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Communication Problems
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Symptoms:</strong> - No odometry data - Motors not responding - Serial port errors</p>
+<p><strong>Common Causes:</strong> - Incorrect serial port permissions - Baud rate mismatch - Hardware connection issues - Arduino firmware corruption</p>
+<p><strong>Solutions:</strong></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check serial port permissions</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> chmod 666 /dev/ttyUSB0</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Test serial communication</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="ex">screen</span> /dev/ttyUSB0 115200</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-upload Arduino firmware</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="ex">arduino</span> <span class="at">--upload</span> arduino_code/beebot_controller.ino</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Control Performance Issues
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Symptoms:</strong> - Jerky robot motion - Poor trajectory following - High motor current</p>
+<p><strong>Tuning Strategies:</strong> 1. Adjust PID controller gains 2. Check encoder calibration 3. Verify motor voltage supply 4. Reduce command update rate</p>
+</div>
+</div>
+</section>
+<section id="diagnostic-tools" class="level3">
+<h3 class="anchored" data-anchor-id="diagnostic-tools">Diagnostic Tools</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Arduino diagnostic output</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> printDiagnostics<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span><span class="st">"Encoders: "</span><span class="op">);</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span>left_encoder_count<span class="op">);</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span><span class="st">", "</span><span class="op">);</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>println<span class="op">(</span>right_encoder_count<span class="op">);</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span><span class="st">"Battery: "</span><span class="op">);</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span>battery_voltage<span class="op">);</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>println<span class="op">(</span><span class="st">"V"</span><span class="op">);</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span><span class="st">"Bumpers: "</span><span class="op">);</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>println<span class="op">(</span>bumper_state<span class="op">,</span> BIN<span class="op">);</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span><span class="st">"Loop freq: "</span><span class="op">);</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span>loop_frequency<span class="op">);</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>println<span class="op">(</span><span class="st">"Hz"</span><span class="op">);</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<ul>
+<li><strong><a href="arduino-interface.qmd">Arduino Interface Details →</a></strong></li>
+<li><strong><a href="remote-control.qmd">Remote Control Systems →</a></strong></li>
+<li><strong><a href="robot-eyes.qmd">Robot Eyes Display →</a></strong></li>
+<li><strong><a href="../guides/hardware-setup.qmd">Hardware Integration Guide →</a></strong></li>
+</ul>
+<hr>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Best Practices
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<section id="system-design" class="level3">
+<h3 class="anchored" data-anchor-id="system-design">System Design</h3>
+<ul>
+<li>Always implement multiple layers of safety</li>
+<li>Use watchdog timers for critical systems<br>
+</li>
+<li>Design for graceful degradation on failures</li>
+<li>Implement comprehensive error logging</li>
+</ul>
+</section>
+<section id="hardware-interface" class="level3">
+<h3 class="anchored" data-anchor-id="hardware-interface">Hardware Interface</h3>
+<ul>
+<li>Use proper signal conditioning for sensors</li>
+<li>Implement electrical isolation where needed</li>
+<li>Design robust mechanical connections</li>
+<li>Plan for maintenance and serviceability</li>
+</ul>
+</section>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb18" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Control &amp; Hardware Interface"</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Robot control systems and hardware communication"</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu"># Control &amp; Hardware Interface</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>The Control &amp; Hardware Interface subsystem manages all interactions between the high-level ROS software stack and the robot's physical hardware components. This includes motor control, sensor data acquisition, remote control interfaces, and real-time safety systems.</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Overview</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>The control system implements a layered architecture that provides both autonomous operation and manual remote control capabilities:</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="in">```mermaid</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>graph TB</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    subgraph <span class="ot">"</span><span class="st">High-Level Control</span><span class="ot">"</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>        NAV[Navigation Stack&lt;br/&gt;move_base]</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>        RC[Remote Control&lt;br/&gt;Xbox Controller]</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>        WEB[Web Interface&lt;br/&gt;MQTT Bridge]</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    end</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    subgraph <span class="ot">"</span><span class="st">Control Arbitration</span><span class="ot">"</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>        ARB[Control Arbitrator&lt;br/&gt;Priority Management]</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>        SAFETY[Safety Monitor&lt;br/&gt;Emergency Stop]</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    end</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    subgraph <span class="ot">"</span><span class="st">Hardware Interface</span><span class="ot">"</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>        SERIAL[Arduino Serial&lt;br/&gt;Communication]</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>        MQTT[MQTT Bridge&lt;br/&gt;Wireless Control]</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>        EYES[Robot Eyes&lt;br/&gt;Status Display]</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>    end</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    subgraph <span class="ot">"</span><span class="st">Hardware Layer</span><span class="ot">"</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>        ARDUINO[Arduino Controller&lt;br/&gt;Mega <span class="dv">2560</span>]</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>        MOTORS[Motor Controllers&lt;br/&gt;PWM Drivers]</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>        SENSORS[Sensor Array&lt;br/&gt;Bumpers, Encoders]</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>        DISPLAY[LED Display&lt;br/&gt;Status LEDs]</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>    end</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>    NAV --&gt; |cmd_vel| ARB</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>    RC --&gt; |joy| ARB</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>    WEB --&gt; |mqtt_cmd| ARB</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>    ARB --&gt; SERIAL</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>    ARB --&gt; MQTT</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>    SAFETY --&gt; ARB</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>    SERIAL --&gt; ARDUINO</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>    MQTT --&gt; WEB</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>    EYES --&gt; DISPLAY</span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>    ARDUINO --&gt; MOTORS</span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>    ARDUINO --&gt; SENSORS</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>    MOTORS --&gt; |PWM| MotorHW[Physical Motors]</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>    SENSORS --&gt; |Digital/Analog| SensorHW[Physical Sensors]</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>    style ARB fill:<span class="co">#e1f5fe</span></span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>    style SERIAL fill:<span class="co">#f3e5f5</span></span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>    style ARDUINO fill:<span class="co">#fff3e0</span></span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## Core Components</span></span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a><span class="fu">### [Arduino Serial Interface](arduino-interface.qmd)</span></span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>The primary hardware communication layer:</span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**High-speed Serial Communication** at 115200 baud</span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bidirectional Protocol** for commands and sensor feedback</span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Real-time Control Loop** with microsecond timing</span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Error Detection and Recovery** with CRC checking</span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a><span class="fu">### [Remote Control System](remote-control.qmd) </span></span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>Multiple remote control interfaces:</span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Xbox Controller Support** with analog stick control</span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MQTT Wireless Interface** for mobile app control</span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Web-based Control Panel** for monitoring and commands</span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Voice Control Integration** through external interfaces</span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a><span class="fu">### [Robot Eyes Display](robot-eyes.qmd)</span></span>
+<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a>Visual status and interaction system:</span>
+<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Animated LED Matrix Display** showing robot emotions and status</span>
+<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Status Indication** for operational modes and alerts</span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Interactive Feedback** responding to user interactions</span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Diagnostic Display** for system health monitoring</span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a><span class="fu">## System Architecture</span></span>
+<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a><span class="fu">### Control Flow Hierarchy</span></span>
+<span id="cb18-92"><a href="#cb18-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-93"><a href="#cb18-93" aria-hidden="true" tabindex="-1"></a><span class="in">```mermaid</span></span>
+<span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a>graph TD</span>
+<span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a>    subgraph <span class="ot">"</span><span class="st">Priority Levels</span><span class="ot">"</span></span>
+<span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a>        P1[Emergency Stop&lt;br/&gt;Priority <span class="dv">1</span>]</span>
+<span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a>        P2[Safety Systems&lt;br/&gt;Priority <span class="dv">2</span>]  </span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a>        P3[Manual Control&lt;br/&gt;Priority <span class="dv">3</span>]</span>
+<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a>        P4[Autonomous Nav&lt;br/&gt;Priority <span class="dv">4</span>]</span>
+<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a>        P5[Background Tasks&lt;br/&gt;Priority <span class="dv">5</span>]</span>
+<span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a>    end</span>
+<span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a>    subgraph <span class="ot">"</span><span class="st">Control Sources</span><span class="ot">"</span></span>
+<span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a>        ESTOP[Hardware E-Stop]</span>
+<span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a>        BUMPER[Bumper Sensors]</span>
+<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a>        XBOX[Xbox Controller]</span>
+<span id="cb18-107"><a href="#cb18-107" aria-hidden="true" tabindex="-1"></a>        MQTT[MQTT Commands]</span>
+<span id="cb18-108"><a href="#cb18-108" aria-hidden="true" tabindex="-1"></a>        MOVEBASE[move_base]</span>
+<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a>        MAINT[Maintenance]</span>
+<span id="cb18-110"><a href="#cb18-110" aria-hidden="true" tabindex="-1"></a>    end</span>
+<span id="cb18-111"><a href="#cb18-111" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-112"><a href="#cb18-112" aria-hidden="true" tabindex="-1"></a>    subgraph <span class="ot">"</span><span class="st">Hardware Output</span><span class="ot">"</span></span>
+<span id="cb18-113"><a href="#cb18-113" aria-hidden="true" tabindex="-1"></a>        PWM[Motor PWM]</span>
+<span id="cb18-114"><a href="#cb18-114" aria-hidden="true" tabindex="-1"></a>        BRAKE[Motor Brake]</span>
+<span id="cb18-115"><a href="#cb18-115" aria-hidden="true" tabindex="-1"></a>        LED[Status LEDs]</span>
+<span id="cb18-116"><a href="#cb18-116" aria-hidden="true" tabindex="-1"></a>    end</span>
+<span id="cb18-117"><a href="#cb18-117" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a>    ESTOP --&gt; P1</span>
+<span id="cb18-119"><a href="#cb18-119" aria-hidden="true" tabindex="-1"></a>    BUMPER --&gt; P2</span>
+<span id="cb18-120"><a href="#cb18-120" aria-hidden="true" tabindex="-1"></a>    XBOX --&gt; P3</span>
+<span id="cb18-121"><a href="#cb18-121" aria-hidden="true" tabindex="-1"></a>    MQTT --&gt; P3</span>
+<span id="cb18-122"><a href="#cb18-122" aria-hidden="true" tabindex="-1"></a>    MOVEBASE --&gt; P4</span>
+<span id="cb18-123"><a href="#cb18-123" aria-hidden="true" tabindex="-1"></a>    MAINT --&gt; P5</span>
+<span id="cb18-124"><a href="#cb18-124" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a>    P1 --&gt; PWM</span>
+<span id="cb18-126"><a href="#cb18-126" aria-hidden="true" tabindex="-1"></a>    P2 --&gt; BRAKE</span>
+<span id="cb18-127"><a href="#cb18-127" aria-hidden="true" tabindex="-1"></a>    P3 --&gt; PWM</span>
+<span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a>    P4 --&gt; PWM</span>
+<span id="cb18-129"><a href="#cb18-129" aria-hidden="true" tabindex="-1"></a>    P5 --&gt; LED</span>
+<span id="cb18-130"><a href="#cb18-130" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a>    style P1 fill:<span class="co">#ffebee</span></span>
+<span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a>    style P2 fill:<span class="co">#fff3e0</span></span>
+<span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a>    style P3 fill:<span class="co">#e8f5e8</span></span>
+<span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a>    style P4 fill:<span class="co">#e1f5fe</span></span>
+<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-136"><a href="#cb18-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a><span class="fu">### Real-time Performance</span></span>
+<span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-139"><a href="#cb18-139" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> System Component <span class="pp">|</span> Update Rate <span class="pp">|</span> Latency <span class="pp">|</span> Critical Path <span class="pp">|</span></span>
+<span id="cb18-140"><a href="#cb18-140" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------|-------------|---------|---------------|</span></span>
+<span id="cb18-141"><a href="#cb18-141" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Arduino Control Loop** <span class="pp">|</span> 1000 Hz <span class="pp">|</span> &lt;1 ms <span class="pp">|</span> Yes <span class="pp">|</span></span>
+<span id="cb18-142"><a href="#cb18-142" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Serial Communication** <span class="pp">|</span> 100 Hz <span class="pp">|</span> 5-10 ms <span class="pp">|</span> Yes <span class="pp">|</span></span>
+<span id="cb18-143"><a href="#cb18-143" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Xbox Controller** <span class="pp">|</span> 30 Hz <span class="pp">|</span> 15-30 ms <span class="pp">|</span> No <span class="pp">|</span></span>
+<span id="cb18-144"><a href="#cb18-144" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **MQTT Bridge** <span class="pp">|</span> 10 Hz <span class="pp">|</span> 50-100 ms <span class="pp">|</span> No <span class="pp">|</span></span>
+<span id="cb18-145"><a href="#cb18-145" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Safety Monitor** <span class="pp">|</span> 50 Hz <span class="pp">|</span> 10-20 ms <span class="pp">|</span> Yes <span class="pp">|</span></span>
+<span id="cb18-146"><a href="#cb18-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-147"><a href="#cb18-147" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hardware Interface Details</span></span>
+<span id="cb18-148"><a href="#cb18-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-149"><a href="#cb18-149" aria-hidden="true" tabindex="-1"></a><span class="fu">### Arduino Communication Protocol</span></span>
+<span id="cb18-150"><a href="#cb18-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-151"><a href="#cb18-151" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Message Format</span></span>
+<span id="cb18-152"><a href="#cb18-152" aria-hidden="true" tabindex="-1"></a><span class="in">```cpp</span></span>
+<span id="cb18-153"><a href="#cb18-153" aria-hidden="true" tabindex="-1"></a><span class="co">// Command message structure</span></span>
+<span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> MotorCommand <span class="op">{</span></span>
+<span id="cb18-155"><a href="#cb18-155" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> header<span class="op">;</span>           <span class="co">// 0xFF start byte</span></span>
+<span id="cb18-156"><a href="#cb18-156" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> <span class="dt">cmd_type</span><span class="op">;</span>         <span class="co">// Command type identifier</span></span>
+<span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int16_t</span> left_vel<span class="op">;</span>         <span class="co">// Left motor velocity (-1000 to +1000)</span></span>
+<span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int16_t</span> right_vel<span class="op">;</span>        <span class="co">// Right motor velocity (-1000 to +1000)</span></span>
+<span id="cb18-159"><a href="#cb18-159" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> checksum<span class="op">;</span>         <span class="co">// Simple XOR checksum</span></span>
+<span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb18-161"><a href="#cb18-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-162"><a href="#cb18-162" aria-hidden="true" tabindex="-1"></a><span class="co">// Sensor feedback structure  </span></span>
+<span id="cb18-163"><a href="#cb18-163" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> SensorFeedback <span class="op">{</span></span>
+<span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> header<span class="op">;</span>           <span class="co">// 0xFF start byte</span></span>
+<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> <span class="dt">sensor_type</span><span class="op">;</span>      <span class="co">// Sensor type identifier</span></span>
+<span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int32_t</span> left_encoder<span class="op">;</span>     <span class="co">// Left encoder count</span></span>
+<span id="cb18-167"><a href="#cb18-167" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int32_t</span> right_encoder<span class="op">;</span>    <span class="co">// Right encoder count</span></span>
+<span id="cb18-168"><a href="#cb18-168" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> bumper_state<span class="op">;</span>     <span class="co">// Bumper contact bits</span></span>
+<span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint16_t</span> battery_voltage<span class="op">;</span> <span class="co">// Battery voltage (mV)</span></span>
+<span id="cb18-170"><a href="#cb18-170" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> checksum<span class="op">;</span>         <span class="co">// Simple XOR checksum</span></span>
+<span id="cb18-171"><a href="#cb18-171" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb18-172"><a href="#cb18-172" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-173"><a href="#cb18-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-174"><a href="#cb18-174" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Communication Timing</span></span>
+<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
+<span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a><span class="co"># Serial communication parameters</span></span>
+<span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a><span class="fu">baud_rate</span><span class="kw">:</span><span class="at"> </span><span class="dv">115200</span><span class="co">              # Bits per second</span></span>
+<span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a><span class="fu">data_bits</span><span class="kw">:</span><span class="at"> </span><span class="dv">8</span><span class="co">                   # Data bits per byte</span></span>
+<span id="cb18-179"><a href="#cb18-179" aria-hidden="true" tabindex="-1"></a><span class="fu">parity</span><span class="kw">:</span><span class="at"> none</span><span class="co">                   # No parity bit</span></span>
+<span id="cb18-180"><a href="#cb18-180" aria-hidden="true" tabindex="-1"></a><span class="fu">stop_bits</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="co">                   # Stop bits</span></span>
+<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a><span class="fu">flow_control</span><span class="kw">:</span><span class="at"> none</span><span class="co">             # No hardware flow control</span></span>
+<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-183"><a href="#cb18-183" aria-hidden="true" tabindex="-1"></a><span class="co"># Timing parameters</span></span>
+<span id="cb18-184"><a href="#cb18-184" aria-hidden="true" tabindex="-1"></a><span class="fu">command_timeout</span><span class="kw">:</span><span class="at"> </span><span class="dv">100</span><span class="co">           # Command timeout (ms)</span></span>
+<span id="cb18-185"><a href="#cb18-185" aria-hidden="true" tabindex="-1"></a><span class="fu">sensor_update_rate</span><span class="kw">:</span><span class="at"> </span><span class="dv">100</span><span class="co">        # Sensor feedback rate (Hz)</span></span>
+<span id="cb18-186"><a href="#cb18-186" aria-hidden="true" tabindex="-1"></a><span class="fu">connection_timeout</span><span class="kw">:</span><span class="at"> </span><span class="dv">1000</span><span class="co">       # Connection timeout (ms)</span></span>
+<span id="cb18-187"><a href="#cb18-187" aria-hidden="true" tabindex="-1"></a><span class="fu">retry_attempts</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span><span class="co">              # Communication retry count</span></span>
+<span id="cb18-188"><a href="#cb18-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-189"><a href="#cb18-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-190"><a href="#cb18-190" aria-hidden="true" tabindex="-1"></a><span class="fu">### Motor Control System</span></span>
+<span id="cb18-191"><a href="#cb18-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-192"><a href="#cb18-192" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Differential Drive Configuration</span></span>
+<span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a><span class="in">```cpp</span></span>
+<span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a><span class="co">// Robot physical parameters</span></span>
+<span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">double</span> WHEEL_BASE <span class="op">=</span> <span class="fl">0.35</span><span class="op">;</span>        <span class="co">// Distance between wheels (m)</span></span>
+<span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">double</span> WHEEL_RADIUS <span class="op">=</span> <span class="fl">0.075</span><span class="op">;</span>     <span class="co">// Wheel radius (m)  </span></span>
+<span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">double</span> MAX_LINEAR_VEL <span class="op">=</span> <span class="fl">1.0</span><span class="op">;</span>     <span class="co">// Maximum linear velocity (m/s)</span></span>
+<span id="cb18-198"><a href="#cb18-198" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">double</span> MAX_ANGULAR_VEL <span class="op">=</span> <span class="fl">2.0</span><span class="op">;</span>    <span class="co">// Maximum angular velocity (rad/s)</span></span>
+<span id="cb18-199"><a href="#cb18-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-200"><a href="#cb18-200" aria-hidden="true" tabindex="-1"></a><span class="co">// Convert twist to wheel velocities</span></span>
+<span id="cb18-201"><a href="#cb18-201" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> twistToWheelVelocities<span class="op">(</span><span class="at">const</span> geometry_msgs<span class="op">::</span>Twist<span class="op">&amp;</span> twist<span class="op">,</span> </span>
+<span id="cb18-202"><a href="#cb18-202" aria-hidden="true" tabindex="-1"></a>                           <span class="dt">double</span><span class="op">&amp;</span> left_vel<span class="op">,</span> <span class="dt">double</span><span class="op">&amp;</span> right_vel<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-203"><a href="#cb18-203" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> v <span class="op">=</span> twist<span class="op">.</span>linear<span class="op">.</span>x<span class="op">;</span>          <span class="co">// Linear velocity</span></span>
+<span id="cb18-204"><a href="#cb18-204" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> w <span class="op">=</span> twist<span class="op">.</span>angular<span class="op">.</span>z<span class="op">;</span>         <span class="co">// Angular velocity</span></span>
+<span id="cb18-205"><a href="#cb18-205" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-206"><a href="#cb18-206" aria-hidden="true" tabindex="-1"></a>    left_vel <span class="op">=</span> <span class="op">(</span>v <span class="op">-</span> w <span class="op">*</span> WHEEL_BASE <span class="op">/</span> <span class="fl">2.0</span><span class="op">)</span> <span class="op">/</span> WHEEL_RADIUS<span class="op">;</span></span>
+<span id="cb18-207"><a href="#cb18-207" aria-hidden="true" tabindex="-1"></a>    right_vel <span class="op">=</span> <span class="op">(</span>v <span class="op">+</span> w <span class="op">*</span> WHEEL_BASE <span class="op">/</span> <span class="fl">2.0</span><span class="op">)</span> <span class="op">/</span> WHEEL_RADIUS<span class="op">;</span></span>
+<span id="cb18-208"><a href="#cb18-208" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb18-209"><a href="#cb18-209" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-210"><a href="#cb18-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-211"><a href="#cb18-211" aria-hidden="true" tabindex="-1"></a><span class="fu">#### PID Control Implementation</span></span>
+<span id="cb18-212"><a href="#cb18-212" aria-hidden="true" tabindex="-1"></a><span class="in">```cpp</span></span>
+<span id="cb18-213"><a href="#cb18-213" aria-hidden="true" tabindex="-1"></a><span class="co">// PID controller for each motor</span></span>
+<span id="cb18-214"><a href="#cb18-214" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MotorPID <span class="op">{</span></span>
+<span id="cb18-215"><a href="#cb18-215" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb18-216"><a href="#cb18-216" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">kp_</span><span class="op">,</span> <span class="va">ki_</span><span class="op">,</span> <span class="va">kd_</span><span class="op">;</span>               <span class="co">// PID gains</span></span>
+<span id="cb18-217"><a href="#cb18-217" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">prev_error_</span><span class="op">;</span>                 <span class="co">// Previous error</span></span>
+<span id="cb18-218"><a href="#cb18-218" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">integral_</span><span class="op">;</span>                   <span class="co">// Error integral</span></span>
+<span id="cb18-219"><a href="#cb18-219" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">output_min_</span><span class="op">,</span> <span class="va">output_max_</span><span class="op">;</span>    <span class="co">// Output limits</span></span>
+<span id="cb18-220"><a href="#cb18-220" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-221"><a href="#cb18-221" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb18-222"><a href="#cb18-222" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> compute<span class="op">(</span><span class="dt">double</span> setpoint<span class="op">,</span> <span class="dt">double</span> measured<span class="op">,</span> <span class="dt">double</span> dt<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-223"><a href="#cb18-223" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> error <span class="op">=</span> setpoint <span class="op">-</span> measured<span class="op">;</span></span>
+<span id="cb18-224"><a href="#cb18-224" aria-hidden="true" tabindex="-1"></a>        <span class="va">integral_</span> <span class="op">+=</span> error <span class="op">*</span> dt<span class="op">;</span></span>
+<span id="cb18-225"><a href="#cb18-225" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> derivative <span class="op">=</span> <span class="op">(</span>error <span class="op">-</span> <span class="va">prev_error_</span><span class="op">)</span> <span class="op">/</span> dt<span class="op">;</span></span>
+<span id="cb18-226"><a href="#cb18-226" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-227"><a href="#cb18-227" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> output <span class="op">=</span> <span class="va">kp_</span> <span class="op">*</span> error <span class="op">+</span> <span class="va">ki_</span> <span class="op">*</span> <span class="va">integral_</span> <span class="op">+</span> <span class="va">kd_</span> <span class="op">*</span> derivative<span class="op">;</span></span>
+<span id="cb18-228"><a href="#cb18-228" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> constrain<span class="op">(</span>output<span class="op">,</span> <span class="va">output_min_</span><span class="op">,</span> <span class="va">output_max_</span><span class="op">);</span></span>
+<span id="cb18-229"><a href="#cb18-229" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-230"><a href="#cb18-230" aria-hidden="true" tabindex="-1"></a>        <span class="va">prev_error_</span> <span class="op">=</span> error<span class="op">;</span></span>
+<span id="cb18-231"><a href="#cb18-231" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> output<span class="op">;</span></span>
+<span id="cb18-232"><a href="#cb18-232" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb18-233"><a href="#cb18-233" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb18-234"><a href="#cb18-234" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-235"><a href="#cb18-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-236"><a href="#cb18-236" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sensor Integration</span></span>
+<span id="cb18-237"><a href="#cb18-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-238"><a href="#cb18-238" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Encoder Feedback Processing</span></span>
+<span id="cb18-239"><a href="#cb18-239" aria-hidden="true" tabindex="-1"></a><span class="in">```cpp</span></span>
+<span id="cb18-240"><a href="#cb18-240" aria-hidden="true" tabindex="-1"></a><span class="co">// Odometry calculation from encoder data</span></span>
+<span id="cb18-241"><a href="#cb18-241" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> OdometryCalculator <span class="op">{</span></span>
+<span id="cb18-242"><a href="#cb18-242" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb18-243"><a href="#cb18-243" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int32_t</span> <span class="va">last_left_ticks_</span><span class="op">,</span> <span class="va">last_right_ticks_</span><span class="op">;</span></span>
+<span id="cb18-244"><a href="#cb18-244" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">x_</span><span class="op">,</span> <span class="va">y_</span><span class="op">,</span> <span class="va">theta_</span><span class="op">;</span>              <span class="co">// Robot pose</span></span>
+<span id="cb18-245"><a href="#cb18-245" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> <span class="dt">int</span> TICKS_PER_REV <span class="op">=</span> <span class="dv">1440</span><span class="op">;</span>    <span class="co">// Encoder resolution</span></span>
+<span id="cb18-246"><a href="#cb18-246" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-247"><a href="#cb18-247" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb18-248"><a href="#cb18-248" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> updateOdometry<span class="op">(</span><span class="dt">int32_t</span> left_ticks<span class="op">,</span> <span class="dt">int32_t</span> right_ticks<span class="op">,</span> <span class="dt">double</span> dt<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-249"><a href="#cb18-249" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Calculate wheel distances</span></span>
+<span id="cb18-250"><a href="#cb18-250" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int32_t</span> delta_left <span class="op">=</span> left_ticks <span class="op">-</span> <span class="va">last_left_ticks_</span><span class="op">;</span></span>
+<span id="cb18-251"><a href="#cb18-251" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int32_t</span> delta_right <span class="op">=</span> right_ticks <span class="op">-</span> <span class="va">last_right_ticks_</span><span class="op">;</span></span>
+<span id="cb18-252"><a href="#cb18-252" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-253"><a href="#cb18-253" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> left_dist <span class="op">=</span> <span class="op">(</span>delta_left <span class="op">*</span> <span class="fl">2.0</span> <span class="op">*</span> M_PI <span class="op">*</span> WHEEL_RADIUS<span class="op">)</span> <span class="op">/</span> TICKS_PER_REV<span class="op">;</span></span>
+<span id="cb18-254"><a href="#cb18-254" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> right_dist <span class="op">=</span> <span class="op">(</span>delta_right <span class="op">*</span> <span class="fl">2.0</span> <span class="op">*</span> M_PI <span class="op">*</span> WHEEL_RADIUS<span class="op">)</span> <span class="op">/</span> TICKS_PER_REV<span class="op">;</span></span>
+<span id="cb18-255"><a href="#cb18-255" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-256"><a href="#cb18-256" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Calculate robot motion</span></span>
+<span id="cb18-257"><a href="#cb18-257" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> distance <span class="op">=</span> <span class="op">(</span>left_dist <span class="op">+</span> right_dist<span class="op">)</span> <span class="op">/</span> <span class="fl">2.0</span><span class="op">;</span></span>
+<span id="cb18-258"><a href="#cb18-258" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> delta_theta <span class="op">=</span> <span class="op">(</span>right_dist <span class="op">-</span> left_dist<span class="op">)</span> <span class="op">/</span> WHEEL_BASE<span class="op">;</span></span>
+<span id="cb18-259"><a href="#cb18-259" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-260"><a href="#cb18-260" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Update pose</span></span>
+<span id="cb18-261"><a href="#cb18-261" aria-hidden="true" tabindex="-1"></a>        <span class="va">theta_</span> <span class="op">+=</span> delta_theta<span class="op">;</span></span>
+<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a>        <span class="va">x_</span> <span class="op">+=</span> distance <span class="op">*</span> cos<span class="op">(</span><span class="va">theta_</span><span class="op">);</span></span>
+<span id="cb18-263"><a href="#cb18-263" aria-hidden="true" tabindex="-1"></a>        <span class="va">y_</span> <span class="op">+=</span> distance <span class="op">*</span> sin<span class="op">(</span><span class="va">theta_</span><span class="op">);</span></span>
+<span id="cb18-264"><a href="#cb18-264" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-265"><a href="#cb18-265" aria-hidden="true" tabindex="-1"></a>        <span class="va">last_left_ticks_</span> <span class="op">=</span> left_ticks<span class="op">;</span></span>
+<span id="cb18-266"><a href="#cb18-266" aria-hidden="true" tabindex="-1"></a>        <span class="va">last_right_ticks_</span> <span class="op">=</span> right_ticks<span class="op">;</span></span>
+<span id="cb18-267"><a href="#cb18-267" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb18-268"><a href="#cb18-268" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb18-269"><a href="#cb18-269" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-270"><a href="#cb18-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-271"><a href="#cb18-271" aria-hidden="true" tabindex="-1"></a><span class="fu">## Configuration</span></span>
+<span id="cb18-272"><a href="#cb18-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-273"><a href="#cb18-273" aria-hidden="true" tabindex="-1"></a><span class="fu">### Launch Files and Parameters</span></span>
+<span id="cb18-274"><a href="#cb18-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-275"><a href="#cb18-275" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Arduino Serial Interface</span></span>
+<span id="cb18-276"><a href="#cb18-276" aria-hidden="true" tabindex="-1"></a><span class="in">```xml</span></span>
+<span id="cb18-277"><a href="#cb18-277" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">launch</span>&gt;</span>
+<span id="cb18-278"><a href="#cb18-278" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Arduino serial communication --&gt;</span></span>
+<span id="cb18-279"><a href="#cb18-279" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">node</span><span class="ot"> name=</span><span class="st">"arduino_serial"</span><span class="ot"> pkg=</span><span class="st">"arduino_serial"</span><span class="ot"> type=</span><span class="st">"arduino_serial_node"</span><span class="ot"> output=</span><span class="st">"screen"</span>&gt;</span>
+<span id="cb18-280"><a href="#cb18-280" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Serial port configuration --&gt;</span></span>
+<span id="cb18-281"><a href="#cb18-281" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"port"</span><span class="ot"> value=</span><span class="st">"/dev/ttyUSB0"</span>/&gt;</span>
+<span id="cb18-282"><a href="#cb18-282" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"baud"</span><span class="ot"> value=</span><span class="st">"115200"</span>/&gt;</span>
+<span id="cb18-283"><a href="#cb18-283" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-284"><a href="#cb18-284" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Robot parameters --&gt;</span></span>
+<span id="cb18-285"><a href="#cb18-285" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"wheel_base"</span><span class="ot"> value=</span><span class="st">"0.35"</span>/&gt;</span>
+<span id="cb18-286"><a href="#cb18-286" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"wheel_radius"</span><span class="ot"> value=</span><span class="st">"0.075"</span>/&gt;</span>
+<span id="cb18-287"><a href="#cb18-287" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"ticks_per_revolution"</span><span class="ot"> value=</span><span class="st">"1440"</span>/&gt;</span>
+<span id="cb18-288"><a href="#cb18-288" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-289"><a href="#cb18-289" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Control parameters --&gt;</span></span>
+<span id="cb18-290"><a href="#cb18-290" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"timeout"</span><span class="ot"> value=</span><span class="st">"1.0"</span>/&gt;</span>
+<span id="cb18-291"><a href="#cb18-291" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"publish_odom"</span><span class="ot"> value=</span><span class="st">"true"</span>/&gt;</span>
+<span id="cb18-292"><a href="#cb18-292" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"publish_tf"</span><span class="ot"> value=</span><span class="st">"true"</span>/&gt;</span>
+<span id="cb18-293"><a href="#cb18-293" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-294"><a href="#cb18-294" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- PID parameters --&gt;</span></span>
+<span id="cb18-295"><a href="#cb18-295" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"pid_kp"</span><span class="ot"> value=</span><span class="st">"1.0"</span>/&gt;</span>
+<span id="cb18-296"><a href="#cb18-296" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"pid_ki"</span><span class="ot"> value=</span><span class="st">"0.1"</span>/&gt;</span>
+<span id="cb18-297"><a href="#cb18-297" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">param</span><span class="ot"> name=</span><span class="st">"pid_kd"</span><span class="ot"> value=</span><span class="st">"0.05"</span>/&gt;</span>
+<span id="cb18-298"><a href="#cb18-298" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">node</span>&gt;</span>
+<span id="cb18-299"><a href="#cb18-299" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">launch</span>&gt;</span>
+<span id="cb18-300"><a href="#cb18-300" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-301"><a href="#cb18-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-302"><a href="#cb18-302" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Remote Control Configuration</span></span>
+<span id="cb18-303"><a href="#cb18-303" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
+<span id="cb18-304"><a href="#cb18-304" aria-hidden="true" tabindex="-1"></a><span class="co"># Xbox controller mapping</span></span>
+<span id="cb18-305"><a href="#cb18-305" aria-hidden="true" tabindex="-1"></a><span class="fu">controller_config</span><span class="kw">:</span></span>
+<span id="cb18-306"><a href="#cb18-306" aria-hidden="true" tabindex="-1"></a><span class="co">  # Axis mappings</span></span>
+<span id="cb18-307"><a href="#cb18-307" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">linear_axis</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="co">              # Left stick vertical (forward/backward)</span></span>
+<span id="cb18-308"><a href="#cb18-308" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">angular_axis</span><span class="kw">:</span><span class="at"> </span><span class="dv">0</span><span class="co">             # Right stick horizontal (turn)</span></span>
+<span id="cb18-309"><a href="#cb18-309" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb18-310"><a href="#cb18-310" aria-hidden="true" tabindex="-1"></a><span class="co">  # Button mappings  </span></span>
+<span id="cb18-311"><a href="#cb18-311" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">deadman_button</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span><span class="co">           # Left shoulder button (LB)</span></span>
+<span id="cb18-312"><a href="#cb18-312" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">turbo_button</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span><span class="co">             # Right shoulder button (RB)</span></span>
+<span id="cb18-313"><a href="#cb18-313" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">mode_button</span><span class="kw">:</span><span class="at"> </span><span class="dv">6</span><span class="co">              # Back button (mode switch)</span></span>
+<span id="cb18-314"><a href="#cb18-314" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">estop_button</span><span class="kw">:</span><span class="at"> </span><span class="dv">7</span><span class="co">             # Start button (emergency stop)</span></span>
+<span id="cb18-315"><a href="#cb18-315" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb18-316"><a href="#cb18-316" aria-hidden="true" tabindex="-1"></a><span class="co">  # Velocity scaling</span></span>
+<span id="cb18-317"><a href="#cb18-317" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">max_linear_vel</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.8</span><span class="co">         # Maximum linear velocity (m/s)</span></span>
+<span id="cb18-318"><a href="#cb18-318" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">max_angular_vel</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.5</span><span class="co">        # Maximum angular velocity (rad/s)</span></span>
+<span id="cb18-319"><a href="#cb18-319" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">turbo_multiplier</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.5</span><span class="co">       # Turbo mode velocity multiplier</span></span>
+<span id="cb18-320"><a href="#cb18-320" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb18-321"><a href="#cb18-321" aria-hidden="true" tabindex="-1"></a><span class="co">  # Deadzone and filtering</span></span>
+<span id="cb18-322"><a href="#cb18-322" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">deadzone</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.1</span><span class="co">               # Joystick deadzone</span></span>
+<span id="cb18-323"><a href="#cb18-323" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filter_alpha</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.8</span><span class="co">           # Low-pass filter coefficient</span></span>
+<span id="cb18-324"><a href="#cb18-324" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-325"><a href="#cb18-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-326"><a href="#cb18-326" aria-hidden="true" tabindex="-1"></a><span class="fu">#### MQTT Bridge Configuration</span></span>
+<span id="cb18-327"><a href="#cb18-327" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
+<span id="cb18-328"><a href="#cb18-328" aria-hidden="true" tabindex="-1"></a><span class="co"># MQTT broker configuration</span></span>
+<span id="cb18-329"><a href="#cb18-329" aria-hidden="true" tabindex="-1"></a><span class="fu">mqtt_config</span><span class="kw">:</span></span>
+<span id="cb18-330"><a href="#cb18-330" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">broker_host</span><span class="kw">:</span><span class="at"> </span><span class="st">"localhost"</span><span class="co">    # MQTT broker address</span></span>
+<span id="cb18-331"><a href="#cb18-331" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">broker_port</span><span class="kw">:</span><span class="at"> </span><span class="dv">1883</span><span class="co">           # MQTT broker port</span></span>
+<span id="cb18-332"><a href="#cb18-332" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">client_id</span><span class="kw">:</span><span class="at"> </span><span class="st">"beebot_control"</span><span class="co"> # MQTT client identifier</span></span>
+<span id="cb18-333"><a href="#cb18-333" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb18-334"><a href="#cb18-334" aria-hidden="true" tabindex="-1"></a><span class="co">  # Topic configuration</span></span>
+<span id="cb18-335"><a href="#cb18-335" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">command_topic</span><span class="kw">:</span><span class="at"> </span><span class="st">"beebot/cmd_vel"</span><span class="co">       # Command input topic</span></span>
+<span id="cb18-336"><a href="#cb18-336" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">status_topic</span><span class="kw">:</span><span class="at"> </span><span class="st">"beebot/status"</span><span class="co">         # Status output topic</span></span>
+<span id="cb18-337"><a href="#cb18-337" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">odom_topic</span><span class="kw">:</span><span class="at"> </span><span class="st">"beebot/odom"</span><span class="co">            # Odometry output topic</span></span>
+<span id="cb18-338"><a href="#cb18-338" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb18-339"><a href="#cb18-339" aria-hidden="true" tabindex="-1"></a><span class="co">  # Connection parameters</span></span>
+<span id="cb18-340"><a href="#cb18-340" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">keep_alive</span><span class="kw">:</span><span class="at"> </span><span class="dv">60</span><span class="co">              # Keep alive interval (s)</span></span>
+<span id="cb18-341"><a href="#cb18-341" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">qos_level</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="co">               # Quality of service level</span></span>
+<span id="cb18-342"><a href="#cb18-342" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">retain</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span><span class="co">              # Retain messages</span></span>
+<span id="cb18-343"><a href="#cb18-343" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb18-344"><a href="#cb18-344" aria-hidden="true" tabindex="-1"></a><span class="co">  # Security (if enabled)</span></span>
+<span id="cb18-345"><a href="#cb18-345" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">use_auth</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span><span class="co">            # Enable authentication</span></span>
+<span id="cb18-346"><a href="#cb18-346" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">username</span><span class="kw">:</span><span class="at"> </span><span class="st">""</span><span class="co">               # MQTT username</span></span>
+<span id="cb18-347"><a href="#cb18-347" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">password</span><span class="kw">:</span><span class="at"> </span><span class="st">""</span><span class="co">               # MQTT password</span></span>
+<span id="cb18-348"><a href="#cb18-348" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-349"><a href="#cb18-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-350"><a href="#cb18-350" aria-hidden="true" tabindex="-1"></a><span class="fu">### Hardware-Specific Parameters</span></span>
+<span id="cb18-351"><a href="#cb18-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-352"><a href="#cb18-352" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Motor Controller Settings</span></span>
+<span id="cb18-353"><a href="#cb18-353" aria-hidden="true" tabindex="-1"></a><span class="in">```cpp</span></span>
+<span id="cb18-354"><a href="#cb18-354" aria-hidden="true" tabindex="-1"></a><span class="co">// Motor controller configuration</span></span>
+<span id="cb18-355"><a href="#cb18-355" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MOTOR_PWM_FREQUENCY </span><span class="dv">20000</span><span class="pp">      </span><span class="co">// 20 kHz PWM frequency</span></span>
+<span id="cb18-356"><a href="#cb18-356" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MOTOR_PWM_RESOLUTION </span><span class="dv">12</span><span class="pp">        </span><span class="co">// 12-bit PWM resolution (0-4095)</span></span>
+<span id="cb18-357"><a href="#cb18-357" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MOTOR_BRAKE_PIN_LEFT </span><span class="dv">22</span><span class="pp">        </span><span class="co">// Left motor brake pin</span></span>
+<span id="cb18-358"><a href="#cb18-358" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MOTOR_BRAKE_PIN_RIGHT </span><span class="dv">23</span><span class="pp">       </span><span class="co">// Right motor brake pin</span></span>
+<span id="cb18-359"><a href="#cb18-359" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MOTOR_CURRENT_SENSE_LEFT </span>A0<span class="pp">    </span><span class="co">// Left motor current sense</span></span>
+<span id="cb18-360"><a href="#cb18-360" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MOTOR_CURRENT_SENSE_RIGHT </span>A1<span class="pp">   </span><span class="co">// Right motor current sense</span></span>
+<span id="cb18-361"><a href="#cb18-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-362"><a href="#cb18-362" aria-hidden="true" tabindex="-1"></a><span class="co">// Current limiting</span></span>
+<span id="cb18-363"><a href="#cb18-363" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MAX_MOTOR_CURRENT </span><span class="fl">5.0</span><span class="pp">          </span><span class="co">// Maximum motor current (A)</span></span>
+<span id="cb18-364"><a href="#cb18-364" aria-hidden="true" tabindex="-1"></a><span class="pp">#define CURRENT_LIMIT_TIME </span><span class="dv">100</span><span class="pp">         </span><span class="co">// Current limit duration (ms)</span></span>
+<span id="cb18-365"><a href="#cb18-365" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-366"><a href="#cb18-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-367"><a href="#cb18-367" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Sensor Pin Configuration</span></span>
+<span id="cb18-368"><a href="#cb18-368" aria-hidden="true" tabindex="-1"></a><span class="in">```cpp</span></span>
+<span id="cb18-369"><a href="#cb18-369" aria-hidden="true" tabindex="-1"></a><span class="co">// Encoder connections</span></span>
+<span id="cb18-370"><a href="#cb18-370" aria-hidden="true" tabindex="-1"></a><span class="pp">#define ENCODER_LEFT_A </span><span class="dv">2</span><span class="pp">               </span><span class="co">// Left encoder channel A (interrupt)</span></span>
+<span id="cb18-371"><a href="#cb18-371" aria-hidden="true" tabindex="-1"></a><span class="pp">#define ENCODER_LEFT_B </span><span class="dv">3</span><span class="pp">               </span><span class="co">// Left encoder channel B</span></span>
+<span id="cb18-372"><a href="#cb18-372" aria-hidden="true" tabindex="-1"></a><span class="pp">#define ENCODER_RIGHT_A </span><span class="dv">18</span><span class="pp">             </span><span class="co">// Right encoder channel A (interrupt)  </span></span>
+<span id="cb18-373"><a href="#cb18-373" aria-hidden="true" tabindex="-1"></a><span class="pp">#define ENCODER_RIGHT_B </span><span class="dv">19</span><span class="pp">             </span><span class="co">// Right encoder channel B</span></span>
+<span id="cb18-374"><a href="#cb18-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-375"><a href="#cb18-375" aria-hidden="true" tabindex="-1"></a><span class="co">// Bumper sensors</span></span>
+<span id="cb18-376"><a href="#cb18-376" aria-hidden="true" tabindex="-1"></a><span class="pp">#define BUMPER_FRONT_LEFT </span><span class="dv">4</span><span class="pp">            </span><span class="co">// Front left bumper</span></span>
+<span id="cb18-377"><a href="#cb18-377" aria-hidden="true" tabindex="-1"></a><span class="pp">#define BUMPER_FRONT_RIGHT </span><span class="dv">5</span><span class="pp">           </span><span class="co">// Front right bumper</span></span>
+<span id="cb18-378"><a href="#cb18-378" aria-hidden="true" tabindex="-1"></a><span class="pp">#define BUMPER_REAR_LEFT </span><span class="dv">6</span><span class="pp">             </span><span class="co">// Rear left bumper</span></span>
+<span id="cb18-379"><a href="#cb18-379" aria-hidden="true" tabindex="-1"></a><span class="pp">#define BUMPER_REAR_RIGHT </span><span class="dv">7</span><span class="pp">            </span><span class="co">// Rear right bumper</span></span>
+<span id="cb18-380"><a href="#cb18-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-381"><a href="#cb18-381" aria-hidden="true" tabindex="-1"></a><span class="co">// Status indicators</span></span>
+<span id="cb18-382"><a href="#cb18-382" aria-hidden="true" tabindex="-1"></a><span class="pp">#define STATUS_LED_PIN </span><span class="dv">13</span><span class="pp">              </span><span class="co">// Status LED (built-in)</span></span>
+<span id="cb18-383"><a href="#cb18-383" aria-hidden="true" tabindex="-1"></a><span class="pp">#define BUZZER_PIN </span><span class="dv">8</span><span class="pp">                   </span><span class="co">// Status buzzer</span></span>
+<span id="cb18-384"><a href="#cb18-384" aria-hidden="true" tabindex="-1"></a><span class="pp">#define BATTERY_SENSE_PIN </span>A2<span class="pp">           </span><span class="co">// Battery voltage sense</span></span>
+<span id="cb18-385"><a href="#cb18-385" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-386"><a href="#cb18-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-387"><a href="#cb18-387" aria-hidden="true" tabindex="-1"></a><span class="fu">## Safety Systems</span></span>
+<span id="cb18-388"><a href="#cb18-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-389"><a href="#cb18-389" aria-hidden="true" tabindex="-1"></a><span class="fu">### Emergency Stop Implementation</span></span>
+<span id="cb18-390"><a href="#cb18-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-391"><a href="#cb18-391" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Hardware E-Stop</span></span>
+<span id="cb18-392"><a href="#cb18-392" aria-hidden="true" tabindex="-1"></a><span class="in">```cpp</span></span>
+<span id="cb18-393"><a href="#cb18-393" aria-hidden="true" tabindex="-1"></a><span class="co">// Emergency stop interrupt handler</span></span>
+<span id="cb18-394"><a href="#cb18-394" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> emergencyStopISR<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb18-395"><a href="#cb18-395" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Immediately stop all motors</span></span>
+<span id="cb18-396"><a href="#cb18-396" aria-hidden="true" tabindex="-1"></a>    digitalWrite<span class="op">(</span>MOTOR_BRAKE_PIN_LEFT<span class="op">,</span> HIGH<span class="op">);</span></span>
+<span id="cb18-397"><a href="#cb18-397" aria-hidden="true" tabindex="-1"></a>    digitalWrite<span class="op">(</span>MOTOR_BRAKE_PIN_RIGHT<span class="op">,</span> HIGH<span class="op">);</span></span>
+<span id="cb18-398"><a href="#cb18-398" aria-hidden="true" tabindex="-1"></a>    analogWrite<span class="op">(</span>MOTOR_PWM_LEFT<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb18-399"><a href="#cb18-399" aria-hidden="true" tabindex="-1"></a>    analogWrite<span class="op">(</span>MOTOR_PWM_RIGHT<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb18-400"><a href="#cb18-400" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-401"><a href="#cb18-401" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Set emergency stop flag</span></span>
+<span id="cb18-402"><a href="#cb18-402" aria-hidden="true" tabindex="-1"></a>    emergency_stop_active <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb18-403"><a href="#cb18-403" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-404"><a href="#cb18-404" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Flash status LED</span></span>
+<span id="cb18-405"><a href="#cb18-405" aria-hidden="true" tabindex="-1"></a>    digitalWrite<span class="op">(</span>STATUS_LED_PIN<span class="op">,</span> HIGH<span class="op">);</span></span>
+<span id="cb18-406"><a href="#cb18-406" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb18-407"><a href="#cb18-407" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-408"><a href="#cb18-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-409"><a href="#cb18-409" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Software Safety Monitor</span></span>
+<span id="cb18-410"><a href="#cb18-410" aria-hidden="true" tabindex="-1"></a><span class="in">```cpp</span></span>
+<span id="cb18-411"><a href="#cb18-411" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SafetyMonitor <span class="op">{</span></span>
+<span id="cb18-412"><a href="#cb18-412" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb18-413"><a href="#cb18-413" aria-hidden="true" tabindex="-1"></a>    ros<span class="op">::</span>Time <span class="va">last_command_time_</span><span class="op">;</span></span>
+<span id="cb18-414"><a href="#cb18-414" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> <span class="va">bumper_triggered_</span><span class="op">;</span></span>
+<span id="cb18-415"><a href="#cb18-415" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">min_battery_voltage_</span><span class="op">;</span></span>
+<span id="cb18-416"><a href="#cb18-416" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-417"><a href="#cb18-417" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb18-418"><a href="#cb18-418" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> checkSafety<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb18-419"><a href="#cb18-419" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Command timeout check</span></span>
+<span id="cb18-420"><a href="#cb18-420" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">((</span>ros<span class="op">::</span>Time<span class="op">::</span>now<span class="op">()</span> <span class="op">-</span> <span class="va">last_command_time_</span><span class="op">).</span>toSec<span class="op">()</span> <span class="op">&gt;</span> COMMAND_TIMEOUT<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-421"><a href="#cb18-421" aria-hidden="true" tabindex="-1"></a>            ROS_WARN<span class="op">(</span><span class="st">"Command timeout - stopping robot"</span><span class="op">);</span></span>
+<span id="cb18-422"><a href="#cb18-422" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb18-423"><a href="#cb18-423" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb18-424"><a href="#cb18-424" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-425"><a href="#cb18-425" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Bumper collision check</span></span>
+<span id="cb18-426"><a href="#cb18-426" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span><span class="va">bumper_triggered_</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-427"><a href="#cb18-427" aria-hidden="true" tabindex="-1"></a>            ROS_WARN<span class="op">(</span><span class="st">"Bumper collision detected - stopping robot"</span><span class="op">);</span></span>
+<span id="cb18-428"><a href="#cb18-428" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb18-429"><a href="#cb18-429" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb18-430"><a href="#cb18-430" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-431"><a href="#cb18-431" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Battery voltage check</span></span>
+<span id="cb18-432"><a href="#cb18-432" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>getBatteryVoltage<span class="op">()</span> <span class="op">&lt;</span> <span class="va">min_battery_voltage_</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-433"><a href="#cb18-433" aria-hidden="true" tabindex="-1"></a>            ROS_WARN<span class="op">(</span><span class="st">"Low battery voltage - stopping robot"</span><span class="op">);</span></span>
+<span id="cb18-434"><a href="#cb18-434" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb18-435"><a href="#cb18-435" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb18-436"><a href="#cb18-436" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-437"><a href="#cb18-437" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb18-438"><a href="#cb18-438" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb18-439"><a href="#cb18-439" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb18-440"><a href="#cb18-440" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-441"><a href="#cb18-441" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-442"><a href="#cb18-442" aria-hidden="true" tabindex="-1"></a><span class="fu">### Collision Avoidance</span></span>
+<span id="cb18-443"><a href="#cb18-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-444"><a href="#cb18-444" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Multi-layer Protection</span></span>
+<span id="cb18-445"><a href="#cb18-445" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Hardware Bumpers**: Physical contact detection</span>
+<span id="cb18-446"><a href="#cb18-446" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Sensor Fusion**: LiDAR + ultrasonic sensors  </span>
+<span id="cb18-447"><a href="#cb18-447" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Predictive Avoidance**: Forward trajectory simulation</span>
+<span id="cb18-448"><a href="#cb18-448" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Emergency Braking**: Immediate motor cutoff</span>
+<span id="cb18-449"><a href="#cb18-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-450"><a href="#cb18-450" aria-hidden="true" tabindex="-1"></a><span class="fu">## Performance Monitoring</span></span>
+<span id="cb18-451"><a href="#cb18-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-452"><a href="#cb18-452" aria-hidden="true" tabindex="-1"></a><span class="fu">### System Metrics</span></span>
+<span id="cb18-453"><a href="#cb18-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-454"><a href="#cb18-454" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb18-455"><a href="#cb18-455" aria-hidden="true" tabindex="-1"></a><span class="co"># Monitor control loop performance</span></span>
+<span id="cb18-456"><a href="#cb18-456" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> echo /arduino_serial/diagnostics</span>
+<span id="cb18-457"><a href="#cb18-457" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-458"><a href="#cb18-458" aria-hidden="true" tabindex="-1"></a><span class="co"># Check communication latency</span></span>
+<span id="cb18-459"><a href="#cb18-459" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> echo /arduino_serial/latency</span>
+<span id="cb18-460"><a href="#cb18-460" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-461"><a href="#cb18-461" aria-hidden="true" tabindex="-1"></a><span class="co"># Monitor motor controller status</span></span>
+<span id="cb18-462"><a href="#cb18-462" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> echo /motor_controller/status</span>
+<span id="cb18-463"><a href="#cb18-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-464"><a href="#cb18-464" aria-hidden="true" tabindex="-1"></a><span class="co"># View safety system status</span></span>
+<span id="cb18-465"><a href="#cb18-465" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> echo /safety_monitor/status</span>
+<span id="cb18-466"><a href="#cb18-466" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-467"><a href="#cb18-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-468"><a href="#cb18-468" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Performance Indicators</span></span>
+<span id="cb18-469"><a href="#cb18-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-470"><a href="#cb18-470" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Metric <span class="pp">|</span> Target <span class="pp">|</span> Acceptable <span class="pp">|</span> Critical <span class="pp">|</span></span>
+<span id="cb18-471"><a href="#cb18-471" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|--------|------------|----------|</span></span>
+<span id="cb18-472"><a href="#cb18-472" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Control Loop Frequency** <span class="pp">|</span> &gt;100 Hz <span class="pp">|</span> &gt;50 Hz <span class="pp">|</span> &lt;20 Hz <span class="pp">|</span></span>
+<span id="cb18-473"><a href="#cb18-473" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Communication Latency** <span class="pp">|</span> &lt;10 ms <span class="pp">|</span> &lt;50 ms <span class="pp">|</span> &gt;100 ms <span class="pp">|</span></span>
+<span id="cb18-474"><a href="#cb18-474" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Command Response Time** <span class="pp">|</span> &lt;20 ms <span class="pp">|</span> &lt;100 ms <span class="pp">|</span> &gt;200 ms <span class="pp">|</span></span>
+<span id="cb18-475"><a href="#cb18-475" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Safety Check Frequency** <span class="pp">|</span> &gt;50 Hz <span class="pp">|</span> &gt;20 Hz <span class="pp">|</span> &lt;10 Hz <span class="pp">|</span></span>
+<span id="cb18-476"><a href="#cb18-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-477"><a href="#cb18-477" aria-hidden="true" tabindex="-1"></a><span class="fu">## Troubleshooting</span></span>
+<span id="cb18-478"><a href="#cb18-478" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-479"><a href="#cb18-479" aria-hidden="true" tabindex="-1"></a><span class="fu">### Common Hardware Issues</span></span>
+<span id="cb18-480"><a href="#cb18-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-481"><a href="#cb18-481" aria-hidden="true" tabindex="-1"></a>:::{.callout-warning}</span>
+<span id="cb18-482"><a href="#cb18-482" aria-hidden="true" tabindex="-1"></a><span class="fu">### Communication Problems</span></span>
+<span id="cb18-483"><a href="#cb18-483" aria-hidden="true" tabindex="-1"></a>**Symptoms:**</span>
+<span id="cb18-484"><a href="#cb18-484" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No odometry data</span>
+<span id="cb18-485"><a href="#cb18-485" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Motors not responding</span>
+<span id="cb18-486"><a href="#cb18-486" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Serial port errors</span>
+<span id="cb18-487"><a href="#cb18-487" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-488"><a href="#cb18-488" aria-hidden="true" tabindex="-1"></a>**Common Causes:**</span>
+<span id="cb18-489"><a href="#cb18-489" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Incorrect serial port permissions</span>
+<span id="cb18-490"><a href="#cb18-490" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Baud rate mismatch</span>
+<span id="cb18-491"><a href="#cb18-491" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hardware connection issues</span>
+<span id="cb18-492"><a href="#cb18-492" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Arduino firmware corruption</span>
+<span id="cb18-493"><a href="#cb18-493" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-494"><a href="#cb18-494" aria-hidden="true" tabindex="-1"></a>**Solutions:**</span>
+<span id="cb18-495"><a href="#cb18-495" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb18-496"><a href="#cb18-496" aria-hidden="true" tabindex="-1"></a><span class="co"># Check serial port permissions</span></span>
+<span id="cb18-497"><a href="#cb18-497" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> chmod 666 /dev/ttyUSB0</span>
+<span id="cb18-498"><a href="#cb18-498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-499"><a href="#cb18-499" aria-hidden="true" tabindex="-1"></a><span class="co"># Test serial communication</span></span>
+<span id="cb18-500"><a href="#cb18-500" aria-hidden="true" tabindex="-1"></a><span class="ex">screen</span> /dev/ttyUSB0 115200</span>
+<span id="cb18-501"><a href="#cb18-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-502"><a href="#cb18-502" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-upload Arduino firmware</span></span>
+<span id="cb18-503"><a href="#cb18-503" aria-hidden="true" tabindex="-1"></a><span class="ex">arduino</span> <span class="at">--upload</span> arduino_code/beebot_controller.ino</span>
+<span id="cb18-504"><a href="#cb18-504" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-505"><a href="#cb18-505" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb18-506"><a href="#cb18-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-507"><a href="#cb18-507" aria-hidden="true" tabindex="-1"></a>:::{.callout-note}</span>
+<span id="cb18-508"><a href="#cb18-508" aria-hidden="true" tabindex="-1"></a><span class="fu">### Control Performance Issues  </span></span>
+<span id="cb18-509"><a href="#cb18-509" aria-hidden="true" tabindex="-1"></a>**Symptoms:**</span>
+<span id="cb18-510"><a href="#cb18-510" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Jerky robot motion</span>
+<span id="cb18-511"><a href="#cb18-511" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Poor trajectory following</span>
+<span id="cb18-512"><a href="#cb18-512" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>High motor current</span>
+<span id="cb18-513"><a href="#cb18-513" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-514"><a href="#cb18-514" aria-hidden="true" tabindex="-1"></a>**Tuning Strategies:**</span>
+<span id="cb18-515"><a href="#cb18-515" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Adjust PID controller gains</span>
+<span id="cb18-516"><a href="#cb18-516" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Check encoder calibration</span>
+<span id="cb18-517"><a href="#cb18-517" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Verify motor voltage supply</span>
+<span id="cb18-518"><a href="#cb18-518" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Reduce command update rate</span>
+<span id="cb18-519"><a href="#cb18-519" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb18-520"><a href="#cb18-520" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-521"><a href="#cb18-521" aria-hidden="true" tabindex="-1"></a><span class="fu">### Diagnostic Tools</span></span>
+<span id="cb18-522"><a href="#cb18-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-523"><a href="#cb18-523" aria-hidden="true" tabindex="-1"></a><span class="in">```cpp</span></span>
+<span id="cb18-524"><a href="#cb18-524" aria-hidden="true" tabindex="-1"></a><span class="co">// Arduino diagnostic output</span></span>
+<span id="cb18-525"><a href="#cb18-525" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> printDiagnostics<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb18-526"><a href="#cb18-526" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span><span class="st">"Encoders: "</span><span class="op">);</span></span>
+<span id="cb18-527"><a href="#cb18-527" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span>left_encoder_count<span class="op">);</span></span>
+<span id="cb18-528"><a href="#cb18-528" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span><span class="st">", "</span><span class="op">);</span></span>
+<span id="cb18-529"><a href="#cb18-529" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>println<span class="op">(</span>right_encoder_count<span class="op">);</span></span>
+<span id="cb18-530"><a href="#cb18-530" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-531"><a href="#cb18-531" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span><span class="st">"Battery: "</span><span class="op">);</span></span>
+<span id="cb18-532"><a href="#cb18-532" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span>battery_voltage<span class="op">);</span></span>
+<span id="cb18-533"><a href="#cb18-533" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>println<span class="op">(</span><span class="st">"V"</span><span class="op">);</span></span>
+<span id="cb18-534"><a href="#cb18-534" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-535"><a href="#cb18-535" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span><span class="st">"Bumpers: "</span><span class="op">);</span></span>
+<span id="cb18-536"><a href="#cb18-536" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>println<span class="op">(</span>bumper_state<span class="op">,</span> BIN<span class="op">);</span></span>
+<span id="cb18-537"><a href="#cb18-537" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-538"><a href="#cb18-538" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span><span class="st">"Loop freq: "</span><span class="op">);</span></span>
+<span id="cb18-539"><a href="#cb18-539" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>print<span class="op">(</span>loop_frequency<span class="op">);</span></span>
+<span id="cb18-540"><a href="#cb18-540" aria-hidden="true" tabindex="-1"></a>    Serial<span class="op">.</span>println<span class="op">(</span><span class="st">"Hz"</span><span class="op">);</span></span>
+<span id="cb18-541"><a href="#cb18-541" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb18-542"><a href="#cb18-542" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-543"><a href="#cb18-543" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-544"><a href="#cb18-544" aria-hidden="true" tabindex="-1"></a><span class="fu">## Next Steps</span></span>
+<span id="cb18-545"><a href="#cb18-545" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-546"><a href="#cb18-546" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**[Arduino Interface Details →](arduino-interface.qmd)**</span>
+<span id="cb18-547"><a href="#cb18-547" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**[Remote Control Systems →](remote-control.qmd)**</span>
+<span id="cb18-548"><a href="#cb18-548" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**[Robot Eyes Display →](robot-eyes.qmd)**</span>
+<span id="cb18-549"><a href="#cb18-549" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**[Hardware Integration Guide →](../guides/hardware-setup.qmd)**</span>
+<span id="cb18-550"><a href="#cb18-550" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-551"><a href="#cb18-551" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb18-552"><a href="#cb18-552" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-553"><a href="#cb18-553" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
+<span id="cb18-554"><a href="#cb18-554" aria-hidden="true" tabindex="-1"></a><span class="fu">## Best Practices</span></span>
+<span id="cb18-555"><a href="#cb18-555" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-556"><a href="#cb18-556" aria-hidden="true" tabindex="-1"></a><span class="fu">### System Design</span></span>
+<span id="cb18-557"><a href="#cb18-557" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Always implement multiple layers of safety</span>
+<span id="cb18-558"><a href="#cb18-558" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use watchdog timers for critical systems  </span>
+<span id="cb18-559"><a href="#cb18-559" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Design for graceful degradation on failures</span>
+<span id="cb18-560"><a href="#cb18-560" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Implement comprehensive error logging</span>
+<span id="cb18-561"><a href="#cb18-561" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-562"><a href="#cb18-562" aria-hidden="true" tabindex="-1"></a><span class="fu">### Hardware Interface</span></span>
+<span id="cb18-563"><a href="#cb18-563" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use proper signal conditioning for sensors</span>
+<span id="cb18-564"><a href="#cb18-564" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Implement electrical isolation where needed</span>
+<span id="cb18-565"><a href="#cb18-565" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Design robust mechanical connections</span>
+<span id="cb18-566"><a href="#cb18-566" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Plan for maintenance and serviceability</span>
+<span id="cb18-567"><a href="#cb18-567" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
