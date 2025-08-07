@@ -1,0 +1,567 @@
+---
+title: "Control & Hardware Interface"
+subtitle: "Robot control systems and hardware communication"
+---
+
+# Control & Hardware Interface
+
+The Control & Hardware Interface subsystem manages all interactions between the high-level ROS software stack and the robot's physical hardware components. This includes motor control, sensor data acquisition, remote control interfaces, and real-time safety systems.
+
+## Overview
+
+The control system implements a layered architecture that provides both autonomous operation and manual remote control capabilities:
+
+```mermaid
+graph TB
+    subgraph "High-Level Control"
+        NAV[Navigation Stack<br/>move_base]
+        RC[Remote Control<br/>Xbox Controller]
+        WEB[Web Interface<br/>MQTT Bridge]
+    end
+    
+    subgraph "Control Arbitration"
+        ARB[Control Arbitrator<br/>Priority Management]
+        SAFETY[Safety Monitor<br/>Emergency Stop]
+    end
+    
+    subgraph "Hardware Interface"
+        SERIAL[Arduino Serial<br/>Communication]
+        MQTT[MQTT Bridge<br/>Wireless Control]
+        EYES[Robot Eyes<br/>Status Display]
+    end
+    
+    subgraph "Hardware Layer"
+        ARDUINO[Arduino Controller<br/>Mega 2560]
+        MOTORS[Motor Controllers<br/>PWM Drivers]
+        SENSORS[Sensor Array<br/>Bumpers, Encoders]
+        DISPLAY[LED Display<br/>Status LEDs]
+    end
+    
+    NAV --> |cmd_vel| ARB
+    RC --> |joy| ARB
+    WEB --> |mqtt_cmd| ARB
+    
+    ARB --> SERIAL
+    ARB --> MQTT
+    SAFETY --> ARB
+    
+    SERIAL --> ARDUINO
+    MQTT --> WEB
+    EYES --> DISPLAY
+    
+    ARDUINO --> MOTORS
+    ARDUINO --> SENSORS
+    
+    MOTORS --> |PWM| MotorHW[Physical Motors]
+    SENSORS --> |Digital/Analog| SensorHW[Physical Sensors]
+    
+    style ARB fill:#e1f5fe
+    style SERIAL fill:#f3e5f5
+    style ARDUINO fill:#fff3e0
+```
+
+## Core Components
+
+### [Arduino Serial Interface](arduino-interface.qmd)
+The primary hardware communication layer:
+
+- **High-speed Serial Communication** at 115200 baud
+- **Bidirectional Protocol** for commands and sensor feedback
+- **Real-time Control Loop** with microsecond timing
+- **Error Detection and Recovery** with CRC checking
+
+### [Remote Control System](remote-control.qmd) 
+Multiple remote control interfaces:
+
+- **Xbox Controller Support** with analog stick control
+- **MQTT Wireless Interface** for mobile app control
+- **Web-based Control Panel** for monitoring and commands
+- **Voice Control Integration** through external interfaces
+
+### [Robot Eyes Display](robot-eyes.qmd)
+Visual status and interaction system:
+
+- **Animated LED Matrix Display** showing robot emotions and status
+- **Status Indication** for operational modes and alerts
+- **Interactive Feedback** responding to user interactions
+- **Diagnostic Display** for system health monitoring
+
+## System Architecture
+
+### Control Flow Hierarchy
+
+```mermaid
+graph TD
+    subgraph "Priority Levels"
+        P1[Emergency Stop<br/>Priority 1]
+        P2[Safety Systems<br/>Priority 2]  
+        P3[Manual Control<br/>Priority 3]
+        P4[Autonomous Nav<br/>Priority 4]
+        P5[Background Tasks<br/>Priority 5]
+    end
+    
+    subgraph "Control Sources"
+        ESTOP[Hardware E-Stop]
+        BUMPER[Bumper Sensors]
+        XBOX[Xbox Controller]
+        MQTT[MQTT Commands]
+        MOVEBASE[move_base]
+        MAINT[Maintenance]
+    end
+    
+    subgraph "Hardware Output"
+        PWM[Motor PWM]
+        BRAKE[Motor Brake]
+        LED[Status LEDs]
+    end
+    
+    ESTOP --> P1
+    BUMPER --> P2
+    XBOX --> P3
+    MQTT --> P3
+    MOVEBASE --> P4
+    MAINT --> P5
+    
+    P1 --> PWM
+    P2 --> BRAKE
+    P3 --> PWM
+    P4 --> PWM
+    P5 --> LED
+    
+    style P1 fill:#ffebee
+    style P2 fill:#fff3e0
+    style P3 fill:#e8f5e8
+    style P4 fill:#e1f5fe
+```
+
+### Real-time Performance
+
+| System Component | Update Rate | Latency | Critical Path |
+|------------------|-------------|---------|---------------|
+| **Arduino Control Loop** | 1000 Hz | <1 ms | Yes |
+| **Serial Communication** | 100 Hz | 5-10 ms | Yes |
+| **Xbox Controller** | 30 Hz | 15-30 ms | No |
+| **MQTT Bridge** | 10 Hz | 50-100 ms | No |
+| **Safety Monitor** | 50 Hz | 10-20 ms | Yes |
+
+## Hardware Interface Details
+
+### Arduino Communication Protocol
+
+#### Message Format
+```cpp
+// Command message structure
+struct MotorCommand {
+    uint8_t header;           // 0xFF start byte
+    uint8_t cmd_type;         // Command type identifier
+    int16_t left_vel;         // Left motor velocity (-1000 to +1000)
+    int16_t right_vel;        // Right motor velocity (-1000 to +1000)
+    uint8_t checksum;         // Simple XOR checksum
+};
+
+// Sensor feedback structure  
+struct SensorFeedback {
+    uint8_t header;           // 0xFF start byte
+    uint8_t sensor_type;      // Sensor type identifier
+    int32_t left_encoder;     // Left encoder count
+    int32_t right_encoder;    // Right encoder count
+    uint8_t bumper_state;     // Bumper contact bits
+    uint16_t battery_voltage; // Battery voltage (mV)
+    uint8_t checksum;         // Simple XOR checksum
+};
+```
+
+#### Communication Timing
+```yaml
+# Serial communication parameters
+baud_rate: 115200              # Bits per second
+data_bits: 8                   # Data bits per byte
+parity: none                   # No parity bit
+stop_bits: 1                   # Stop bits
+flow_control: none             # No hardware flow control
+
+# Timing parameters
+command_timeout: 100           # Command timeout (ms)
+sensor_update_rate: 100        # Sensor feedback rate (Hz)
+connection_timeout: 1000       # Connection timeout (ms)
+retry_attempts: 3              # Communication retry count
+```
+
+### Motor Control System
+
+#### Differential Drive Configuration
+```cpp
+// Robot physical parameters
+const double WHEEL_BASE = 0.35;        // Distance between wheels (m)
+const double WHEEL_RADIUS = 0.075;     // Wheel radius (m)  
+const double MAX_LINEAR_VEL = 1.0;     // Maximum linear velocity (m/s)
+const double MAX_ANGULAR_VEL = 2.0;    // Maximum angular velocity (rad/s)
+
+// Convert twist to wheel velocities
+void twistToWheelVelocities(const geometry_msgs::Twist& twist, 
+                           double& left_vel, double& right_vel) {
+    double v = twist.linear.x;          // Linear velocity
+    double w = twist.angular.z;         // Angular velocity
+    
+    left_vel = (v - w * WHEEL_BASE / 2.0) / WHEEL_RADIUS;
+    right_vel = (v + w * WHEEL_BASE / 2.0) / WHEEL_RADIUS;
+}
+```
+
+#### PID Control Implementation
+```cpp
+// PID controller for each motor
+class MotorPID {
+private:
+    double kp_, ki_, kd_;               // PID gains
+    double prev_error_;                 // Previous error
+    double integral_;                   // Error integral
+    double output_min_, output_max_;    // Output limits
+    
+public:
+    double compute(double setpoint, double measured, double dt) {
+        double error = setpoint - measured;
+        integral_ += error * dt;
+        double derivative = (error - prev_error_) / dt;
+        
+        double output = kp_ * error + ki_ * integral_ + kd_ * derivative;
+        output = constrain(output, output_min_, output_max_);
+        
+        prev_error_ = error;
+        return output;
+    }
+};
+```
+
+### Sensor Integration
+
+#### Encoder Feedback Processing
+```cpp
+// Odometry calculation from encoder data
+class OdometryCalculator {
+private:
+    int32_t last_left_ticks_, last_right_ticks_;
+    double x_, y_, theta_;              // Robot pose
+    const int TICKS_PER_REV = 1440;    // Encoder resolution
+    
+public:
+    void updateOdometry(int32_t left_ticks, int32_t right_ticks, double dt) {
+        // Calculate wheel distances
+        int32_t delta_left = left_ticks - last_left_ticks_;
+        int32_t delta_right = right_ticks - last_right_ticks_;
+        
+        double left_dist = (delta_left * 2.0 * M_PI * WHEEL_RADIUS) / TICKS_PER_REV;
+        double right_dist = (delta_right * 2.0 * M_PI * WHEEL_RADIUS) / TICKS_PER_REV;
+        
+        // Calculate robot motion
+        double distance = (left_dist + right_dist) / 2.0;
+        double delta_theta = (right_dist - left_dist) / WHEEL_BASE;
+        
+        // Update pose
+        theta_ += delta_theta;
+        x_ += distance * cos(theta_);
+        y_ += distance * sin(theta_);
+        
+        last_left_ticks_ = left_ticks;
+        last_right_ticks_ = right_ticks;
+    }
+};
+```
+
+## Configuration
+
+### Launch Files and Parameters
+
+#### Arduino Serial Interface
+```xml
+<launch>
+  <!-- Arduino serial communication -->
+  <node name="arduino_serial" pkg="arduino_serial" type="arduino_serial_node" output="screen">
+    <!-- Serial port configuration -->
+    <param name="port" value="/dev/ttyUSB0"/>
+    <param name="baud" value="115200"/>
+    
+    <!-- Robot parameters -->
+    <param name="wheel_base" value="0.35"/>
+    <param name="wheel_radius" value="0.075"/>
+    <param name="ticks_per_revolution" value="1440"/>
+    
+    <!-- Control parameters -->
+    <param name="timeout" value="1.0"/>
+    <param name="publish_odom" value="true"/>
+    <param name="publish_tf" value="true"/>
+    
+    <!-- PID parameters -->
+    <param name="pid_kp" value="1.0"/>
+    <param name="pid_ki" value="0.1"/>
+    <param name="pid_kd" value="0.05"/>
+  </node>
+</launch>
+```
+
+#### Remote Control Configuration
+```yaml
+# Xbox controller mapping
+controller_config:
+  # Axis mappings
+  linear_axis: 1              # Left stick vertical (forward/backward)
+  angular_axis: 0             # Right stick horizontal (turn)
+  
+  # Button mappings  
+  deadman_button: 4           # Left shoulder button (LB)
+  turbo_button: 5             # Right shoulder button (RB)
+  mode_button: 6              # Back button (mode switch)
+  estop_button: 7             # Start button (emergency stop)
+  
+  # Velocity scaling
+  max_linear_vel: 0.8         # Maximum linear velocity (m/s)
+  max_angular_vel: 1.5        # Maximum angular velocity (rad/s)
+  turbo_multiplier: 1.5       # Turbo mode velocity multiplier
+  
+  # Deadzone and filtering
+  deadzone: 0.1               # Joystick deadzone
+  filter_alpha: 0.8           # Low-pass filter coefficient
+```
+
+#### MQTT Bridge Configuration
+```yaml
+# MQTT broker configuration
+mqtt_config:
+  broker_host: "localhost"    # MQTT broker address
+  broker_port: 1883           # MQTT broker port
+  client_id: "beebot_control" # MQTT client identifier
+  
+  # Topic configuration
+  command_topic: "beebot/cmd_vel"       # Command input topic
+  status_topic: "beebot/status"         # Status output topic
+  odom_topic: "beebot/odom"            # Odometry output topic
+  
+  # Connection parameters
+  keep_alive: 60              # Keep alive interval (s)
+  qos_level: 1               # Quality of service level
+  retain: false              # Retain messages
+  
+  # Security (if enabled)
+  use_auth: false            # Enable authentication
+  username: ""               # MQTT username
+  password: ""               # MQTT password
+```
+
+### Hardware-Specific Parameters
+
+#### Motor Controller Settings
+```cpp
+// Motor controller configuration
+#define MOTOR_PWM_FREQUENCY 20000      // 20 kHz PWM frequency
+#define MOTOR_PWM_RESOLUTION 12        // 12-bit PWM resolution (0-4095)
+#define MOTOR_BRAKE_PIN_LEFT 22        // Left motor brake pin
+#define MOTOR_BRAKE_PIN_RIGHT 23       // Right motor brake pin
+#define MOTOR_CURRENT_SENSE_LEFT A0    // Left motor current sense
+#define MOTOR_CURRENT_SENSE_RIGHT A1   // Right motor current sense
+
+// Current limiting
+#define MAX_MOTOR_CURRENT 5.0          // Maximum motor current (A)
+#define CURRENT_LIMIT_TIME 100         // Current limit duration (ms)
+```
+
+#### Sensor Pin Configuration
+```cpp
+// Encoder connections
+#define ENCODER_LEFT_A 2               // Left encoder channel A (interrupt)
+#define ENCODER_LEFT_B 3               // Left encoder channel B
+#define ENCODER_RIGHT_A 18             // Right encoder channel A (interrupt)  
+#define ENCODER_RIGHT_B 19             // Right encoder channel B
+
+// Bumper sensors
+#define BUMPER_FRONT_LEFT 4            // Front left bumper
+#define BUMPER_FRONT_RIGHT 5           // Front right bumper
+#define BUMPER_REAR_LEFT 6             // Rear left bumper
+#define BUMPER_REAR_RIGHT 7            // Rear right bumper
+
+// Status indicators
+#define STATUS_LED_PIN 13              // Status LED (built-in)
+#define BUZZER_PIN 8                   // Status buzzer
+#define BATTERY_SENSE_PIN A2           // Battery voltage sense
+```
+
+## Safety Systems
+
+### Emergency Stop Implementation
+
+#### Hardware E-Stop
+```cpp
+// Emergency stop interrupt handler
+void emergencyStopISR() {
+    // Immediately stop all motors
+    digitalWrite(MOTOR_BRAKE_PIN_LEFT, HIGH);
+    digitalWrite(MOTOR_BRAKE_PIN_RIGHT, HIGH);
+    analogWrite(MOTOR_PWM_LEFT, 0);
+    analogWrite(MOTOR_PWM_RIGHT, 0);
+    
+    // Set emergency stop flag
+    emergency_stop_active = true;
+    
+    // Flash status LED
+    digitalWrite(STATUS_LED_PIN, HIGH);
+}
+```
+
+#### Software Safety Monitor
+```cpp
+class SafetyMonitor {
+private:
+    ros::Time last_command_time_;
+    bool bumper_triggered_;
+    double min_battery_voltage_;
+    
+public:
+    bool checkSafety() {
+        // Command timeout check
+        if ((ros::Time::now() - last_command_time_).toSec() > COMMAND_TIMEOUT) {
+            ROS_WARN("Command timeout - stopping robot");
+            return false;
+        }
+        
+        // Bumper collision check
+        if (bumper_triggered_) {
+            ROS_WARN("Bumper collision detected - stopping robot");
+            return false;
+        }
+        
+        // Battery voltage check
+        if (getBatteryVoltage() < min_battery_voltage_) {
+            ROS_WARN("Low battery voltage - stopping robot");
+            return false;
+        }
+        
+        return true;
+    }
+};
+```
+
+### Collision Avoidance
+
+#### Multi-layer Protection
+1. **Hardware Bumpers**: Physical contact detection
+2. **Sensor Fusion**: LiDAR + ultrasonic sensors  
+3. **Predictive Avoidance**: Forward trajectory simulation
+4. **Emergency Braking**: Immediate motor cutoff
+
+## Performance Monitoring
+
+### System Metrics
+
+```bash
+# Monitor control loop performance
+rostopic echo /arduino_serial/diagnostics
+
+# Check communication latency
+rostopic echo /arduino_serial/latency
+
+# Monitor motor controller status
+rostopic echo /motor_controller/status
+
+# View safety system status
+rostopic echo /safety_monitor/status
+```
+
+### Key Performance Indicators
+
+| Metric | Target | Acceptable | Critical |
+|--------|--------|------------|----------|
+| **Control Loop Frequency** | >100 Hz | >50 Hz | <20 Hz |
+| **Communication Latency** | <10 ms | <50 ms | >100 ms |
+| **Command Response Time** | <20 ms | <100 ms | >200 ms |
+| **Safety Check Frequency** | >50 Hz | >20 Hz | <10 Hz |
+
+## Troubleshooting
+
+### Common Hardware Issues
+
+:::{.callout-warning}
+### Communication Problems
+**Symptoms:**
+- No odometry data
+- Motors not responding
+- Serial port errors
+
+**Common Causes:**
+- Incorrect serial port permissions
+- Baud rate mismatch
+- Hardware connection issues
+- Arduino firmware corruption
+
+**Solutions:**
+```bash
+# Check serial port permissions
+sudo chmod 666 /dev/ttyUSB0
+
+# Test serial communication
+screen /dev/ttyUSB0 115200
+
+# Re-upload Arduino firmware
+arduino --upload arduino_code/beebot_controller.ino
+```
+:::
+
+:::{.callout-note}
+### Control Performance Issues  
+**Symptoms:**
+- Jerky robot motion
+- Poor trajectory following
+- High motor current
+
+**Tuning Strategies:**
+1. Adjust PID controller gains
+2. Check encoder calibration
+3. Verify motor voltage supply
+4. Reduce command update rate
+:::
+
+### Diagnostic Tools
+
+```cpp
+// Arduino diagnostic output
+void printDiagnostics() {
+    Serial.print("Encoders: ");
+    Serial.print(left_encoder_count);
+    Serial.print(", ");
+    Serial.println(right_encoder_count);
+    
+    Serial.print("Battery: ");
+    Serial.print(battery_voltage);
+    Serial.println("V");
+    
+    Serial.print("Bumpers: ");
+    Serial.println(bumper_state, BIN);
+    
+    Serial.print("Loop freq: ");
+    Serial.print(loop_frequency);
+    Serial.println("Hz");
+}
+```
+
+## Next Steps
+
+- **[Arduino Interface Details →](arduino-interface.qmd)**
+- **[Remote Control Systems →](remote-control.qmd)**
+- **[Robot Eyes Display →](robot-eyes.qmd)**
+- **[Hardware Integration Guide →](../guides/hardware-setup.qmd)**
+
+---
+
+:::{.callout-tip}
+## Best Practices
+
+### System Design
+- Always implement multiple layers of safety
+- Use watchdog timers for critical systems  
+- Design for graceful degradation on failures
+- Implement comprehensive error logging
+
+### Hardware Interface
+- Use proper signal conditioning for sensors
+- Implement electrical isolation where needed
+- Design robust mechanical connections
+- Plan for maintenance and serviceability
+:::

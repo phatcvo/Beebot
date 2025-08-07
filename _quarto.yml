@@ -1,0 +1,101 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Beebot Documentation"
+  description: "Comprehensive documentation for the Beebot Autonomous Mobile Robot System"
+  favicon: assets/favicon.ico
+  
+  navbar:
+    title: "🤖 Beebot"
+    left:
+      - href: index.qmd
+        text: Home
+      - href: getting-started/index.qmd
+        text: Getting Started
+      - text: "Components"
+        menu:
+          - href: components/slam/index.qmd
+            text: "SLAM & Localization"
+          - href: components/motion/index.qmd
+            text: "Motion Planning"
+          - href: components/control/index.qmd
+            text: "Control Systems"
+          - href: components/system/index.qmd
+            text: "System Integration"
+      - text: "API Reference"
+        menu:
+          - href: api/nodes.qmd
+            text: "ROS Nodes"
+          - href: api/topics.qmd
+            text: "Topics & Messages"
+          - href: api/parameters.qmd
+            text: "Parameters"
+          - href: api/services.qmd
+            text: "Services"
+      - href: tutorials/index.qmd
+        text: Tutorials
+      - href: hardware/index.qmd
+        text: Hardware
+    right:
+      - icon: github
+        href: https://github.com/phatcvo/Beebot
+        aria-label: GitHub
+  
+  sidebar:
+    - title: "Getting Started"
+      contents:
+        - getting-started/index.qmd
+        - getting-started/installation.qmd
+        - getting-started/quick-start.qmd
+        - getting-started/configuration.qmd
+    
+    - title: "Components"
+      contents:
+        - components/slam/index.qmd
+        - components/slam/advanced-localization.qmd
+        - components/slam/mapping.qmd
+        - components/slam/sensor-fusion.qmd
+        - components/motion/index.qmd
+        - components/motion/global-planning.qmd
+        - components/motion/local-planning.qmd
+        - components/motion/waypoint-management.qmd
+        - components/control/index.qmd
+        - components/control/remote-control.qmd
+        - components/control/arduino-interface.qmd
+        - components/system/index.qmd
+        - components/system/launch-files.qmd
+        - components/system/visualization.qmd
+    
+    - title: "API Reference"
+      contents:
+        - api/nodes.qmd
+        - api/topics.qmd
+        - api/parameters.qmd
+        - api/services.qmd
+    
+    - title: "Tutorials"
+      contents:
+        - tutorials/index.qmd
+        - tutorials/basic-navigation.qmd
+        - tutorials/advanced-features.qmd
+        - tutorials/troubleshooting.qmd
+    
+    - title: "Hardware"
+      contents:
+        - hardware/index.qmd
+        - hardware/sensors.qmd
+        - hardware/actuators.qmd
+        - hardware/communication.qmd
+
+format:
+  html:
+    theme: 
+      - cosmo
+      - assets/custom.scss
+    css: assets/styles.css
+    toc: true
+    code-fold: false
+    code-tools: true
+    copy-code: true

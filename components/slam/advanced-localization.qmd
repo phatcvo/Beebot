@@ -1,0 +1,466 @@
+---
+title: "Advanced Localization System"
+subtitle: "ALS & EMCL implementation details"
+---
+
+# Advanced Localization System (ALS)
+
+The Advanced Localization System (ALS) is a state-of-the-art localization package developed by Naoki Akai, providing robust Monte Carlo Localization with advanced reliability estimation and failure detection capabilities.
+
+## Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "Input Processing"
+        SCAN[Laser Scan<br/>sensor_msgs/LaserScan]
+        ODOM[Odometry<br/>nav_msgs/Odometry]
+        MAP[Map Server<br/>nav_msgs/OccupancyGrid]
+    end
+    
+    subgraph "ALS Core"
+        MCL[Monte Carlo<br/>Localization]
+        MRF[Misalignment Detection<br/>MRF]
+        REL[Reliability Estimation<br/>Bayesian Filter]
+        PSS[Pose Sampler<br/>Global/Local]
+    end
+    
+    subgraph "Output"
+        POSE[geometry_msgs/<br/>PoseWithCovarianceStamped]
+        TF[Transform<br/>map → odom]
+        PART[Particle Cloud<br/>geometry_msgs/PoseArray]
+    end
+    
+    SCAN --> MCL
+    ODOM --> MCL
+    MAP --> MCL
+    
+    MCL --> MRF
+    MCL --> REL
+    MCL --> PSS
+    
+    REL --> POSE
+    MCL --> TF
+    MCL --> PART
+    
+    MRF -.-> PSS
+    REL -.-> PSS
+    
+    style MCL fill:#e1f5fe
+    style MRF fill:#f3e5f5
+    style REL fill:#fff3e0
+```
+
+## Core Components
+
+### Monte Carlo Localization Engine
+
+The MCL engine implements a particle filter with several advanced features:
+
+#### Particle Management
+```cpp
+// Particle structure
+struct Particle {
+    double x, y, theta;     // Pose
+    double weight;          // Likelihood weight
+    double reliability;     // Reliability estimate
+};
+
+// Dynamic particle count adjustment
+int adaptive_particle_count = base_particles * reliability_factor;
+```
+
+#### Motion Model
+The system uses a differential drive motion model with noise parameters:
+
+| Parameter | Description | Typical Value |
+|-----------|-------------|---------------|
+| `odom_alpha1` | Rotation noise from rotation | 0.2 |
+| `odom_alpha2` | Rotation noise from translation | 0.2 |
+| `odom_alpha3` | Translation noise from translation | 0.8 |
+| `odom_alpha4` | Translation noise from rotation | 0.2 |
+
+### Reliability Estimation
+
+The reliability estimation module provides confidence measures for localization:
+
+#### Bayesian Filtering Approach
+```yaml
+# Reliability parameters
+reliability_th: 0.3           # Minimum reliability threshold
+reliability_buffer_size: 10   # History buffer for reliability calculation
+reliability_alpha: 0.1        # Update rate for reliability filter
+```
+
+#### Measurement Classification
+The system classifies sensor measurements into categories:
+- **Correct measurements** (high reliability)
+- **Incorrect measurements** (low reliability)
+- **Ambiguous measurements** (medium reliability)
+
+### Misalignment Detection (MRF)
+
+The Markov Random Field (MRF) based failure detector identifies localization misalignments:
+
+#### MRF Configuration
+```yaml
+# MRF parameters
+use_mrf_failure_detector: true
+mrf_alpha: 0.1                # MRF update rate
+mrf_measurement_num: 5        # Number of measurements for MRF
+mrf_reliability_th: 0.2       # MRF reliability threshold
+```
+
+#### Failure Recovery
+When misalignment is detected:
+1. **Particle expansion** increases search space
+2. **Global pose sampling** reinitializes particles
+3. **Reliability reset** clears history buffer
+
+## Expanded MCL (EMCL)
+
+The Expanded MCL provides enhanced particle filter capabilities with expansion resetting:
+
+### Key Features
+
+#### Expansion Resetting
+```cpp
+// Expansion trigger conditions
+bool expansion_needed = (
+    average_reliability < reliability_threshold ||
+    particle_dispersion > max_dispersion ||
+    measurement_likelihood < min_likelihood
+);
+```
+
+#### Dynamic Reconfiguration
+The EMCL supports real-time parameter adjustment:
+
+```yaml
+# Dynamic reconfigure parameters
+particle_num: 420
+likelihood_th: 0.002
+use_beam_model: false
+beam_model_weight: 0.7
+likelihood_field_weight: 0.3
+```
+
+### Implementation Details
+
+#### Particle Filter Loop
+```cpp
+void EMCLNode::particleFilterLoop() {
+    // 1. Prediction step
+    predictParticles(odom_delta);
+    
+    // 2. Correction step  
+    updateWeights(laser_scan);
+    
+    // 3. Reliability estimation
+    estimateReliability();
+    
+    // 4. Resampling decision
+    if (needsResampling()) {
+        resampleParticles();
+    }
+    
+    // 5. Expansion check
+    if (needsExpansion()) {
+        expandParticleCloud();
+    }
+}
+```
+
+## Configuration
+
+### Launch File Parameters
+
+```xml
+<launch>
+  <!-- ALS Node -->
+  <node name="mcl" pkg="als_ros" type="mcl" output="screen">
+    <!-- Basic parameters -->
+    <param name="localization_hz" value="20.0"/>
+    <param name="particle_num" value="420"/>
+    
+    <!-- Motion model -->
+    <param name="odom_alpha1" value="0.2"/>
+    <param name="odom_alpha2" value="0.2"/>
+    <param name="odom_alpha3" value="0.8"/>
+    <param name="odom_alpha4" value="0.2"/>
+    
+    <!-- Sensor model -->
+    <param name="laser_z_hit" value="0.5"/>
+    <param name="laser_z_short" value="0.05"/>
+    <param name="laser_z_max" value="0.05"/>
+    <param name="laser_z_rand" value="0.5"/>
+    
+    <!-- Reliability estimation -->
+    <param name="reliability_th" value="0.3"/>
+    <param name="use_reliability_estimation" value="true"/>
+    
+    <!-- MRF failure detection -->
+    <param name="use_mrf_failure_detector" value="true"/>
+    <param name="mrf_alpha" value="0.1"/>
+    
+    <!-- Global localization -->
+    <param name="use_gl_pose_sampler" value="true"/>
+  </node>
+</launch>
+```
+
+### Advanced Parameters
+
+#### Likelihood Field Parameters
+```yaml
+# Likelihood field configuration
+likelihood_field_max_dist: 2.0      # Maximum distance for likelihood calculation
+likelihood_field_variance: 0.5      # Gaussian variance for likelihood
+laser_min_range: 0.1                # Minimum valid laser range
+laser_max_range: 20.0               # Maximum valid laser range
+laser_step: 4                       # Laser scan decimation factor
+```
+
+#### Particle Filter Parameters
+```yaml
+# Particle filter configuration
+resample_th: 0.5                    # Resampling threshold (Neff)
+init_position_dev: 0.1              # Initial position standard deviation
+init_orientation_dev: 0.05          # Initial orientation standard deviation
+max_particle_num: 1000              # Maximum number of particles
+min_particle_num: 100               # Minimum number of particles
+```
+
+## Performance Tuning
+
+### Computational Optimization
+
+#### Particle Count Strategy
+```yaml
+# Adaptive particle management
+base_particle_num: 420              # Base number of particles
+reliability_based_scaling: true     # Scale particles by reliability
+max_particle_scale: 2.0            # Maximum scaling factor
+min_particle_scale: 0.5            # Minimum scaling factor
+```
+
+#### Sensor Data Processing
+```yaml
+# Laser scan optimization
+laser_step: 4                       # Use every 4th laser point
+laser_angle_increment_th: 0.1       # Angular resolution threshold
+use_parallel_likelihood: true       # Parallel likelihood computation
+likelihood_calculation_mode: "fast" # Fast vs accurate mode
+```
+
+### Memory Management
+
+```yaml
+# Memory optimization
+particle_history_size: 10           # Particle history buffer
+reliability_history_size: 20        # Reliability history buffer
+measurement_buffer_size: 50         # Sensor measurement buffer
+use_memory_pool: true              # Use memory pool for particles
+```
+
+## Monitoring and Diagnostics
+
+### Key Topics for Monitoring
+
+| Topic | Message Type | Description |
+|-------|--------------|-------------|
+| `/mcl_pose` | `geometry_msgs/PoseWithCovarianceStamped` | Current pose estimate |
+| `/mcl_particles` | `geometry_msgs/PoseArray` | Particle cloud |
+| `/mcl_reliability` | `std_msgs/Float64` | Current reliability value |
+| `/mcl_alpha` | `std_msgs/Float64` | Likelihood field alpha |
+
+### Diagnostic Commands
+
+```bash
+# Monitor pose estimate
+rostopic echo /mcl_pose
+
+# Check particle distribution
+rostopic echo /mcl_particles | head -20
+
+# Monitor reliability
+rostopic echo /mcl_reliability
+
+# Visualize in RViz
+rosrun rviz rviz -d $(find als_ros)/rviz/mcl.rviz
+```
+
+### Performance Metrics
+
+```bash
+# CPU usage monitoring
+top -p $(pgrep -f mcl)
+
+# Memory usage
+ps aux | grep mcl
+
+# Topic frequency analysis
+rostopic hz /mcl_pose
+rostopic bw /scan
+```
+
+## Troubleshooting Guide
+
+### Common Issues
+
+:::{.callout-warning}
+### Poor Localization Performance
+**Symptoms:**
+- Erratic pose estimates
+- High particle dispersion
+- Low reliability values
+
+**Potential Causes:**
+- Incorrect motion model parameters
+- Poor sensor calibration
+- Map-environment mismatch
+- Insufficient particles
+
+**Solutions:**
+```yaml
+# Increase particle count
+particle_num: 800
+
+# Adjust motion model
+odom_alpha1: 0.1  # Reduce if odometry is accurate
+odom_alpha3: 0.4  # Reduce if odometry is accurate
+
+# Enable global localization
+use_gl_pose_sampler: true
+```
+:::
+
+:::{.callout-note}
+### Localization Failure Recovery
+**Symptoms:**
+- Complete loss of localization
+- All particles collapsed
+- High MRF failure detection
+
+**Recovery Steps:**
+1. Check sensor data quality
+2. Verify map loading
+3. Reset initial pose
+4. Enable expansion resetting
+:::
+
+### Parameter Tuning Guidelines
+
+#### For Different Environments
+
+**Indoor Structured Environments:**
+```yaml
+particle_num: 300
+laser_step: 2
+reliability_th: 0.4
+odom_alpha1: 0.1
+odom_alpha3: 0.4
+```
+
+**Outdoor Open Spaces:**
+```yaml
+particle_num: 600
+laser_step: 4
+reliability_th: 0.2
+odom_alpha1: 0.3
+odom_alpha3: 0.8
+use_gl_pose_sampler: true
+```
+
+**Dynamic Environments:**
+```yaml
+particle_num: 500
+reliability_th: 0.3
+use_mrf_failure_detector: true
+mrf_alpha: 0.2
+expansion_enabled: true
+```
+
+## Integration Examples
+
+### With Navigation Stack
+
+```cpp
+// C++ integration example
+#include <als_ros/mcl.h>
+
+class NavigationIntegration {
+private:
+    ros::Subscriber pose_sub_;
+    geometry_msgs::PoseWithCovarianceStamped current_pose_;
+    
+public:
+    void poseCallback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg) {
+        current_pose_ = *msg;
+        
+        // Check pose reliability
+        double reliability = extractReliability(msg);
+        if (reliability < 0.3) {
+            // Handle low reliability
+            requestGlobalLocalization();
+        }
+        
+        // Update navigation stack
+        updateCostmap(current_pose_);
+    }
+};
+```
+
+### Custom Pose Initialization
+
+```python
+#!/usr/bin/env python
+import rospy
+from geometry_msgs.msg import PoseWithCovarianceStamped
+
+def set_initial_pose(x, y, theta):
+    """Set initial pose for ALS"""
+    pub = rospy.Publisher('/initialpose', PoseWithCovarianceStamped, queue_size=1)
+    rospy.sleep(1)  # Wait for publisher to connect
+    
+    pose_msg = PoseWithCovarianceStamped()
+    pose_msg.header.frame_id = "map"
+    pose_msg.header.stamp = rospy.Time.now()
+    
+    # Set pose
+    pose_msg.pose.pose.position.x = x
+    pose_msg.pose.pose.position.y = y
+    pose_msg.pose.pose.orientation.z = sin(theta/2)
+    pose_msg.pose.pose.orientation.w = cos(theta/2)
+    
+    # Set covariance (uncertainty)
+    pose_msg.pose.covariance[0] = 0.5   # x variance
+    pose_msg.pose.covariance[7] = 0.5   # y variance  
+    pose_msg.pose.covariance[35] = 0.2  # theta variance
+    
+    pub.publish(pose_msg)
+```
+
+---
+
+:::{.callout-tip}
+## Best Practices
+
+### Parameter Selection
+- Start with default parameters and tune incrementally
+- Monitor reliability metrics during operation
+- Use global localization in ambiguous environments
+- Adjust particle count based on computational resources
+
+### System Integration
+- Ensure proper transform tree setup
+- Synchronize sensor data timestamps
+- Handle localization failures gracefully
+- Implement pose validation in navigation logic
+:::
+
+## Next Steps
+
+- **[Mapping Components →](mapping.qmd)**
+- **[Sensor Fusion →](sensor-fusion.qmd)**
+- **[Motion Planning Integration →](../motion/index.qmd)**
+- **[Troubleshooting Guide →](../guides/troubleshooting.qmd)**

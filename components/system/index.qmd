@@ -1,0 +1,769 @@
+---
+title: "System Integration"
+subtitle: "Complete system architecture and integration patterns"
+---
+
+# System Integration
+
+The System Integration layer orchestrates all Beebot subsystems into a cohesive autonomous mobile robot platform. This includes launch file management, parameter coordination, monitoring systems, and the overall software architecture that enables seamless operation across SLAM, motion planning, control, and user interfaces.
+
+## System Architecture
+
+### Complete System Overview
+
+```mermaid
+graph TB
+    subgraph "User Interfaces"
+        RVIZ[RViz Visualization]
+        WEB[Web Dashboard]
+        MOBILE[Mobile App]
+        VOICE[Voice Control]
+    end
+    
+    subgraph "High-Level Planning"
+        MISSION[Mission Planner]
+        WM[Waypoint Manager]
+        BEHAVIOR[Behavior Tree]
+    end
+    
+    subgraph "Navigation Stack"
+        MOVEBASE[move_base<br/>Navigation Server]
+        GP[Global Planner<br/>A*/RRT*]
+        LP[Local Planner<br/>DWA]
+        COSTMAP[Costmap 2D<br/>Global/Local]
+    end
+    
+    subgraph "Localization & Mapping"  
+        ALS[Advanced Localization<br/>ALS/EMCL]
+        MAPPING[SLAM/Mapping<br/>Ray Casting]
+        TF[Transform Tree<br/>tf2]
+    end
+    
+    subgraph "Sensor Processing"
+        LIDAR[LiDAR Processing<br/>scan_to_pcl]
+        IMU[IMU Processing<br/>sensor_fusion]
+        VISION[Computer Vision<br/>Image Processing]
+    end
+    
+    subgraph "Hardware Interface"
+        ARDUINO[Arduino Serial<br/>Motor Control]
+        REMOTE[Remote Control<br/>Xbox/MQTT]
+        SENSORS[Sensor Interface<br/>Hardware I/O]
+    end
+    
+    subgraph "System Services"
+        MONITOR[System Monitor<br/>Health Check]
+        LOG[Data Logging<br/>Bag Files]
+        PARAM[Parameter Server<br/>Dynamic Config]
+        DIAG[Diagnostics<br/>Error Handling]
+    end
+    
+    % User Interface Connections
+    RVIZ --> MOVEBASE
+    WEB --> MISSION
+    MOBILE --> REMOTE
+    VOICE --> BEHAVIOR
+    
+    % Planning Layer Connections
+    MISSION --> WM
+    WM --> MOVEBASE
+    BEHAVIOR --> MOVEBASE
+    
+    % Navigation Stack Connections
+    MOVEBASE --> GP
+    MOVEBASE --> LP
+    MOVEBASE --> COSTMAP
+    GP --> LP
+    
+    % Localization Connections
+    ALS --> MOVEBASE
+    ALS --> TF
+    MAPPING --> COSTMAP
+    TF --> MOVEBASE
+    
+    % Sensor Connections
+    LIDAR --> ALS
+    LIDAR --> MAPPING
+    IMU --> ALS
+    VISION --> COSTMAP
+    
+    % Hardware Connections
+    ARDUINO --> Odometry[Odometry]
+    REMOTE --> MOVEBASE
+    SENSORS --> COSTMAP
+    Odometry --> ALS
+    
+    % System Services
+    MONITOR --> All[All Nodes]
+    LOG --> All
+    PARAM --> All
+    DIAG --> All
+    
+    style MOVEBASE fill:#e1f5fe
+    style ALS fill:#f3e5f5
+    style ARDUINO fill:#fff3e0
+    style MONITOR fill:#f1f8e9
+```
+
+### Software Stack Layers
+
+The system is organized in distinct layers with well-defined interfaces:
+
+| Layer | Components | Responsibility | Interface |
+|-------|------------|---------------|-----------|
+| **Application** | Mission Planning, UI | High-level goals and user interaction | Action servers, web APIs |
+| **Autonomous Navigation** | move_base, planners | Path planning and execution | ROS actions, topics |
+| **Localization** | ALS, EMCL, mapping | Position estimation | TF transforms, topics |
+| **Sensor Processing** | Drivers, filters | Raw data to meaningful info | Sensor messages |
+| **Hardware Abstraction** | Arduino interface | Hardware control | Custom protocols |
+| **System Services** | Monitoring, logging | System health and data | Diagnostics, parameters |
+
+## Launch System Architecture
+
+### Hierarchical Launch Structure
+
+The launch system is organized hierarchically for modularity and maintainability:
+
+```
+system/launch/
+├── beebot_complete.launch          # Complete system launch
+├── modules/
+│   ├── slam_stack.launch          # SLAM and localization
+│   ├── motion_stack.launch        # Navigation and planning  
+│   ├── control_stack.launch       # Hardware control
+│   ├── sensors_stack.launch       # Sensor drivers
+│   └── ui_stack.launch            # User interfaces
+├── configs/
+│   ├── robot_params.yaml          # Robot-specific parameters
+│   ├── sensor_configs.yaml        # Sensor configurations
+│   ├── navigation_params.yaml     # Navigation parameters
+│   └── system_configs.yaml        # System-wide settings
+└── environments/
+    ├── indoor.launch              # Indoor environment
+    ├── outdoor.launch             # Outdoor environment
+    └── simulation.launch          # Simulation environment
+```
+
+### Master Launch File
+
+```xml
+<?xml version="1.0"?>
+<launch>
+  <!-- System Configuration -->
+  <arg name="robot_name" default="beebot"/>
+  <arg name="environment" default="indoor"/>
+  <arg name="simulation" default="false"/>
+  <arg name="debug" default="false"/>
+  
+  <!-- Load Robot Parameters -->
+  <rosparam file="$(find system)/configs/robot_params.yaml" command="load"/>
+  
+  <!-- Transform Tree Configuration -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+    <param name="publish_frequency" value="30.0"/>
+  </node>
+  
+  <!-- SLAM and Localization Stack -->
+  <include file="$(find system)/launch/modules/slam_stack.launch">
+    <arg name="use_sim_time" value="$(arg simulation)"/>
+  </include>
+  
+  <!-- Motion Planning Stack -->  
+  <include file="$(find system)/launch/modules/motion_stack.launch">
+    <arg name="environment" value="$(arg environment)"/>
+  </include>
+  
+  <!-- Control and Hardware Stack -->
+  <include file="$(find system)/launch/modules/control_stack.launch" unless="$(arg simulation)">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+  
+  <!-- Sensor Processing Stack -->
+  <include file="$(find system)/launch/modules/sensors_stack.launch">
+    <arg name="simulation" value="$(arg simulation)"/>
+  </include>
+  
+  <!-- User Interface Stack -->
+  <include file="$(find system)/launch/modules/ui_stack.launch">
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+  
+  <!-- System Monitoring -->
+  <include file="$(find system)/launch/modules/monitoring_stack.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+  
+  <!-- Environment-specific Configuration -->
+  <include file="$(find system)/launch/environments/$(arg environment).launch"/>
+  
+</launch>
+```
+
+## Configuration Management
+
+### Parameter Hierarchy
+
+Parameters are organized hierarchically with inheritance and overrides:
+
+```yaml
+# robot_params.yaml - Base robot configuration
+robot:
+  # Physical parameters
+  geometry:
+    wheel_base: 0.35                # Distance between wheels (m)
+    wheel_radius: 0.075             # Wheel radius (m)
+    robot_radius: 0.25              # Robot inscribed radius (m)
+    
+  # Kinematic limits
+  kinematics:
+    max_linear_velocity: 1.0        # Maximum linear velocity (m/s)
+    max_angular_velocity: 2.0       # Maximum angular velocity (rad/s)
+    max_linear_acceleration: 1.0    # Maximum linear acceleration (m/s²)
+    max_angular_acceleration: 2.0   # Maximum angular acceleration (rad/s²)
+    
+  # Sensor specifications
+  sensors:
+    lidar:
+      type: "ydlidar_tg15"
+      frame_id: "laser_link"
+      topic: "/scan"
+      update_rate: 10.0
+      
+    imu:
+      type: "xsens_mti"
+      frame_id: "imu_link" 
+      topic: "/imu/data"
+      update_rate: 100.0
+```
+
+### Dynamic Reconfiguration
+
+Critical parameters support runtime reconfiguration:
+
+```cpp
+// Dynamic reconfigure server setup
+#include <dynamic_reconfigure/server.h>
+#include <system/SystemConfigConfig.h>
+
+class SystemManager {
+private:
+    dynamic_reconfigure::Server<system::SystemConfigConfig> config_server_;
+    
+    void configCallback(system::SystemConfigConfig &config, uint32_t level) {
+        // Update navigation parameters
+        if (level & system::SystemConfig_navigation_gains) {
+            updateNavigationGains(config);
+        }
+        
+        // Update safety parameters
+        if (level & system::SystemConfig_safety_limits) {
+            updateSafetyLimits(config);
+        }
+        
+        // Update sensor parameters
+        if (level & system::SystemConfig_sensor_settings) {
+            updateSensorSettings(config);
+        }
+    }
+    
+public:
+    SystemManager() : config_server_(ros::NodeHandle("~")) {
+        config_server_.setCallback(boost::bind(&SystemManager::configCallback, this, _1, _2));
+    }
+};
+```
+
+## System Monitoring
+
+### Health Monitoring System
+
+```mermaid
+graph TB
+    subgraph "Node Health Monitors"
+        NH1[Navigation Health]
+        NH2[Localization Health] 
+        NH3[Hardware Health]
+        NH4[Sensor Health]
+    end
+    
+    subgraph "System Health Aggregator"  
+        SHA[Health Aggregator<br/>Central Monitor]
+    end
+    
+    subgraph "Alert Systems"
+        LED[Status LEDs]
+        BUZZ[Audio Alerts]
+        LOG[System Logs]
+        WEB[Web Dashboard]
+    end
+    
+    subgraph "Recovery Actions"
+        AUTO[Auto Recovery<br/>Restart Nodes]
+        MANUAL[Manual Recovery<br/>User Intervention]
+        SAFE[Safe Mode<br/>Minimal Function]
+    end
+    
+    NH1 --> SHA
+    NH2 --> SHA
+    NH3 --> SHA
+    NH4 --> SHA
+    
+    SHA --> LED
+    SHA --> BUZZ
+    SHA --> LOG
+    SHA --> WEB
+    
+    SHA --> AUTO
+    SHA --> MANUAL  
+    SHA --> SAFE
+    
+    style SHA fill:#e1f5fe
+    style AUTO fill:#f3e5f5
+```
+
+### Diagnostic Framework
+
+```cpp
+// System health monitoring node
+class SystemHealthMonitor {
+private:
+    ros::NodeHandle nh_;
+    diagnostic_updater::Updater diagnostic_updater_;
+    
+    // Health status for each subsystem
+    enum HealthStatus {
+        HEALTHY = 0,
+        WARNING = 1,
+        ERROR = 2,
+        CRITICAL = 3
+    };
+    
+    struct SubsystemHealth {
+        std::string name;
+        HealthStatus status;
+        std::string message;
+        ros::Time last_update;
+    };
+    
+    std::map<std::string, SubsystemHealth> subsystem_health_;
+    
+public:
+    void navigationHealthCallback(const diagnostic_msgs::DiagnosticArray::ConstPtr& msg) {
+        updateSubsystemHealth("navigation", msg);
+    }
+    
+    void localizationHealthCallback(const diagnostic_msgs::DiagnosticArray::ConstPtr& msg) {
+        updateSubsystemHealth("localization", msg);
+    }
+    
+    void hardwareHealthCallback(const diagnostic_msgs::DiagnosticArray::ConstPtr& msg) {
+        updateSubsystemHealth("hardware", msg);
+    }
+    
+    void publishSystemHealth() {
+        diagnostic_msgs::DiagnosticArray system_health;
+        system_health.header.stamp = ros::Time::now();
+        
+        // Aggregate subsystem health
+        HealthStatus overall_status = HEALTHY;
+        for (const auto& subsystem : subsystem_health_) {
+            if (subsystem.second.status > overall_status) {
+                overall_status = subsystem.second.status;
+            }
+        }
+        
+        // Create system health message
+        diagnostic_msgs::DiagnosticStatus status;
+        status.name = "system_overall";
+        status.level = static_cast<uint8_t>(overall_status);
+        status.message = getHealthMessage(overall_status);
+        
+        system_health.status.push_back(status);
+        health_publisher_.publish(system_health);
+    }
+};
+```
+
+### Performance Monitoring
+
+#### Key Performance Indicators (KPIs)
+
+```yaml
+# Performance thresholds
+performance_thresholds:
+  # System resource usage
+  cpu_usage_warning: 70.0           # CPU usage warning threshold (%)
+  cpu_usage_critical: 90.0          # CPU usage critical threshold (%)
+  memory_usage_warning: 80.0        # Memory usage warning threshold (%)
+  memory_usage_critical: 95.0       # Memory usage critical threshold (%)
+  
+  # Communication performance
+  topic_hz_warning: 0.8              # Topic frequency warning (fraction of expected)
+  topic_hz_critical: 0.5             # Topic frequency critical (fraction of expected)
+  latency_warning: 100.0             # Communication latency warning (ms)
+  latency_critical: 500.0            # Communication latency critical (ms)
+  
+  # Navigation performance
+  localization_error_warning: 0.5    # Localization error warning (m)
+  localization_error_critical: 2.0   # Localization error critical (m)
+  path_deviation_warning: 1.0        # Path deviation warning (m)
+  path_deviation_critical: 3.0       # Path deviation critical (m)
+```
+
+#### Automated Performance Analysis
+
+```python
+#!/usr/bin/env python3
+"""
+System Performance Monitor
+Analyzes system performance and generates reports
+"""
+
+import rospy
+import psutil
+from diagnostic_msgs.msg import DiagnosticArray, DiagnosticStatus
+
+class PerformanceMonitor:
+    def __init__(self):
+        self.performance_pub = rospy.Publisher('/system/performance', 
+                                             DiagnosticArray, queue_size=1)
+        
+        # Load performance thresholds
+        self.thresholds = rospy.get_param('/performance_thresholds', {})
+        
+        # Start monitoring timer
+        self.monitor_timer = rospy.Timer(rospy.Duration(1.0), self.monitor_callback)
+    
+    def monitor_callback(self, event):
+        """Monitor system performance and publish diagnostics"""
+        diagnostic_array = DiagnosticArray()
+        diagnostic_array.header.stamp = rospy.Time.now()
+        
+        # CPU usage monitoring
+        cpu_percent = psutil.cpu_percent()
+        cpu_status = self.create_diagnostic_status(
+            name="system/cpu_usage",
+            level=self.get_level(cpu_percent, 
+                               self.thresholds.get('cpu_usage_warning', 70),
+                               self.thresholds.get('cpu_usage_critical', 90)),
+            message=f"CPU usage: {cpu_percent:.1f}%",
+            values=[("cpu_percent", cpu_percent)]
+        )
+        diagnostic_array.status.append(cpu_status)
+        
+        # Memory usage monitoring
+        memory = psutil.virtual_memory()
+        memory_status = self.create_diagnostic_status(
+            name="system/memory_usage", 
+            level=self.get_level(memory.percent,
+                               self.thresholds.get('memory_usage_warning', 80),
+                               self.thresholds.get('memory_usage_critical', 95)),
+            message=f"Memory usage: {memory.percent:.1f}%",
+            values=[("memory_percent", memory.percent),
+                   ("memory_available", memory.available)]
+        )
+        diagnostic_array.status.append(memory_status)
+        
+        # Publish diagnostics
+        self.performance_pub.publish(diagnostic_array)
+    
+    def get_level(self, value, warning_threshold, critical_threshold):
+        """Determine diagnostic level based on thresholds"""
+        if value >= critical_threshold:
+            return DiagnosticStatus.ERROR
+        elif value >= warning_threshold:
+            return DiagnosticStatus.WARN
+        else:
+            return DiagnosticStatus.OK
+```
+
+## Data Management
+
+### Logging and Data Collection
+
+```yaml
+# Data logging configuration
+logging_config:
+  # ROS bag recording
+  bag_recording:
+    enabled: true
+    topics:
+      - "/tf"
+      - "/tf_static" 
+      - "/scan"
+      - "/odom"
+      - "/cmd_vel"
+      - "/move_base/goal"
+      - "/move_base/result"
+    max_bag_size: "1GB"           # Maximum bag file size
+    max_bag_duration: "1h"        # Maximum recording duration
+    
+  # System logs
+  system_logging:
+    log_level: "INFO"             # ROS log level
+    log_directory: "~/.ros/log"   # Log directory
+    max_log_size: "100MB"         # Maximum log file size
+    log_rotation_count: 10        # Number of rotated logs
+    
+  # Performance data
+  performance_logging:
+    enabled: true
+    metrics_topics:
+      - "/diagnostics"
+      - "/system/performance"
+      - "/system/health"
+    sampling_rate: 1.0            # Data sampling rate (Hz)
+```
+
+### Data Analysis Tools
+
+```bash
+#!/bin/bash
+# System analysis script
+
+# Analyze ROS bag files
+analyze_bag_file() {
+    local bag_file=$1
+    echo "Analyzing bag file: $bag_file"
+    
+    # Basic bag info
+    rosbag info "$bag_file"
+    
+    # Topic frequency analysis
+    rostopic hz /scan < "$bag_file" &
+    rostopic hz /odom < "$bag_file" &
+    
+    # Generate plots
+    rqt_plot "$bag_file"
+}
+
+# System performance report
+generate_performance_report() {
+    echo "Generating system performance report..."
+    
+    # CPU and memory usage over time
+    python3 scripts/analyze_performance.py \
+        --input /var/log/system_performance.log \
+        --output reports/performance_report.html
+    
+    # Navigation performance metrics
+    python3 scripts/analyze_navigation.py \
+        --bag_file latest_mission.bag \
+        --output reports/navigation_report.html
+}
+
+# Main analysis function
+main() {
+    # Find latest bag file
+    latest_bag=$(find ~/.ros/bags -name "*.bag" -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2-)
+    
+    if [ -n "$latest_bag" ]; then
+        analyze_bag_file "$latest_bag"
+    fi
+    
+    generate_performance_report
+}
+
+main "$@"
+```
+
+## Deployment Patterns
+
+### Development vs Production
+
+#### Development Configuration
+```yaml
+# Development environment settings
+development:
+  # Debugging enabled
+  debug_mode: true
+  verbose_logging: true
+  
+  # Reduced safety constraints for testing
+  safety:
+    max_velocity: 0.5             # Reduced max velocity
+    obstacle_buffer: 0.3          # Increased safety buffer
+    
+  # Development tools enabled
+  tools:
+    rviz: true                    # Enable RViz visualization
+    rqt_tools: true              # Enable rqt debugging tools
+    web_dashboard: true          # Enable web dashboard
+```
+
+#### Production Configuration
+```yaml
+# Production environment settings
+production:
+  # Debugging disabled for performance
+  debug_mode: false
+  verbose_logging: false
+  
+  # Full performance settings
+  safety:
+    max_velocity: 1.0             # Full max velocity
+    obstacle_buffer: 0.2          # Standard safety buffer
+    
+  # Minimal UI for performance
+  tools:
+    rviz: false                   # Disable RViz (performance)
+    rqt_tools: false             # Disable debugging tools
+    web_dashboard: true          # Keep web dashboard for monitoring
+```
+
+### Containerized Deployment
+
+```dockerfile
+# Beebot System Container
+FROM ros:melodic-desktop-full
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    libudev-dev \
+    libusb-1.0-0-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements.txt /tmp/requirements.txt
+RUN pip3 install -r /tmp/requirements.txt
+
+# Copy Beebot source code
+COPY . /catkin_ws/src/beebot
+WORKDIR /catkin_ws
+
+# Build the workspace
+RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_make"
+
+# Setup environment
+RUN echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
+
+# Entry point
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+# Default command
+CMD ["roslaunch", "system", "beebot_complete.launch"]
+```
+
+## Troubleshooting Framework
+
+### Automated Diagnostics
+
+```python
+#!/usr/bin/env python3
+"""
+Automated System Diagnostics
+Runs comprehensive system health checks
+"""
+
+class SystemDiagnostics:
+    def __init__(self):
+        self.test_results = {}
+        
+    def run_all_diagnostics(self):
+        """Run complete diagnostic suite"""
+        print("Running Beebot System Diagnostics...")
+        
+        # Hardware diagnostics
+        self.test_hardware_connectivity()
+        self.test_sensor_functionality()
+        
+        # Software diagnostics  
+        self.test_ros_connectivity()
+        self.test_node_health()
+        
+        # Navigation diagnostics
+        self.test_localization_accuracy()
+        self.test_path_planning()
+        
+        # Generate report
+        self.generate_diagnostic_report()
+        
+    def test_hardware_connectivity(self):
+        """Test hardware device connectivity"""
+        print("Testing hardware connectivity...")
+        
+        # Test Arduino connection
+        try:
+            import serial
+            ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+            ser.close()
+            self.test_results['arduino_connection'] = 'PASS'
+        except:
+            self.test_results['arduino_connection'] = 'FAIL'
+            
+        # Test LiDAR connection
+        result = os.system('ls /dev/ttyUSB* | grep ttyUSB1 > /dev/null')
+        self.test_results['lidar_connection'] = 'PASS' if result == 0 else 'FAIL'
+        
+    def generate_diagnostic_report(self):
+        """Generate HTML diagnostic report"""
+        html_content = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Beebot System Diagnostics</title>
+            <style>
+                .pass { color: green; }
+                .fail { color: red; }
+                .warn { color: orange; }
+            </style>
+        </head>
+        <body>
+            <h1>Beebot System Diagnostics Report</h1>
+            <table border="1">
+                <tr><th>Test</th><th>Result</th></tr>
+        """
+        
+        for test_name, result in self.test_results.items():
+            css_class = result.lower()
+            html_content += f"<tr><td>{test_name}</td><td class='{css_class}'>{result}</td></tr>"
+            
+        html_content += """
+            </table>
+        </body>
+        </html>
+        """
+        
+        with open('/tmp/beebot_diagnostics.html', 'w') as f:
+            f.write(html_content)
+            
+        print("Diagnostic report saved to /tmp/beebot_diagnostics.html")
+
+if __name__ == '__main__':
+    diagnostics = SystemDiagnostics()
+    diagnostics.run_all_diagnostics()
+```
+
+## Next Steps
+
+- **[Hardware Setup Guide →](../guides/hardware-setup.qmd)**
+- **[Software Installation →](../getting-started/installation.qmd)**
+- **[Configuration Tuning →](../guides/configuration.qmd)**
+- **[Troubleshooting Guide →](../guides/troubleshooting.qmd)**
+
+---
+
+:::{.callout-tip}
+## Integration Best Practices
+
+### System Design
+- Use consistent naming conventions across all modules
+- Implement proper error handling and recovery mechanisms
+- Design for modularity and testability
+- Document all interfaces and dependencies
+
+### Performance Optimization
+- Monitor system resources and optimize bottlenecks
+- Use appropriate message passing strategies
+- Implement efficient data structures and algorithms
+- Consider real-time requirements for critical paths
+
+### Maintenance
+- Implement comprehensive logging and monitoring
+- Use version control for configuration management
+- Create automated testing and validation procedures
+- Plan for regular system updates and maintenance
+:::

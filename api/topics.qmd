@@ -1,0 +1,257 @@
+---
+title: "Topics & Messages"
+subtitle: "Complete reference for ROS topics and message types"
+---
+
+# Topics & Messages Reference
+
+This page documents all ROS topics used in the Beebot system, organized by message type and functionality.
+
+## Core Navigation Topics
+
+### Pose and Transform Topics
+
+| Topic | Message Type | Description | Publishers | Subscribers |
+|-------|--------------|-------------|------------|-------------|
+| `/amcl_pose` | `geometry_msgs/PoseWithCovarianceStamped` | Robot pose estimate from localization | `mcl`, `emcl` | Navigation stack |
+| `/initialpose` | `geometry_msgs/PoseWithCovarianceStamped` | Initial pose for localization | `waypoint_manager`, RViz | `mcl`, `emcl`, `a_star_planner` |
+| `/move_base_simple/goal` | `geometry_msgs/PoseStamped` | Navigation goal | `waypoint_manager`, RViz | `a_star_planner`, `dwa_planner` |
+| `/tf` | `tf2_msgs/TFMessage` | Transform tree | `mcl`, `emcl`, sensors | All nodes |
+| `/odom` | `nav_msgs/Odometry` | Wheel odometry | Hardware drivers | `mcl`, `emcl`, `dwa_planner` |
+
+### Path Planning Topics
+
+| Topic | Message Type | Description | Publishers | Subscribers |
+|-------|--------------|-------------|------------|-------------|
+| `/path` | `nav_msgs/Path` | Global planned path | `a_star_planner` | `dwa_planner` (optional) |
+| `~/global_goal` | `geometry_msgs/PoseStamped` | Current navigation goal | `waypoint_manager` | Navigation stack |
+| `/cmd_vel` | `geometry_msgs/Twist` | Velocity commands | `dwa_planner`, `remote_control` | Hardware drivers |
+| `/finish_flag` | `std_msgs/Bool` | Goal completion signal | `dwa_planner` | `waypoint_manager` |
+
+## Sensor Data Topics
+
+### LiDAR and Point Cloud
+
+| Topic | Message Type | Description | Publishers | Subscribers |
+|-------|--------------|-------------|------------|-------------|
+| `/scan` | `sensor_msgs/LaserScan` | 2D laser scan data | `ydlidar_ros_driver_node` | `mcl`, `emcl`, `dwa_planner` |
+| `/point_cloud` | `sensor_msgs/PointCloud` | 2D point cloud | `ydlidar_ros_driver_node` | Processing nodes |
+| `/cloud` | `sensor_msgs/PointCloud2` | 3D point cloud data | `scan_to_pcl_node` | `raycast_mapping_node`, `emcl` |
+| `~/cloud_filtered` | `sensor_msgs/PointCloud2` | Filtered point cloud | `pointcloud_angle_filter_node` | Navigation stack |
+
+### IMU and Sensor Fusion
+
+| Topic | Message Type | Description | Publishers | Subscribers |
+|-------|--------------|-------------|------------|-------------|
+| `/imu/data` | `sensor_msgs/Imu` | IMU data | `xsens_mti_node` | Sensor fusion |
+| `/imu/acceleration` | `geometry_msgs/Vector3Stamped` | Linear acceleration | `xsens_mti_node` | Odometry nodes |
+| `/imu/angular_velocity` | `geometry_msgs/Vector3Stamped` | Angular velocity | `xsens_mti_node` | Gyrodometry |
+| `/imu/mag` | `sensor_msgs/MagneticField` | Magnetic field | `xsens_mti_node` | Compass heading |
+
+## Control and Interface Topics
+
+### Remote Control
+
+| Topic | Message Type | Description | Publishers | Subscribers |
+|-------|--------------|-------------|------------|-------------|
+| `/joy` | `sensor_msgs/Joy` | Gamepad input | `joy_node` | `remote_control_node` |
+| `/cmd_vel` | `geometry_msgs/Twist` | Manual velocity commands | `remote_control_node` | Hardware drivers |
+
+### Arduino Hardware Interface
+
+| Topic | Message Type | Description | Publishers | Subscribers |
+|-------|--------------|-------------|------------|-------------|
+| `/arduino_feedback` | `std_msgs/Int16MultiArray` | Hardware status feedback | `arduino_serial_node` | System monitor |
+| `/robot_state` | `std_msgs/String` | Robot state commands | System controller | `arduino_serial_node` |
+| `/robot_id` | `std_msgs/String` | Robot identification | System controller | `arduino_serial_node` |
+
+## Mapping and Localization Topics
+
+### Occupancy Grid Maps
+
+| Topic | Message Type | Description | Publishers | Subscribers |
+|-------|--------------|-------------|------------|-------------|
+| `/map` | `nav_msgs/OccupancyGrid` | Static map | `map_server` | `mcl`, `emcl`, `a_star_planner` |
+| `/local_map` | `nav_msgs/OccupancyGrid` | Local occupancy grid | `raycast_mapping_node` | `dwa_planner` |
+
+### Particle Filter Visualization
+
+| Topic | Message Type | Description | Publishers | Subscribers |
+|-------|--------------|-------------|------------|-------------|
+| `~/particle_cloud` | `geometry_msgs/PoseArray` | MCL particles | `mcl`, `emcl` | RViz |
+| `~/likelihood_map` | `nav_msgs/OccupancyGrid` | Likelihood visualization | `mcl` | RViz |
+
+## Visualization Topics
+
+### Path Planning Visualization
+
+| Topic | Message Type | Description | Publishers | Subscribers |
+|-------|--------------|-------------|------------|-------------|
+| `~/candidate_trajectories` | `visualization_msgs/MarkerArray` | DWA candidate paths | `dwa_planner` | RViz |
+| `~/selected_trajectory` | `visualization_msgs/Marker` | Selected DWA trajectory | `dwa_planner` | RViz |
+| `~/predict_footprints` | `visualization_msgs/MarkerArray` | Predicted robot footprints | `dwa_planner` | RViz |
+| `~/current_node` | `geometry_msgs/PointStamped` | A* current node (debug) | `a_star_planner` | RViz |
+| `~/open_set` | `geometry_msgs/PoseArray` | A* open set (debug) | `a_star_planner` | RViz |
+| `~/close_set` | `geometry_msgs/PoseArray` | A* closed set (debug) | `a_star_planner` | RViz |
+
+### Waypoint Visualization
+
+| Topic | Message Type | Description | Publishers | Subscribers |
+|-------|--------------|-------------|------------|-------------|
+| `~/waypoints` | `visualization_msgs/MarkerArray` | Waypoint markers | `waypoint_manager` | RViz |
+| `~/footprint` | `geometry_msgs/PolygonStamped` | Robot footprint | `footprint_publisher_node` | Navigation, RViz |
+
+## Message Type Definitions
+
+### Key Message Structures
+
+```yaml
+# geometry_msgs/PoseWithCovarianceStamped
+header:
+  stamp: time
+  frame_id: string
+pose:
+  pose:
+    position: {x: float64, y: float64, z: float64}
+    orientation: {x: float64, y: float64, z: float64, w: float64}
+  covariance: float64[36]
+
+# sensor_msgs/LaserScan
+header:
+  stamp: time
+  frame_id: string
+angle_min: float32        # start angle of scan [rad]
+angle_max: float32        # end angle of scan [rad]
+angle_increment: float32  # angular distance between measurements [rad]
+time_increment: float32   # time between measurements [seconds]
+scan_time: float32        # time between scans [seconds]
+range_min: float32        # minimum range value [m]
+range_max: float32        # maximum range value [m]
+ranges: float32[]         # range data [m]
+intensities: float32[]    # intensity data
+
+# nav_msgs/OccupancyGrid
+header:
+  stamp: time
+  frame_id: string
+info:
+  map_load_time: time
+  resolution: float32     # m/pixel
+  width: uint32          # pixels
+  height: uint32         # pixels
+  origin:                # origin of map
+    position: {x: float64, y: float64, z: float64}
+    orientation: {x: float64, y: float64, z: float64, w: float64}
+data: int8[]            # occupancy data, row-major order
+                        # 0-100: occupancy probability
+                        # -1: unknown
+
+# geometry_msgs/Twist
+linear: {x: float64, y: float64, z: float64}
+angular: {x: float64, y: float64, z: float64}
+```
+
+## Topic Communication Patterns
+
+### Synchronous Communication
+Topics that require time-synchronized data:
+
+```mermaid
+graph LR
+    A[Sensor Data] --> B[Sensor Fusion]
+    C[IMU Data] --> B
+    D[Odometry] --> B
+    B --> E[Localization]
+```
+
+### Asynchronous Communication
+Topics with event-driven communication:
+
+```mermaid
+graph LR
+    A[Goal Request] --> B[Path Planner]
+    B --> C[Local Planner]
+    C --> D[Velocity Commands]
+    C --> E[Finish Flag]
+    E --> A
+```
+
+## Topic Monitoring Commands
+
+### Useful ROS Commands for Topic Monitoring
+
+```bash
+# List all active topics
+rostopic list
+
+# Show topic information
+rostopic info /scan
+rostopic info /cmd_vel
+
+# Monitor topic data
+rostopic echo /amcl_pose
+rostopic echo /scan --clear
+
+# Check topic frequency
+rostopic hz /scan
+rostopic hz /odom
+
+# Plot topic data
+rosrun rqt_plot rqt_plot
+rosrun rqt_graph rqt_graph
+
+# Record topics
+rosbag record -a  # record all topics
+rosbag record /scan /odom /cmd_vel  # record specific topics
+
+# Playback recorded data
+rosbag play recorded_data.bag
+```
+
+### Topic Debugging
+
+```bash
+# Check if topic is being published
+rostopic list | grep scan
+
+# Check message type
+rostopic type /scan
+
+# Show message structure
+rosmsg show sensor_msgs/LaserScan
+
+# Test publish to topic
+rostopic pub /move_base_simple/goal geometry_msgs/PoseStamped "
+header:
+  stamp: now
+  frame_id: 'map'
+pose:
+  position: {x: 2.0, y: 1.0, z: 0.0}
+  orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}"
+```
+
+## Quality of Service (QoS) Settings
+
+### Recommended QoS for Different Topic Types
+
+| Topic Type | Reliability | Durability | History | Queue Size |
+|------------|------------|------------|---------|------------|
+| Sensor Data | Best Effort | Volatile | Keep Last | 1-5 |
+| Control Commands | Reliable | Volatile | Keep Last | 1 |
+| Maps | Reliable | Transient Local | Keep Last | 1 |
+| Transforms | Best Effort | Volatile | Keep Last | 10 |
+| Diagnostics | Reliable | Volatile | Keep All | 100 |
+
+---
+
+:::{.callout-note}
+## Message Compatibility
+All message types are compatible with ROS Melodic. Some nodes may support both ROS 1 and ROS 2 message formats.
+:::
+
+:::{.callout-tip}
+## Performance Optimization
+- Use `rostopic hz` to monitor topic frequencies
+- Large message types (like point clouds) should use efficient serialization
+- Consider message filtering for high-frequency sensors
+:::

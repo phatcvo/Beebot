@@ -1,0 +1,312 @@
+---
+title: "ROS Nodes"
+subtitle: "Complete reference for all ROS nodes in Beebot system"
+---
+
+# ROS Nodes Reference
+
+This page provides comprehensive documentation for all ROS nodes in the Beebot system, organized by component.
+
+## SLAM & Localization Nodes
+
+### `mcl` (Advanced Localization System)
+**Package:** `als_ros`  
+**Description:** Advanced Monte Carlo Localization with reliability estimation and robust features.
+
+#### Published Topics
+- `/amcl_pose` (`geometry_msgs/PoseWithCovarianceStamped`) - Estimated robot pose
+- `/tf` (`tf2_msgs/TFMessage`) - Transform from map to odom frame
+- `~/particle_cloud` (`geometry_msgs/PoseArray`) - Particle cloud visualization
+
+#### Subscribed Topics
+- `/scan` (`sensor_msgs/LaserScan`) - Laser scan data
+- `/odom` (`nav_msgs/Odometry`) - Odometry data
+- `/map` (`nav_msgs/OccupancyGrid`) - Static map
+- `/initialpose` (`geometry_msgs/PoseWithCovarianceStamped`) - Initial pose estimate
+
+#### Key Parameters
+- `~localization_hz` (double, default: `20.0`) - Localization update frequency
+- `~use_gl_pose_sampler` (bool, default: `false`) - Enable global localization
+- `~use_mrf_failure_detector` (bool, default: `false`) - Enable misalignment detection
+
+---
+
+### `emcl` (Expanded MCL)
+**Package:** `emcl_ros`  
+**Description:** Monte Carlo Localization with expansion resetting capabilities.
+
+#### Published Topics
+- `/emcl_pose` (`geometry_msgs/PoseWithCovarianceStamped`) - Estimated pose
+- `/tf` (`tf2_msgs/TFMessage`) - Transform data
+- `~/particle_cloud` (`geometry_msgs/PoseArray`) - Particle cloud
+
+#### Subscribed Topics
+- `/scan` (`sensor_msgs/LaserScan`) - Laser scan data
+- `/odom` (`nav_msgs/Odometry`) - Odometry data
+- `/initialpose` (`geometry_msgs/PoseWithCovarianceStamped`) - Initial pose
+- `/cloud` (`sensor_msgs/PointCloud2`) - Point cloud data (optional)
+
+#### Key Parameters
+- `~particle_num` (int, default: `420`) - Number of particles
+- `~init_position_dev` (float, default: `0.1`) - Initial position deviation
+- `~reset_count_limit` (int, default: `3`) - Reset count limit
+- `~use_cloud` (bool, default: `false`) - Use point cloud instead of laser scan
+
+---
+
+### `raycast_mapping_node` (Ray Casting Mapping)
+**Package:** `raycast_mapping_ros`  
+**Description:** Real-time local map generation using ray casting algorithm.
+
+#### Published Topics
+- `/local_map` (`nav_msgs/OccupancyGrid`) - Generated local occupancy grid
+
+#### Subscribed Topics
+- `/cloud` (`sensor_msgs/PointCloud2`) - Input point cloud data
+
+#### Key Parameters
+- `~frame_id` (string, default: `base_footprint`) - Frame ID for the local map
+- `~map_reso` (float, default: `0.05`) - Map resolution in m/cell
+- `~map_size` (float, default: `10.0`) - Map size in meters
+- `~yaw_reso` (float, default: `0.087`) - Yaw resolution for ray casting
+
+---
+
+## Motion Planning Nodes
+
+### `a_star_planner` (A* Global Planner)
+**Package:** `a_star_ros`  
+**Description:** Optimal global path planning using A* search algorithm.
+
+#### Published Topics
+- `~/path` (`nav_msgs/Path`) - Planned global path
+- `~/current_node` (`geometry_msgs/PointStamped`) - Current processing node (debug mode)
+- `~/open_set` (`geometry_msgs/PoseArray`) - Open set visualization (debug mode)
+- `~/close_set` (`geometry_msgs/PoseArray`) - Closed set visualization (debug mode)
+
+#### Subscribed Topics
+- `/initialpose` (`geometry_msgs/PoseWithCovarianceStamped`) - Start pose
+- `/map` (`nav_msgs/OccupancyGrid`) - Costmap for planning
+- `/move_base_simple/goal` (`geometry_msgs/PoseStamped`) - Goal pose
+
+#### Key Parameters
+- `~hz` (int, default: `2`) - Main loop frequency in Hz
+- `~weight_of_heuristic` (float, default: `1.0`) - Heuristic weight for A*
+- `~debug_mode` (bool, default: `false`) - Enable debug visualization
+- `~sleep_time` (float, default: `0.01`) - Sleep time in debug mode
+
+---
+
+### `dwa_planner` (DWA Local Planner)
+**Package:** `dwa_planner`  
+**Description:** Dynamic Window Approach for local obstacle avoidance and path following.
+
+#### Published Topics
+- `/cmd_vel` (`geometry_msgs/Twist`) - Velocity commands
+- `~/candidate_trajectories` (`visualization_msgs/MarkerArray`) - Candidate trajectories
+- `~/selected_trajectory` (`visualization_msgs/Marker`) - Selected trajectory
+- `~/predict_footprints` (`visualization_msgs/MarkerArray`) - Predicted footprints
+- `~/finish_flag` (`std_msgs/Bool`) - Goal reached flag
+
+#### Subscribed Topics
+- `/local_map` (`nav_msgs/OccupancyGrid`) - Robot-centered costmap
+- `/move_base_simple/goal` (`geometry_msgs/PoseStamped`) - Goal pose
+- `/odom` (`nav_msgs/Odometry`) - Robot odometry
+- `/scan` (`sensor_msgs/LaserScan`) - Laser scan (optional)
+- `/path` (`nav_msgs/Path`) - Global path (optional)
+
+#### Key Parameters
+- `~HZ` (double, default: `20`) - Main loop frequency
+- `~MAX_VELOCITY` (double, default: `0.8`) - Maximum linear velocity
+- `~MAX_YAWRATE` (double, default: `0.8`) - Maximum angular velocity
+- `~MAX_ACCELERATION` (double, default: `1.0`) - Maximum acceleration
+- `~ROBOT_RADIUS` (double, default: `0.125`) - Robot radius for collision checking
+
+---
+
+### `waypoint_manager` (Waypoint Management)
+**Package:** `waypoint_manager_ros`  
+**Description:** Automated waypoint navigation and goal management.
+
+#### Published Topics
+- `/initialpose` (`geometry_msgs/PoseWithCovarianceStamped`) - Initial pose
+- `~/global_goal` (`geometry_msgs/PoseStamped`) - Current goal pose
+- `~/waypoints` (`visualization_msgs/MarkerArray`) - Waypoint visualization
+
+#### Subscribed Topics
+- `/finish_flag` (`std_msgs/Bool`) - Goal completion flag
+
+#### Services
+- `~/update_goal` - Update current goal pose
+
+#### Key Parameters
+- `~hz` (int, default: `1`) - Main loop frequency
+- `~frame_id` (string, default: `map`) - Frame ID for topics
+- `~waypoint_file` (string, default: `waypoints.yaml`) - Waypoint file path
+- `~start` (int, default: `0`) - Starting waypoint ID
+
+---
+
+## Control System Nodes
+
+### `remote_control_node` (Xbox Gamepad Control)
+**Package:** `remote_control`  
+**Description:** Remote control interface using Xbox gamepad for manual robot operation.
+
+#### Published Topics
+- `/cmd_vel` (`geometry_msgs/Twist`) - Velocity commands from gamepad
+
+#### Subscribed Topics
+- `/joy` (`sensor_msgs/Joy`) - Joystick input data
+
+#### Key Parameters
+- `~key_type` (int, default: `0`) - Control key configuration type
+- `~max_linear_vel` (double, default: `1.4`) - Maximum linear velocity
+- `~max_angular_vel` (double, default: `1.0`) - Maximum angular velocity
+- `~connection_timeout` (double, default: `0.3`) - Connection timeout
+- `~control_ratio` (int, default: `8`) - Control sensitivity ratio
+
+---
+
+### `arduino_serial_node` (Arduino Interface)
+**Package:** `arduino_serial`  
+**Description:** Interface for Arduino-based hardware control and feedback.
+
+#### Published Topics
+- `/arduino_feedback` (`std_msgs/Int16MultiArray`) - Hardware status feedback
+
+#### Subscribed Topics
+- `/robot_state` (`std_msgs/String`) - Robot state commands
+- `/robot_id` (`std_msgs/String`) - Robot identification
+
+#### Key Parameters
+- `~serial_port` (string, default: `/dev/ttyACM0`) - Serial port for Arduino
+- `~baud_rate` (int, default: `115200`) - Serial communication baud rate
+
+---
+
+## Sensor Interface Nodes
+
+### `ydlidar_ros_driver_node` (YDLiDAR Driver)
+**Package:** `ydlidar_ros_driver`  
+**Description:** Driver for YDLiDAR TG15 2D laser scanner.
+
+#### Published Topics
+- `/scan` (`sensor_msgs/LaserScan`) - 2D laser scan data
+- `/point_cloud` (`sensor_msgs/PointCloud`) - 2D point cloud data
+
+#### Services
+- `/stop_scan` (`std_srvs/Empty`) - Stop laser scanning
+- `/start_scan` (`std_srvs/Empty`) - Start laser scanning
+
+#### Key Parameters
+- `~port` (string, default: `/dev/ydlidar`) - Serial port for LiDAR
+- `~baudrate` (int, default: `230400`) - Communication baud rate
+- `~frame_id` (string, default: `laser`) - Frame ID for laser data
+- `~angle_min` (double, default: `-3.141592654`) - Minimum scan angle
+- `~angle_max` (double, default: `3.141592654`) - Maximum scan angle
+
+---
+
+### `xsens_mti_node` (IMU Driver)
+**Package:** `xsens_mti_driver`  
+**Description:** Driver for Xsens MTi IMU sensors.
+
+#### Published Topics
+- `/imu/data` (`sensor_msgs/Imu`) - IMU data
+- `/imu/acceleration` (`geometry_msgs/Vector3Stamped`) - Linear acceleration
+- `/imu/angular_velocity` (`geometry_msgs/Vector3Stamped`) - Angular velocity
+- `/imu/mag` (`sensor_msgs/MagneticField`) - Magnetic field data
+
+#### Key Parameters
+- `~device` (string, default: `/dev/ttyUSB0`) - Device port
+- `~baudrate` (int, default: `115200`) - Communication baud rate
+- `~frame_id` (string, default: `imu`) - Frame ID for IMU data
+- `~pub_imu` (bool, default: `true`) - Publish IMU messages
+- `~pub_quaternion` (bool, default: `true`) - Publish orientation data
+
+---
+
+## Utility Nodes
+
+### `footprint_publisher_node` (Robot Footprint)
+**Package:** `amr_navigation_utils_ros`  
+**Description:** Publishes robot footprint for navigation and collision avoidance.
+
+#### Published Topics
+- `~/footprint` (`geometry_msgs/PolygonStamped`) - Robot footprint polygon
+
+#### Key Parameters
+- `~frame_id` (string, default: `base_footprint`) - Footprint frame ID
+- `~front_side_length` (float, default: `0.5`) - Front side length
+- `~rear_side_length` (float, default: `0.5`) - Rear side length
+- `~left_side_length` (float, default: `0.5`) - Left side length
+- `~right_side_length` (float, default: `0.5`) - Right side length
+
+---
+
+### `pointcloud_angle_filter_node` (Point Cloud Filter)
+**Package:** `amr_navigation_utils_ros`  
+**Description:** Filters point cloud data based on angle constraints.
+
+#### Published Topics
+- `~/cloud_filtered` (`sensor_msgs/PointCloud2`) - Filtered point cloud
+
+#### Subscribed Topics
+- `/cloud` (`sensor_msgs/PointCloud2`) - Input point cloud
+
+#### Key Parameters
+- `~angle_min` (double, default: `-1.57`) - Minimum filter angle
+- `~angle_max` (double, default: `1.57`) - Maximum filter angle
+
+---
+
+## Node Launch Patterns
+
+### Common Launch Commands
+
+```bash
+# Start complete system
+roslaunch system demo.launch
+
+# SLAM components
+roslaunch als_ros mcl.launch
+roslaunch emcl_ros emcl.launch
+
+# Motion planning
+roslaunch a_star_ros a_star.launch
+roslaunch dwa_planner local_planner.launch
+
+# Control systems
+roslaunch remote_control remote_control.launch
+roslaunch arduino_serial arduino_serial.launch
+
+# Hardware interfaces
+roslaunch ydlidar_ros_driver TG15.launch
+roslaunch xsens_mti_driver xsens_mti_node.launch
+```
+
+### Debug Mode Launches
+
+```bash
+# Debug A* planner
+roslaunch a_star_ros test.launch debug_mode:=true
+
+# Debug DWA planner
+roslaunch dwa_planner demo.launch
+
+# Test waypoint manager
+roslaunch waypoint_manager_ros test.launch
+```
+
+---
+
+:::{.callout-note}
+## Node Dependencies
+Many nodes require proper TF trees and topic connections to function correctly. Refer to the system integration documentation for proper launch sequences.
+:::
+
+:::{.callout-tip}
+## Performance Tuning
+Most nodes support dynamic reconfiguration. Use `rosrun rqt_reconfigure rqt_reconfigure` to adjust parameters in real-time.
+:::

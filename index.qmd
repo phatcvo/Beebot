@@ -1,0 +1,147 @@
+---
+title: "Beebot Documentation"
+subtitle: "Autonomous Mobile Robot System"
+format:
+  html:
+    page-layout: custom
+---
+
+:::{.hero-banner}
+# 🤖 Beebot Documentation
+
+*Comprehensive documentation for the Beebot Autonomous Mobile Robot System*
+
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/phatcvo/Beebot/blob/main/LICENSE)
+[![ROS Version](https://img.shields.io/badge/ROS-Melodic-orange.svg)](http://wiki.ros.org/melodic)
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-18.04-purple.svg)](https://releases.ubuntu.com/18.04/)
+:::
+
+## Overview
+
+Beebot is a sophisticated autonomous mobile robot system designed for indoor navigation and autonomous operations. This documentation provides comprehensive information about the system's components, APIs, tutorials, and hardware integration.
+
+## Key Features
+
+:::{.grid}
+:::{.g-col-md-6}
+### 🎯 Advanced Navigation
+- **Monte Carlo Localization (MCL)** with expansion resetting
+- **A* Global Planning** with configurable heuristics  
+- **Dynamic Window Approach (DWA)** for local obstacle avoidance
+- **Real-time mapping** with ray casting algorithms
+:::
+
+:::{.g-col-md-6}
+### 🔧 System Integration
+- **Multi-sensor fusion** (LiDAR, IMU, Odometry)
+- **Hardware integration** with Arduino controllers
+- **Remote control** via Xbox gamepad
+- **MQTT communication** for wireless monitoring
+:::
+:::
+
+## Quick Navigation
+
+:::{.grid}
+:::{.g-col-md-4}
+### [Getting Started](getting-started/index.qmd)
+Installation, configuration, and first steps with Beebot
+
+- [Installation Guide](getting-started/installation.qmd)
+- [Quick Start](getting-started/quick-start.qmd)
+- [Configuration](getting-started/configuration.qmd)
+:::
+
+:::{.g-col-md-4}
+### [System Components](components/slam/index.qmd)
+Detailed documentation of all system modules
+
+- [SLAM & Localization](components/slam/index.qmd)
+- [Motion Planning](components/motion/index.qmd)
+- [Control Systems](components/control/index.qmd)
+- [System Integration](components/system/index.qmd)
+:::
+
+:::{.g-col-md-4}
+### [API Reference](api/nodes.qmd)
+Complete API documentation and reference
+
+- [ROS Nodes](api/nodes.qmd)
+- [Topics & Messages](api/topics.qmd)
+- [Parameters](api/parameters.qmd)
+- [Services](api/services.qmd)
+:::
+:::
+
+## System Architecture
+
+```mermaid
+graph TB
+    subgraph "SLAM & Localization"
+        ALS[Advanced Localization System]
+        EMCL[Expanded MCL]
+        RM[Ray Casting Mapping]
+        ICP[ICP Matching]
+    end
+    
+    subgraph "Motion Planning"
+        AStar[A* Global Planner]
+        DWA[DWA Local Planner]
+        WM[Waypoint Manager]
+        NU[Navigation Utils]
+    end
+    
+    subgraph "Control Systems"
+        RC[Remote Control]
+        AI[Arduino Interface]
+        RE[Robot Eyes]
+    end
+    
+    subgraph "System Integration"
+        LC[Launch Configuration]
+        RV[RViz Visualization]
+        SYS[System Monitor]
+    end
+    
+    subgraph "Hardware"
+        LIDAR[2D LiDAR]
+        IMU[IMU Sensor]
+        ENC[Encoders]
+        ARD[Arduino]
+        GP[Xbox Gamepad]
+    end
+    
+    LIDAR --> ALS
+    IMU --> EMCL
+    ENC --> AStar
+    ARD --> AI
+    GP --> RC
+    
+    ALS --> DWA
+    AStar --> DWA
+    WM --> AStar
+    RC --> DWA
+    
+    style ALS fill:#e1f5fe
+    style AStar fill:#f3e5f5
+    style DWA fill:#fff3e0
+    style RC fill:#e8f5e8
+```
+
+## Recent Updates
+
+- **v2.1.0** - Enhanced MQTT communication system
+- **v2.0.0** - Major refactoring with improved navigation stack
+- **v1.5.0** - Added Xbox gamepad support
+- **v1.4.0** - Integrated Arduino hardware interface
+- **v1.3.0** - Implemented DWA local planner
+
+## Contributing
+
+We welcome contributions! Please see our [GitHub repository](https://github.com/phatcvo/Beebot) for more information.
+
+---
+
+:::{.text-center}
+**Built with ❤️ using [ROS](https://ros.org), [Quarto](https://quarto.org), and open source robotics libraries**
+:::

@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Topics &amp; Messages – Beebot Documentation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">🤖 Beebot</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../getting-started/index.html"> 
+<span class="menu-text">Getting Started</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-components" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Components</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-components">    
+        <li>
+    <a class="dropdown-item" href="../components/slam/index.html">
+ <span class="dropdown-text">SLAM &amp; Localization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../components/motion/index.html">
+ <span class="dropdown-text">Motion Planning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../components/control/index.html">
+ <span class="dropdown-text">Control Systems</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../components/system/index.html">
+ <span class="dropdown-text">System Integration</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-api-reference" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">API Reference</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-api-reference">    
+        <li>
+    <a class="dropdown-item" href="../api/nodes.html">
+ <span class="dropdown-text">ROS Nodes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../api/topics.html">
+ <span class="dropdown-text">Topics &amp; Messages</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../api/parameters.qmd">
+ <span class="dropdown-text">Parameters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../api/services.qmd">
+ <span class="dropdown-text">Services</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../tutorials/index.qmd"> 
+<span class="menu-text">Tutorials</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../hardware/index.qmd"> 
+<span class="menu-text">Hardware</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/phatcvo/Beebot"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../api/topics.html">Topics &amp; Messages</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../api/nodes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ROS Nodes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../api/topics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Topics &amp; Messages</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text">api/parameters.qmd</span>
+  </li>
+        <li class="sidebar-item">
+ <span class="menu-text">api/services.qmd</span>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#topics-messages-reference" id="toc-topics-messages-reference" class="nav-link active" data-scroll-target="#topics-messages-reference">Topics &amp; Messages Reference</a>
+  <ul class="collapse">
+  <li><a href="#core-navigation-topics" id="toc-core-navigation-topics" class="nav-link" data-scroll-target="#core-navigation-topics">Core Navigation Topics</a>
+  <ul class="collapse">
+  <li><a href="#pose-and-transform-topics" id="toc-pose-and-transform-topics" class="nav-link" data-scroll-target="#pose-and-transform-topics">Pose and Transform Topics</a></li>
+  <li><a href="#path-planning-topics" id="toc-path-planning-topics" class="nav-link" data-scroll-target="#path-planning-topics">Path Planning Topics</a></li>
+  </ul></li>
+  <li><a href="#sensor-data-topics" id="toc-sensor-data-topics" class="nav-link" data-scroll-target="#sensor-data-topics">Sensor Data Topics</a>
+  <ul class="collapse">
+  <li><a href="#lidar-and-point-cloud" id="toc-lidar-and-point-cloud" class="nav-link" data-scroll-target="#lidar-and-point-cloud">LiDAR and Point Cloud</a></li>
+  <li><a href="#imu-and-sensor-fusion" id="toc-imu-and-sensor-fusion" class="nav-link" data-scroll-target="#imu-and-sensor-fusion">IMU and Sensor Fusion</a></li>
+  </ul></li>
+  <li><a href="#control-and-interface-topics" id="toc-control-and-interface-topics" class="nav-link" data-scroll-target="#control-and-interface-topics">Control and Interface Topics</a>
+  <ul class="collapse">
+  <li><a href="#remote-control" id="toc-remote-control" class="nav-link" data-scroll-target="#remote-control">Remote Control</a></li>
+  <li><a href="#arduino-hardware-interface" id="toc-arduino-hardware-interface" class="nav-link" data-scroll-target="#arduino-hardware-interface">Arduino Hardware Interface</a></li>
+  </ul></li>
+  <li><a href="#mapping-and-localization-topics" id="toc-mapping-and-localization-topics" class="nav-link" data-scroll-target="#mapping-and-localization-topics">Mapping and Localization Topics</a>
+  <ul class="collapse">
+  <li><a href="#occupancy-grid-maps" id="toc-occupancy-grid-maps" class="nav-link" data-scroll-target="#occupancy-grid-maps">Occupancy Grid Maps</a></li>
+  <li><a href="#particle-filter-visualization" id="toc-particle-filter-visualization" class="nav-link" data-scroll-target="#particle-filter-visualization">Particle Filter Visualization</a></li>
+  </ul></li>
+  <li><a href="#visualization-topics" id="toc-visualization-topics" class="nav-link" data-scroll-target="#visualization-topics">Visualization Topics</a>
+  <ul class="collapse">
+  <li><a href="#path-planning-visualization" id="toc-path-planning-visualization" class="nav-link" data-scroll-target="#path-planning-visualization">Path Planning Visualization</a></li>
+  <li><a href="#waypoint-visualization" id="toc-waypoint-visualization" class="nav-link" data-scroll-target="#waypoint-visualization">Waypoint Visualization</a></li>
+  </ul></li>
+  <li><a href="#message-type-definitions" id="toc-message-type-definitions" class="nav-link" data-scroll-target="#message-type-definitions">Message Type Definitions</a>
+  <ul class="collapse">
+  <li><a href="#key-message-structures" id="toc-key-message-structures" class="nav-link" data-scroll-target="#key-message-structures">Key Message Structures</a></li>
+  </ul></li>
+  <li><a href="#topic-communication-patterns" id="toc-topic-communication-patterns" class="nav-link" data-scroll-target="#topic-communication-patterns">Topic Communication Patterns</a>
+  <ul class="collapse">
+  <li><a href="#synchronous-communication" id="toc-synchronous-communication" class="nav-link" data-scroll-target="#synchronous-communication">Synchronous Communication</a></li>
+  <li><a href="#asynchronous-communication" id="toc-asynchronous-communication" class="nav-link" data-scroll-target="#asynchronous-communication">Asynchronous Communication</a></li>
+  </ul></li>
+  <li><a href="#topic-monitoring-commands" id="toc-topic-monitoring-commands" class="nav-link" data-scroll-target="#topic-monitoring-commands">Topic Monitoring Commands</a>
+  <ul class="collapse">
+  <li><a href="#useful-ros-commands-for-topic-monitoring" id="toc-useful-ros-commands-for-topic-monitoring" class="nav-link" data-scroll-target="#useful-ros-commands-for-topic-monitoring">Useful ROS Commands for Topic Monitoring</a></li>
+  <li><a href="#topic-debugging" id="toc-topic-debugging" class="nav-link" data-scroll-target="#topic-debugging">Topic Debugging</a></li>
+  </ul></li>
+  <li><a href="#quality-of-service-qos-settings" id="toc-quality-of-service-qos-settings" class="nav-link" data-scroll-target="#quality-of-service-qos-settings">Quality of Service (QoS) Settings</a>
+  <ul class="collapse">
+  <li><a href="#recommended-qos-for-different-topic-types" id="toc-recommended-qos-for-different-topic-types" class="nav-link" data-scroll-target="#recommended-qos-for-different-topic-types">Recommended QoS for Different Topic Types</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Topics &amp; Messages</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Complete reference for ROS topics and message types</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="topics-messages-reference" class="level1">
+<h1>Topics &amp; Messages Reference</h1>
+<p>This page documents all ROS topics used in the Beebot system, organized by message type and functionality.</p>
+<section id="core-navigation-topics" class="level2">
+<h2 class="anchored" data-anchor-id="core-navigation-topics">Core Navigation Topics</h2>
+<section id="pose-and-transform-topics" class="level3">
+<h3 class="anchored" data-anchor-id="pose-and-transform-topics">Pose and Transform Topics</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Message Type</th>
+<th>Description</th>
+<th>Publishers</th>
+<th>Subscribers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/amcl_pose</code></td>
+<td><code>geometry_msgs/PoseWithCovarianceStamped</code></td>
+<td>Robot pose estimate from localization</td>
+<td><code>mcl</code>, <code>emcl</code></td>
+<td>Navigation stack</td>
+</tr>
+<tr class="even">
+<td><code>/initialpose</code></td>
+<td><code>geometry_msgs/PoseWithCovarianceStamped</code></td>
+<td>Initial pose for localization</td>
+<td><code>waypoint_manager</code>, RViz</td>
+<td><code>mcl</code>, <code>emcl</code>, <code>a_star_planner</code></td>
+</tr>
+<tr class="odd">
+<td><code>/move_base_simple/goal</code></td>
+<td><code>geometry_msgs/PoseStamped</code></td>
+<td>Navigation goal</td>
+<td><code>waypoint_manager</code>, RViz</td>
+<td><code>a_star_planner</code>, <code>dwa_planner</code></td>
+</tr>
+<tr class="even">
+<td><code>/tf</code></td>
+<td><code>tf2_msgs/TFMessage</code></td>
+<td>Transform tree</td>
+<td><code>mcl</code>, <code>emcl</code>, sensors</td>
+<td>All nodes</td>
+</tr>
+<tr class="odd">
+<td><code>/odom</code></td>
+<td><code>nav_msgs/Odometry</code></td>
+<td>Wheel odometry</td>
+<td>Hardware drivers</td>
+<td><code>mcl</code>, <code>emcl</code>, <code>dwa_planner</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="path-planning-topics" class="level3">
+<h3 class="anchored" data-anchor-id="path-planning-topics">Path Planning Topics</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Message Type</th>
+<th>Description</th>
+<th>Publishers</th>
+<th>Subscribers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/path</code></td>
+<td><code>nav_msgs/Path</code></td>
+<td>Global planned path</td>
+<td><code>a_star_planner</code></td>
+<td><code>dwa_planner</code> (optional)</td>
+</tr>
+<tr class="even">
+<td><code>~/global_goal</code></td>
+<td><code>geometry_msgs/PoseStamped</code></td>
+<td>Current navigation goal</td>
+<td><code>waypoint_manager</code></td>
+<td>Navigation stack</td>
+</tr>
+<tr class="odd">
+<td><code>/cmd_vel</code></td>
+<td><code>geometry_msgs/Twist</code></td>
+<td>Velocity commands</td>
+<td><code>dwa_planner</code>, <code>remote_control</code></td>
+<td>Hardware drivers</td>
+</tr>
+<tr class="even">
+<td><code>/finish_flag</code></td>
+<td><code>std_msgs/Bool</code></td>
+<td>Goal completion signal</td>
+<td><code>dwa_planner</code></td>
+<td><code>waypoint_manager</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="sensor-data-topics" class="level2">
+<h2 class="anchored" data-anchor-id="sensor-data-topics">Sensor Data Topics</h2>
+<section id="lidar-and-point-cloud" class="level3">
+<h3 class="anchored" data-anchor-id="lidar-and-point-cloud">LiDAR and Point Cloud</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Message Type</th>
+<th>Description</th>
+<th>Publishers</th>
+<th>Subscribers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/scan</code></td>
+<td><code>sensor_msgs/LaserScan</code></td>
+<td>2D laser scan data</td>
+<td><code>ydlidar_ros_driver_node</code></td>
+<td><code>mcl</code>, <code>emcl</code>, <code>dwa_planner</code></td>
+</tr>
+<tr class="even">
+<td><code>/point_cloud</code></td>
+<td><code>sensor_msgs/PointCloud</code></td>
+<td>2D point cloud</td>
+<td><code>ydlidar_ros_driver_node</code></td>
+<td>Processing nodes</td>
+</tr>
+<tr class="odd">
+<td><code>/cloud</code></td>
+<td><code>sensor_msgs/PointCloud2</code></td>
+<td>3D point cloud data</td>
+<td><code>scan_to_pcl_node</code></td>
+<td><code>raycast_mapping_node</code>, <code>emcl</code></td>
+</tr>
+<tr class="even">
+<td><code>~/cloud_filtered</code></td>
+<td><code>sensor_msgs/PointCloud2</code></td>
+<td>Filtered point cloud</td>
+<td><code>pointcloud_angle_filter_node</code></td>
+<td>Navigation stack</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="imu-and-sensor-fusion" class="level3">
+<h3 class="anchored" data-anchor-id="imu-and-sensor-fusion">IMU and Sensor Fusion</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Message Type</th>
+<th>Description</th>
+<th>Publishers</th>
+<th>Subscribers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/imu/data</code></td>
+<td><code>sensor_msgs/Imu</code></td>
+<td>IMU data</td>
+<td><code>xsens_mti_node</code></td>
+<td>Sensor fusion</td>
+</tr>
+<tr class="even">
+<td><code>/imu/acceleration</code></td>
+<td><code>geometry_msgs/Vector3Stamped</code></td>
+<td>Linear acceleration</td>
+<td><code>xsens_mti_node</code></td>
+<td>Odometry nodes</td>
+</tr>
+<tr class="odd">
+<td><code>/imu/angular_velocity</code></td>
+<td><code>geometry_msgs/Vector3Stamped</code></td>
+<td>Angular velocity</td>
+<td><code>xsens_mti_node</code></td>
+<td>Gyrodometry</td>
+</tr>
+<tr class="even">
+<td><code>/imu/mag</code></td>
+<td><code>sensor_msgs/MagneticField</code></td>
+<td>Magnetic field</td>
+<td><code>xsens_mti_node</code></td>
+<td>Compass heading</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="control-and-interface-topics" class="level2">
+<h2 class="anchored" data-anchor-id="control-and-interface-topics">Control and Interface Topics</h2>
+<section id="remote-control" class="level3">
+<h3 class="anchored" data-anchor-id="remote-control">Remote Control</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Message Type</th>
+<th>Description</th>
+<th>Publishers</th>
+<th>Subscribers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/joy</code></td>
+<td><code>sensor_msgs/Joy</code></td>
+<td>Gamepad input</td>
+<td><code>joy_node</code></td>
+<td><code>remote_control_node</code></td>
+</tr>
+<tr class="even">
+<td><code>/cmd_vel</code></td>
+<td><code>geometry_msgs/Twist</code></td>
+<td>Manual velocity commands</td>
+<td><code>remote_control_node</code></td>
+<td>Hardware drivers</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="arduino-hardware-interface" class="level3">
+<h3 class="anchored" data-anchor-id="arduino-hardware-interface">Arduino Hardware Interface</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Message Type</th>
+<th>Description</th>
+<th>Publishers</th>
+<th>Subscribers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/arduino_feedback</code></td>
+<td><code>std_msgs/Int16MultiArray</code></td>
+<td>Hardware status feedback</td>
+<td><code>arduino_serial_node</code></td>
+<td>System monitor</td>
+</tr>
+<tr class="even">
+<td><code>/robot_state</code></td>
+<td><code>std_msgs/String</code></td>
+<td>Robot state commands</td>
+<td>System controller</td>
+<td><code>arduino_serial_node</code></td>
+</tr>
+<tr class="odd">
+<td><code>/robot_id</code></td>
+<td><code>std_msgs/String</code></td>
+<td>Robot identification</td>
+<td>System controller</td>
+<td><code>arduino_serial_node</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="mapping-and-localization-topics" class="level2">
+<h2 class="anchored" data-anchor-id="mapping-and-localization-topics">Mapping and Localization Topics</h2>
+<section id="occupancy-grid-maps" class="level3">
+<h3 class="anchored" data-anchor-id="occupancy-grid-maps">Occupancy Grid Maps</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Message Type</th>
+<th>Description</th>
+<th>Publishers</th>
+<th>Subscribers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/map</code></td>
+<td><code>nav_msgs/OccupancyGrid</code></td>
+<td>Static map</td>
+<td><code>map_server</code></td>
+<td><code>mcl</code>, <code>emcl</code>, <code>a_star_planner</code></td>
+</tr>
+<tr class="even">
+<td><code>/local_map</code></td>
+<td><code>nav_msgs/OccupancyGrid</code></td>
+<td>Local occupancy grid</td>
+<td><code>raycast_mapping_node</code></td>
+<td><code>dwa_planner</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="particle-filter-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="particle-filter-visualization">Particle Filter Visualization</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Message Type</th>
+<th>Description</th>
+<th>Publishers</th>
+<th>Subscribers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>~/particle_cloud</code></td>
+<td><code>geometry_msgs/PoseArray</code></td>
+<td>MCL particles</td>
+<td><code>mcl</code>, <code>emcl</code></td>
+<td>RViz</td>
+</tr>
+<tr class="even">
+<td><code>~/likelihood_map</code></td>
+<td><code>nav_msgs/OccupancyGrid</code></td>
+<td>Likelihood visualization</td>
+<td><code>mcl</code></td>
+<td>RViz</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="visualization-topics" class="level2">
+<h2 class="anchored" data-anchor-id="visualization-topics">Visualization Topics</h2>
+<section id="path-planning-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="path-planning-visualization">Path Planning Visualization</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Message Type</th>
+<th>Description</th>
+<th>Publishers</th>
+<th>Subscribers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>~/candidate_trajectories</code></td>
+<td><code>visualization_msgs/MarkerArray</code></td>
+<td>DWA candidate paths</td>
+<td><code>dwa_planner</code></td>
+<td>RViz</td>
+</tr>
+<tr class="even">
+<td><code>~/selected_trajectory</code></td>
+<td><code>visualization_msgs/Marker</code></td>
+<td>Selected DWA trajectory</td>
+<td><code>dwa_planner</code></td>
+<td>RViz</td>
+</tr>
+<tr class="odd">
+<td><code>~/predict_footprints</code></td>
+<td><code>visualization_msgs/MarkerArray</code></td>
+<td>Predicted robot footprints</td>
+<td><code>dwa_planner</code></td>
+<td>RViz</td>
+</tr>
+<tr class="even">
+<td><code>~/current_node</code></td>
+<td><code>geometry_msgs/PointStamped</code></td>
+<td>A* current node (debug)</td>
+<td><code>a_star_planner</code></td>
+<td>RViz</td>
+</tr>
+<tr class="odd">
+<td><code>~/open_set</code></td>
+<td><code>geometry_msgs/PoseArray</code></td>
+<td>A* open set (debug)</td>
+<td><code>a_star_planner</code></td>
+<td>RViz</td>
+</tr>
+<tr class="even">
+<td><code>~/close_set</code></td>
+<td><code>geometry_msgs/PoseArray</code></td>
+<td>A* closed set (debug)</td>
+<td><code>a_star_planner</code></td>
+<td>RViz</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="waypoint-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="waypoint-visualization">Waypoint Visualization</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Message Type</th>
+<th>Description</th>
+<th>Publishers</th>
+<th>Subscribers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>~/waypoints</code></td>
+<td><code>visualization_msgs/MarkerArray</code></td>
+<td>Waypoint markers</td>
+<td><code>waypoint_manager</code></td>
+<td>RViz</td>
+</tr>
+<tr class="even">
+<td><code>~/footprint</code></td>
+<td><code>geometry_msgs/PolygonStamped</code></td>
+<td>Robot footprint</td>
+<td><code>footprint_publisher_node</code></td>
+<td>Navigation, RViz</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="message-type-definitions" class="level2">
+<h2 class="anchored" data-anchor-id="message-type-definitions">Message Type Definitions</h2>
+<section id="key-message-structures" class="level3">
+<h3 class="anchored" data-anchor-id="key-message-structures">Key Message Structures</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># geometry_msgs/PoseWithCovarianceStamped</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">header</span><span class="kw">:</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">stamp</span><span class="kw">:</span><span class="at"> time</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">frame_id</span><span class="kw">:</span><span class="at"> string</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">pose</span><span class="kw">:</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pose</span><span class="kw">:</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">position</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">x</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">y</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">z</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">}</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">orientation</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">x</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">y</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">z</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">w</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">}</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">covariance</span><span class="kw">:</span><span class="at"> float64[36]</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># sensor_msgs/LaserScan</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">header</span><span class="kw">:</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">stamp</span><span class="kw">:</span><span class="at"> time</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">frame_id</span><span class="kw">:</span><span class="at"> string</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">angle_min</span><span class="kw">:</span><span class="at"> float32</span><span class="co">        # start angle of scan [rad]</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">angle_max</span><span class="kw">:</span><span class="at"> float32</span><span class="co">        # end angle of scan [rad]</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">angle_increment</span><span class="kw">:</span><span class="at"> float32</span><span class="co">  # angular distance between measurements [rad]</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">time_increment</span><span class="kw">:</span><span class="at"> float32</span><span class="co">   # time between measurements [seconds]</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">scan_time</span><span class="kw">:</span><span class="at"> float32</span><span class="co">        # time between scans [seconds]</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">range_min</span><span class="kw">:</span><span class="at"> float32</span><span class="co">        # minimum range value [m]</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">range_max</span><span class="kw">:</span><span class="at"> float32</span><span class="co">        # maximum range value [m]</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ranges</span><span class="kw">:</span><span class="at"> float32[]</span><span class="co">         # range data [m]</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">intensities</span><span class="kw">:</span><span class="at"> float32[]</span><span class="co">    # intensity data</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># nav_msgs/OccupancyGrid</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">header</span><span class="kw">:</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">stamp</span><span class="kw">:</span><span class="at"> time</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">frame_id</span><span class="kw">:</span><span class="at"> string</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">info</span><span class="kw">:</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">map_load_time</span><span class="kw">:</span><span class="at"> time</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">resolution</span><span class="kw">:</span><span class="at"> float32</span><span class="co">     # m/pixel</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">width</span><span class="kw">:</span><span class="at"> uint32</span><span class="co">          # pixels</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">height</span><span class="kw">:</span><span class="at"> uint32</span><span class="co">         # pixels</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">origin</span><span class="kw">:</span><span class="co">                # origin of map</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">position</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">x</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">y</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">z</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">}</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">orientation</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">x</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">y</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">z</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">w</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">}</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span><span class="kw">:</span><span class="at"> int8[]</span><span class="co">            # occupancy data, row-major order</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">                        # 0-100: occupancy probability</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">                        # -1: unknown</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co"># geometry_msgs/Twist</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="fu">linear</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">x</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">y</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">z</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">}</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">angular</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">x</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">y</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">z</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="topic-communication-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="topic-communication-patterns">Topic Communication Patterns</h2>
+<section id="synchronous-communication" class="level3">
+<h3 class="anchored" data-anchor-id="synchronous-communication">Synchronous Communication</h3>
+<p>Topics that require time-synchronized data:</p>
+<pre class="mermaid"><code>graph LR
+    A[Sensor Data] --&gt; B[Sensor Fusion]
+    C[IMU Data] --&gt; B
+    D[Odometry] --&gt; B
+    B --&gt; E[Localization]</code></pre>
+</section>
+<section id="asynchronous-communication" class="level3">
+<h3 class="anchored" data-anchor-id="asynchronous-communication">Asynchronous Communication</h3>
+<p>Topics with event-driven communication:</p>
+<pre class="mermaid"><code>graph LR
+    A[Goal Request] --&gt; B[Path Planner]
+    B --&gt; C[Local Planner]
+    C --&gt; D[Velocity Commands]
+    C --&gt; E[Finish Flag]
+    E --&gt; A</code></pre>
+</section>
+</section>
+<section id="topic-monitoring-commands" class="level2">
+<h2 class="anchored" data-anchor-id="topic-monitoring-commands">Topic Monitoring Commands</h2>
+<section id="useful-ros-commands-for-topic-monitoring" class="level3">
+<h3 class="anchored" data-anchor-id="useful-ros-commands-for-topic-monitoring">Useful ROS Commands for Topic Monitoring</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List all active topics</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> list</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Show topic information</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> info /scan</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> info /cmd_vel</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Monitor topic data</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> echo /amcl_pose</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> echo /scan <span class="at">--clear</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Check topic frequency</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> hz /scan</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> hz /odom</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot topic data</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ex">rosrun</span> rqt_plot rqt_plot</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="ex">rosrun</span> rqt_graph rqt_graph</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Record topics</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ex">rosbag</span> record <span class="at">-a</span>  <span class="co"># record all topics</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="ex">rosbag</span> record /scan /odom /cmd_vel  <span class="co"># record specific topics</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Playback recorded data</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="ex">rosbag</span> play recorded_data.bag</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="topic-debugging" class="level3">
+<h3 class="anchored" data-anchor-id="topic-debugging">Topic Debugging</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if topic is being published</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> list <span class="kw">|</span> <span class="fu">grep</span> scan</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check message type</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> type /scan</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show message structure</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">rosmsg</span> show sensor_msgs/LaserScan</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Test publish to topic</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> pub /move_base_simple/goal geometry_msgs/PoseStamped <span class="st">"</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">header:</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">  stamp: now</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">  frame_id: 'map'</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="st">pose:</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="st">  position: {x: 2.0, y: 1.0, z: 0.0}</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="st">  orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="quality-of-service-qos-settings" class="level2">
+<h2 class="anchored" data-anchor-id="quality-of-service-qos-settings">Quality of Service (QoS) Settings</h2>
+<section id="recommended-qos-for-different-topic-types" class="level3">
+<h3 class="anchored" data-anchor-id="recommended-qos-for-different-topic-types">Recommended QoS for Different Topic Types</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Topic Type</th>
+<th>Reliability</th>
+<th>Durability</th>
+<th>History</th>
+<th>Queue Size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sensor Data</td>
+<td>Best Effort</td>
+<td>Volatile</td>
+<td>Keep Last</td>
+<td>1-5</td>
+</tr>
+<tr class="even">
+<td>Control Commands</td>
+<td>Reliable</td>
+<td>Volatile</td>
+<td>Keep Last</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>Maps</td>
+<td>Reliable</td>
+<td>Transient Local</td>
+<td>Keep Last</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Transforms</td>
+<td>Best Effort</td>
+<td>Volatile</td>
+<td>Keep Last</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>Diagnostics</td>
+<td>Reliable</td>
+<td>Volatile</td>
+<td>Keep All</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Message Compatibility
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>All message types are compatible with ROS Melodic. Some nodes may support both ROS 1 and ROS 2 message formats.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Performance Optimization
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Use <code>rostopic hz</code> to monitor topic frequencies</li>
+<li>Large message types (like point clouds) should use efficient serialization</li>
+<li>Consider message filtering for high-frequency sensors</li>
+</ul>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb6" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Topics &amp; Messages"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Complete reference for ROS topics and message types"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu"># Topics &amp; Messages Reference</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>This page documents all ROS topics used in the Beebot system, organized by message type and functionality.</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Core Navigation Topics</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">### Pose and Transform Topics</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Message Type <span class="pp">|</span> Description <span class="pp">|</span> Publishers <span class="pp">|</span> Subscribers <span class="pp">|</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|--------------|-------------|------------|-------------|</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/amcl_pose`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/PoseWithCovarianceStamped`</span> <span class="pp">|</span> Robot pose estimate from localization <span class="pp">|</span> <span class="in">`mcl`</span>, <span class="in">`emcl`</span> <span class="pp">|</span> Navigation stack <span class="pp">|</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/initialpose`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/PoseWithCovarianceStamped`</span> <span class="pp">|</span> Initial pose for localization <span class="pp">|</span> <span class="in">`waypoint_manager`</span>, RViz <span class="pp">|</span> <span class="in">`mcl`</span>, <span class="in">`emcl`</span>, <span class="in">`a_star_planner`</span> <span class="pp">|</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/move_base_simple/goal`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/PoseStamped`</span> <span class="pp">|</span> Navigation goal <span class="pp">|</span> <span class="in">`waypoint_manager`</span>, RViz <span class="pp">|</span> <span class="in">`a_star_planner`</span>, <span class="in">`dwa_planner`</span> <span class="pp">|</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/tf`</span> <span class="pp">|</span> <span class="in">`tf2_msgs/TFMessage`</span> <span class="pp">|</span> Transform tree <span class="pp">|</span> <span class="in">`mcl`</span>, <span class="in">`emcl`</span>, sensors <span class="pp">|</span> All nodes <span class="pp">|</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/odom`</span> <span class="pp">|</span> <span class="in">`nav_msgs/Odometry`</span> <span class="pp">|</span> Wheel odometry <span class="pp">|</span> Hardware drivers <span class="pp">|</span> <span class="in">`mcl`</span>, <span class="in">`emcl`</span>, <span class="in">`dwa_planner`</span> <span class="pp">|</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">### Path Planning Topics</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Message Type <span class="pp">|</span> Description <span class="pp">|</span> Publishers <span class="pp">|</span> Subscribers <span class="pp">|</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|--------------|-------------|------------|-------------|</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/path`</span> <span class="pp">|</span> <span class="in">`nav_msgs/Path`</span> <span class="pp">|</span> Global planned path <span class="pp">|</span> <span class="in">`a_star_planner`</span> <span class="pp">|</span> <span class="in">`dwa_planner`</span> (optional) <span class="pp">|</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`~/global_goal`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/PoseStamped`</span> <span class="pp">|</span> Current navigation goal <span class="pp">|</span> <span class="in">`waypoint_manager`</span> <span class="pp">|</span> Navigation stack <span class="pp">|</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/cmd_vel`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/Twist`</span> <span class="pp">|</span> Velocity commands <span class="pp">|</span> <span class="in">`dwa_planner`</span>, <span class="in">`remote_control`</span> <span class="pp">|</span> Hardware drivers <span class="pp">|</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/finish_flag`</span> <span class="pp">|</span> <span class="in">`std_msgs/Bool`</span> <span class="pp">|</span> Goal completion signal <span class="pp">|</span> <span class="in">`dwa_planner`</span> <span class="pp">|</span> <span class="in">`waypoint_manager`</span> <span class="pp">|</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sensor Data Topics</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="fu">### LiDAR and Point Cloud</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Message Type <span class="pp">|</span> Description <span class="pp">|</span> Publishers <span class="pp">|</span> Subscribers <span class="pp">|</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|--------------|-------------|------------|-------------|</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/scan`</span> <span class="pp">|</span> <span class="in">`sensor_msgs/LaserScan`</span> <span class="pp">|</span> 2D laser scan data <span class="pp">|</span> <span class="in">`ydlidar_ros_driver_node`</span> <span class="pp">|</span> <span class="in">`mcl`</span>, <span class="in">`emcl`</span>, <span class="in">`dwa_planner`</span> <span class="pp">|</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/point_cloud`</span> <span class="pp">|</span> <span class="in">`sensor_msgs/PointCloud`</span> <span class="pp">|</span> 2D point cloud <span class="pp">|</span> <span class="in">`ydlidar_ros_driver_node`</span> <span class="pp">|</span> Processing nodes <span class="pp">|</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/cloud`</span> <span class="pp">|</span> <span class="in">`sensor_msgs/PointCloud2`</span> <span class="pp">|</span> 3D point cloud data <span class="pp">|</span> <span class="in">`scan_to_pcl_node`</span> <span class="pp">|</span> <span class="in">`raycast_mapping_node`</span>, <span class="in">`emcl`</span> <span class="pp">|</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`~/cloud_filtered`</span> <span class="pp">|</span> <span class="in">`sensor_msgs/PointCloud2`</span> <span class="pp">|</span> Filtered point cloud <span class="pp">|</span> <span class="in">`pointcloud_angle_filter_node`</span> <span class="pp">|</span> Navigation stack <span class="pp">|</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="fu">### IMU and Sensor Fusion</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Message Type <span class="pp">|</span> Description <span class="pp">|</span> Publishers <span class="pp">|</span> Subscribers <span class="pp">|</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|--------------|-------------|------------|-------------|</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/imu/data`</span> <span class="pp">|</span> <span class="in">`sensor_msgs/Imu`</span> <span class="pp">|</span> IMU data <span class="pp">|</span> <span class="in">`xsens_mti_node`</span> <span class="pp">|</span> Sensor fusion <span class="pp">|</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/imu/acceleration`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/Vector3Stamped`</span> <span class="pp">|</span> Linear acceleration <span class="pp">|</span> <span class="in">`xsens_mti_node`</span> <span class="pp">|</span> Odometry nodes <span class="pp">|</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/imu/angular_velocity`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/Vector3Stamped`</span> <span class="pp">|</span> Angular velocity <span class="pp">|</span> <span class="in">`xsens_mti_node`</span> <span class="pp">|</span> Gyrodometry <span class="pp">|</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/imu/mag`</span> <span class="pp">|</span> <span class="in">`sensor_msgs/MagneticField`</span> <span class="pp">|</span> Magnetic field <span class="pp">|</span> <span class="in">`xsens_mti_node`</span> <span class="pp">|</span> Compass heading <span class="pp">|</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="fu">## Control and Interface Topics</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a><span class="fu">### Remote Control</span></span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Message Type <span class="pp">|</span> Description <span class="pp">|</span> Publishers <span class="pp">|</span> Subscribers <span class="pp">|</span></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|--------------|-------------|------------|-------------|</span></span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/joy`</span> <span class="pp">|</span> <span class="in">`sensor_msgs/Joy`</span> <span class="pp">|</span> Gamepad input <span class="pp">|</span> <span class="in">`joy_node`</span> <span class="pp">|</span> <span class="in">`remote_control_node`</span> <span class="pp">|</span></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/cmd_vel`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/Twist`</span> <span class="pp">|</span> Manual velocity commands <span class="pp">|</span> <span class="in">`remote_control_node`</span> <span class="pp">|</span> Hardware drivers <span class="pp">|</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a><span class="fu">### Arduino Hardware Interface</span></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Message Type <span class="pp">|</span> Description <span class="pp">|</span> Publishers <span class="pp">|</span> Subscribers <span class="pp">|</span></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|--------------|-------------|------------|-------------|</span></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/arduino_feedback`</span> <span class="pp">|</span> <span class="in">`std_msgs/Int16MultiArray`</span> <span class="pp">|</span> Hardware status feedback <span class="pp">|</span> <span class="in">`arduino_serial_node`</span> <span class="pp">|</span> System monitor <span class="pp">|</span></span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/robot_state`</span> <span class="pp">|</span> <span class="in">`std_msgs/String`</span> <span class="pp">|</span> Robot state commands <span class="pp">|</span> System controller <span class="pp">|</span> <span class="in">`arduino_serial_node`</span> <span class="pp">|</span></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/robot_id`</span> <span class="pp">|</span> <span class="in">`std_msgs/String`</span> <span class="pp">|</span> Robot identification <span class="pp">|</span> System controller <span class="pp">|</span> <span class="in">`arduino_serial_node`</span> <span class="pp">|</span></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a><span class="fu">## Mapping and Localization Topics</span></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a><span class="fu">### Occupancy Grid Maps</span></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Message Type <span class="pp">|</span> Description <span class="pp">|</span> Publishers <span class="pp">|</span> Subscribers <span class="pp">|</span></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|--------------|-------------|------------|-------------|</span></span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/map`</span> <span class="pp">|</span> <span class="in">`nav_msgs/OccupancyGrid`</span> <span class="pp">|</span> Static map <span class="pp">|</span> <span class="in">`map_server`</span> <span class="pp">|</span> <span class="in">`mcl`</span>, <span class="in">`emcl`</span>, <span class="in">`a_star_planner`</span> <span class="pp">|</span></span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/local_map`</span> <span class="pp">|</span> <span class="in">`nav_msgs/OccupancyGrid`</span> <span class="pp">|</span> Local occupancy grid <span class="pp">|</span> <span class="in">`raycast_mapping_node`</span> <span class="pp">|</span> <span class="in">`dwa_planner`</span> <span class="pp">|</span></span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a><span class="fu">### Particle Filter Visualization</span></span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Message Type <span class="pp">|</span> Description <span class="pp">|</span> Publishers <span class="pp">|</span> Subscribers <span class="pp">|</span></span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|--------------|-------------|------------|-------------|</span></span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`~/particle_cloud`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/PoseArray`</span> <span class="pp">|</span> MCL particles <span class="pp">|</span> <span class="in">`mcl`</span>, <span class="in">`emcl`</span> <span class="pp">|</span> RViz <span class="pp">|</span></span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`~/likelihood_map`</span> <span class="pp">|</span> <span class="in">`nav_msgs/OccupancyGrid`</span> <span class="pp">|</span> Likelihood visualization <span class="pp">|</span> <span class="in">`mcl`</span> <span class="pp">|</span> RViz <span class="pp">|</span></span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visualization Topics</span></span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a><span class="fu">### Path Planning Visualization</span></span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Message Type <span class="pp">|</span> Description <span class="pp">|</span> Publishers <span class="pp">|</span> Subscribers <span class="pp">|</span></span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|--------------|-------------|------------|-------------|</span></span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`~/candidate_trajectories`</span> <span class="pp">|</span> <span class="in">`visualization_msgs/MarkerArray`</span> <span class="pp">|</span> DWA candidate paths <span class="pp">|</span> <span class="in">`dwa_planner`</span> <span class="pp">|</span> RViz <span class="pp">|</span></span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`~/selected_trajectory`</span> <span class="pp">|</span> <span class="in">`visualization_msgs/Marker`</span> <span class="pp">|</span> Selected DWA trajectory <span class="pp">|</span> <span class="in">`dwa_planner`</span> <span class="pp">|</span> RViz <span class="pp">|</span></span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`~/predict_footprints`</span> <span class="pp">|</span> <span class="in">`visualization_msgs/MarkerArray`</span> <span class="pp">|</span> Predicted robot footprints <span class="pp">|</span> <span class="in">`dwa_planner`</span> <span class="pp">|</span> RViz <span class="pp">|</span></span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`~/current_node`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/PointStamped`</span> <span class="pp">|</span> A* current node (debug) <span class="pp">|</span> <span class="in">`a_star_planner`</span> <span class="pp">|</span> RViz <span class="pp">|</span></span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`~/open_set`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/PoseArray`</span> <span class="pp">|</span> A* open set (debug) <span class="pp">|</span> <span class="in">`a_star_planner`</span> <span class="pp">|</span> RViz <span class="pp">|</span></span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`~/close_set`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/PoseArray`</span> <span class="pp">|</span> A* closed set (debug) <span class="pp">|</span> <span class="in">`a_star_planner`</span> <span class="pp">|</span> RViz <span class="pp">|</span></span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="fu">### Waypoint Visualization</span></span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic <span class="pp">|</span> Message Type <span class="pp">|</span> Description <span class="pp">|</span> Publishers <span class="pp">|</span> Subscribers <span class="pp">|</span></span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|--------------|-------------|------------|-------------|</span></span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`~/waypoints`</span> <span class="pp">|</span> <span class="in">`visualization_msgs/MarkerArray`</span> <span class="pp">|</span> Waypoint markers <span class="pp">|</span> <span class="in">`waypoint_manager`</span> <span class="pp">|</span> RViz <span class="pp">|</span></span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`~/footprint`</span> <span class="pp">|</span> <span class="in">`geometry_msgs/PolygonStamped`</span> <span class="pp">|</span> Robot footprint <span class="pp">|</span> <span class="in">`footprint_publisher_node`</span> <span class="pp">|</span> Navigation, RViz <span class="pp">|</span></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a><span class="fu">## Message Type Definitions</span></span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Message Structures</span></span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a><span class="co"># geometry_msgs/PoseWithCovarianceStamped</span></span>
+<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a><span class="fu">header</span><span class="kw">:</span></span>
+<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">stamp</span><span class="kw">:</span><span class="at"> time</span></span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">frame_id</span><span class="kw">:</span><span class="at"> string</span></span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a><span class="fu">pose</span><span class="kw">:</span></span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pose</span><span class="kw">:</span></span>
+<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">position</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">x</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">y</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">z</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">}</span></span>
+<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">orientation</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">x</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">y</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">z</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">w</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">}</span></span>
+<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">covariance</span><span class="kw">:</span><span class="at"> float64[36]</span></span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a><span class="co"># sensor_msgs/LaserScan</span></span>
+<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a><span class="fu">header</span><span class="kw">:</span></span>
+<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">stamp</span><span class="kw">:</span><span class="at"> time</span></span>
+<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">frame_id</span><span class="kw">:</span><span class="at"> string</span></span>
+<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a><span class="fu">angle_min</span><span class="kw">:</span><span class="at"> float32</span><span class="co">        # start angle of scan [rad]</span></span>
+<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a><span class="fu">angle_max</span><span class="kw">:</span><span class="at"> float32</span><span class="co">        # end angle of scan [rad]</span></span>
+<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a><span class="fu">angle_increment</span><span class="kw">:</span><span class="at"> float32</span><span class="co">  # angular distance between measurements [rad]</span></span>
+<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a><span class="fu">time_increment</span><span class="kw">:</span><span class="at"> float32</span><span class="co">   # time between measurements [seconds]</span></span>
+<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a><span class="fu">scan_time</span><span class="kw">:</span><span class="at"> float32</span><span class="co">        # time between scans [seconds]</span></span>
+<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a><span class="fu">range_min</span><span class="kw">:</span><span class="at"> float32</span><span class="co">        # minimum range value [m]</span></span>
+<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a><span class="fu">range_max</span><span class="kw">:</span><span class="at"> float32</span><span class="co">        # maximum range value [m]</span></span>
+<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a><span class="fu">ranges</span><span class="kw">:</span><span class="at"> float32[]</span><span class="co">         # range data [m]</span></span>
+<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a><span class="fu">intensities</span><span class="kw">:</span><span class="at"> float32[]</span><span class="co">    # intensity data</span></span>
+<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a><span class="co"># nav_msgs/OccupancyGrid</span></span>
+<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a><span class="fu">header</span><span class="kw">:</span></span>
+<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">stamp</span><span class="kw">:</span><span class="at"> time</span></span>
+<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">frame_id</span><span class="kw">:</span><span class="at"> string</span></span>
+<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a><span class="fu">info</span><span class="kw">:</span></span>
+<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">map_load_time</span><span class="kw">:</span><span class="at"> time</span></span>
+<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">resolution</span><span class="kw">:</span><span class="at"> float32</span><span class="co">     # m/pixel</span></span>
+<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">width</span><span class="kw">:</span><span class="at"> uint32</span><span class="co">          # pixels</span></span>
+<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">height</span><span class="kw">:</span><span class="at"> uint32</span><span class="co">         # pixels</span></span>
+<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">origin</span><span class="kw">:</span><span class="co">                # origin of map</span></span>
+<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">position</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">x</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">y</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">z</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">}</span></span>
+<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">orientation</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">x</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">y</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">z</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">w</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">}</span></span>
+<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span><span class="kw">:</span><span class="at"> int8[]</span><span class="co">            # occupancy data, row-major order</span></span>
+<span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a><span class="co">                        # 0-100: occupancy probability</span></span>
+<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a><span class="co">                        # -1: unknown</span></span>
+<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a><span class="co"># geometry_msgs/Twist</span></span>
+<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a><span class="fu">linear</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">x</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">y</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">z</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">}</span></span>
+<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a><span class="fu">angular</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">x</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">y</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">,</span><span class="at"> </span><span class="fu">z</span><span class="kw">:</span><span class="at"> float64</span><span class="kw">}</span></span>
+<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a><span class="fu">## Topic Communication Patterns</span></span>
+<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a><span class="fu">### Synchronous Communication</span></span>
+<span id="cb6-157"><a href="#cb6-157" aria-hidden="true" tabindex="-1"></a>Topics that require time-synchronized data:</span>
+<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a><span class="in">```mermaid</span></span>
+<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a>graph LR</span>
+<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a>    A[Sensor Data] --&gt; B[Sensor Fusion]</span>
+<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a>    C[IMU Data] --&gt; B</span>
+<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a>    D[Odometry] --&gt; B</span>
+<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a>    B --&gt; E[Localization]</span>
+<span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a><span class="fu">### Asynchronous Communication</span></span>
+<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a>Topics with event-driven communication:</span>
+<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a><span class="in">```mermaid</span></span>
+<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a>graph LR</span>
+<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a>    A[Goal Request] --&gt; B[Path Planner]</span>
+<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a>    B --&gt; C[Local Planner]</span>
+<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a>    C --&gt; D[Velocity Commands]</span>
+<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a>    C --&gt; E[Finish Flag]</span>
+<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a>    E --&gt; A</span>
+<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a><span class="fu">## Topic Monitoring Commands</span></span>
+<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a><span class="fu">### Useful ROS Commands for Topic Monitoring</span></span>
+<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a><span class="co"># List all active topics</span></span>
+<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> list</span>
+<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a><span class="co"># Show topic information</span></span>
+<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> info /scan</span>
+<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> info /cmd_vel</span>
+<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a><span class="co"># Monitor topic data</span></span>
+<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> echo /amcl_pose</span>
+<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> echo /scan <span class="at">--clear</span></span>
+<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a><span class="co"># Check topic frequency</span></span>
+<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> hz /scan</span>
+<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> hz /odom</span>
+<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot topic data</span></span>
+<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a><span class="ex">rosrun</span> rqt_plot rqt_plot</span>
+<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a><span class="ex">rosrun</span> rqt_graph rqt_graph</span>
+<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-203"><a href="#cb6-203" aria-hidden="true" tabindex="-1"></a><span class="co"># Record topics</span></span>
+<span id="cb6-204"><a href="#cb6-204" aria-hidden="true" tabindex="-1"></a><span class="ex">rosbag</span> record <span class="at">-a</span>  <span class="co"># record all topics</span></span>
+<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a><span class="ex">rosbag</span> record /scan /odom /cmd_vel  <span class="co"># record specific topics</span></span>
+<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a><span class="co"># Playback recorded data</span></span>
+<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a><span class="ex">rosbag</span> play recorded_data.bag</span>
+<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a><span class="fu">### Topic Debugging</span></span>
+<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if topic is being published</span></span>
+<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> list <span class="kw">|</span> <span class="fu">grep</span> scan</span>
+<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a><span class="co"># Check message type</span></span>
+<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> type /scan</span>
+<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a><span class="co"># Show message structure</span></span>
+<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a><span class="ex">rosmsg</span> show sensor_msgs/LaserScan</span>
+<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a><span class="co"># Test publish to topic</span></span>
+<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a><span class="ex">rostopic</span> pub /move_base_simple/goal geometry_msgs/PoseStamped <span class="st">"</span></span>
+<span id="cb6-225"><a href="#cb6-225" aria-hidden="true" tabindex="-1"></a><span class="st">header:</span></span>
+<span id="cb6-226"><a href="#cb6-226" aria-hidden="true" tabindex="-1"></a><span class="st">  stamp: now</span></span>
+<span id="cb6-227"><a href="#cb6-227" aria-hidden="true" tabindex="-1"></a><span class="st">  frame_id: 'map'</span></span>
+<span id="cb6-228"><a href="#cb6-228" aria-hidden="true" tabindex="-1"></a><span class="st">pose:</span></span>
+<span id="cb6-229"><a href="#cb6-229" aria-hidden="true" tabindex="-1"></a><span class="st">  position: {x: 2.0, y: 1.0, z: 0.0}</span></span>
+<span id="cb6-230"><a href="#cb6-230" aria-hidden="true" tabindex="-1"></a><span class="st">  orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}"</span></span>
+<span id="cb6-231"><a href="#cb6-231" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-232"><a href="#cb6-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-233"><a href="#cb6-233" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quality of Service (QoS) Settings</span></span>
+<span id="cb6-234"><a href="#cb6-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-235"><a href="#cb6-235" aria-hidden="true" tabindex="-1"></a><span class="fu">### Recommended QoS for Different Topic Types</span></span>
+<span id="cb6-236"><a href="#cb6-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-237"><a href="#cb6-237" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Topic Type <span class="pp">|</span> Reliability <span class="pp">|</span> Durability <span class="pp">|</span> History <span class="pp">|</span> Queue Size <span class="pp">|</span></span>
+<span id="cb6-238"><a href="#cb6-238" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------|------------|------------|---------|------------|</span></span>
+<span id="cb6-239"><a href="#cb6-239" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sensor Data <span class="pp">|</span> Best Effort <span class="pp">|</span> Volatile <span class="pp">|</span> Keep Last <span class="pp">|</span> 1-5 <span class="pp">|</span></span>
+<span id="cb6-240"><a href="#cb6-240" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Control Commands <span class="pp">|</span> Reliable <span class="pp">|</span> Volatile <span class="pp">|</span> Keep Last <span class="pp">|</span> 1 <span class="pp">|</span></span>
+<span id="cb6-241"><a href="#cb6-241" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Maps <span class="pp">|</span> Reliable <span class="pp">|</span> Transient Local <span class="pp">|</span> Keep Last <span class="pp">|</span> 1 <span class="pp">|</span></span>
+<span id="cb6-242"><a href="#cb6-242" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Transforms <span class="pp">|</span> Best Effort <span class="pp">|</span> Volatile <span class="pp">|</span> Keep Last <span class="pp">|</span> 10 <span class="pp">|</span></span>
+<span id="cb6-243"><a href="#cb6-243" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Diagnostics <span class="pp">|</span> Reliable <span class="pp">|</span> Volatile <span class="pp">|</span> Keep All <span class="pp">|</span> 100 <span class="pp">|</span></span>
+<span id="cb6-244"><a href="#cb6-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-245"><a href="#cb6-245" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb6-246"><a href="#cb6-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-247"><a href="#cb6-247" aria-hidden="true" tabindex="-1"></a>:::{.callout-note}</span>
+<span id="cb6-248"><a href="#cb6-248" aria-hidden="true" tabindex="-1"></a><span class="fu">## Message Compatibility</span></span>
+<span id="cb6-249"><a href="#cb6-249" aria-hidden="true" tabindex="-1"></a>All message types are compatible with ROS Melodic. Some nodes may support both ROS 1 and ROS 2 message formats.</span>
+<span id="cb6-250"><a href="#cb6-250" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb6-251"><a href="#cb6-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-252"><a href="#cb6-252" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
+<span id="cb6-253"><a href="#cb6-253" aria-hidden="true" tabindex="-1"></a><span class="fu">## Performance Optimization</span></span>
+<span id="cb6-254"><a href="#cb6-254" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use <span class="in">`rostopic hz`</span> to monitor topic frequencies</span>
+<span id="cb6-255"><a href="#cb6-255" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Large message types (like point clouds) should use efficient serialization</span>
+<span id="cb6-256"><a href="#cb6-256" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Consider message filtering for high-frequency sensors</span>
+<span id="cb6-257"><a href="#cb6-257" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

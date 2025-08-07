@@ -1,0 +1,284 @@
+---
+title: "SLAM & Localization"
+subtitle: "Simultaneous Localization and Mapping components"
+---
+
+# SLAM & Localization
+
+The SLAM (Simultaneous Localization and Mapping) and Localization subsystem is responsible for determining the robot's position in the environment and building maps of unknown spaces. Beebot implements several advanced algorithms for robust and accurate localization.
+
+## Overview
+
+The SLAM & Localization system consists of multiple interconnected components:
+
+```mermaid
+graph TB
+    subgraph "Sensors"
+        LIDAR[2D LiDAR<br/>YDLiDAR TG15]
+        IMU[IMU Sensor<br/>Xsens MTi]
+        ODOM[Wheel Odometry<br/>Encoders]
+    end
+    
+    subgraph "Preprocessing"
+        SF[Scan to PCL<br/>Converter]
+        PF[Point Cloud<br/>Filter]
+    end
+    
+    subgraph "Localization"
+        ALS[Advanced Localization<br/>System ALS]
+        EMCL[Expanded MCL<br/>emcl_ros]
+        MCL[Monte Carlo<br/>Localization]
+    end
+    
+    subgraph "Mapping"
+        RM[Ray Casting<br/>Mapping]
+        ICP[ICP Matching<br/>Registration]
+        LF[Likelihood Field<br/>Mapping]
+    end
+    
+    subgraph "Output"
+        POSE[Robot Pose<br/>Estimate]
+        MAP[Local/Global<br/>Maps]
+        TF[Transform<br/>Tree]
+    end
+    
+    LIDAR --> SF
+    LIDAR --> ALS
+    LIDAR --> EMCL
+    IMU --> ALS
+    IMU --> EMCL
+    ODOM --> ALS
+    ODOM --> EMCL
+    
+    SF --> PF
+    PF --> RM
+    SF --> ICP
+    
+    ALS --> POSE
+    EMCL --> POSE
+    RM --> MAP
+    ICP --> MAP
+    LF --> MAP
+    
+    POSE --> TF
+    MAP --> TF
+    
+    style ALS fill:#e1f5fe
+    style EMCL fill:#f3e5f5
+    style RM fill:#fff3e0
+```
+
+## Core Components
+
+### [Advanced Localization System (ALS)](advanced-localization.qmd)
+The ALS package provides state-of-the-art Monte Carlo Localization with several advanced features:
+
+- **Robust Localization** based on sensor measurement class estimation
+- **Reliability Estimation** using Bayesian filtering with localization correctness classification
+- **Misalignment Recognition** using Markov Random Fields with fully connected latent variables
+- **Quick Re-localization** based on fusion of pose tracking and global localization
+
+### [Expanded MCL (EMCL)](advanced-localization.qmd#expanded-mcl)
+Enhanced Monte Carlo Localization with expansion resetting capabilities:
+
+- **Expansion Resetting** to handle localization failures
+- **Dynamic Reconfiguration** support for real-time parameter tuning
+- **Multi-sensor Input** supporting both laser scan and point cloud data
+- **Particle Filter Visualization** for debugging and monitoring
+
+### [Ray Casting Mapping](mapping.qmd)
+Real-time local map generation using ray casting algorithms:
+
+- **Fast Ray Casting** implementation for real-time performance
+- **Occupancy Grid Generation** from point cloud data
+- **Configurable Resolution** and map size parameters
+- **Frame-agnostic Operation** supporting multiple coordinate frames
+
+## Key Features
+
+### Sensor Fusion Architecture
+
+The system integrates multiple sensor modalities:
+
+| Sensor Type | Purpose | Update Rate | Accuracy |
+|-------------|---------|-------------|----------|
+| **2D LiDAR** | Primary localization and mapping | 10-20 Hz | High spatial accuracy |
+| **IMU** | Orientation and motion estimation | 100-200 Hz | High temporal accuracy |
+| **Wheel Odometry** | Motion model and dead reckoning | 50-100 Hz | Good short-term accuracy |
+
+### Localization Algorithms
+
+#### Monte Carlo Localization (MCL)
+- **Particle Filter** implementation with configurable particle count
+- **Motion Model** based on differential drive kinematics
+- **Observation Model** using laser scan likelihood fields
+- **Resampling Strategies** including low-variance resampling
+
+#### Advanced Features
+- **Global Localization** capability for unknown initial pose
+- **Kidnapped Robot Problem** recovery mechanisms
+- **Localization Failure Detection** and automatic recovery
+- **Multi-hypothesis Tracking** for ambiguous situations
+
+### Mapping Capabilities
+
+#### Local Mapping
+- **Real-time occupancy grid** generation around the robot
+- **Ray casting updates** for efficient map building
+- **Dynamic obstacle handling** for moving objects
+- **Map fusion** from multiple sensor sources
+
+#### Global Mapping
+- **SLAM integration** with localization for unknown environments
+- **Loop closure detection** for consistent map building
+- **Map optimization** using graph-based methods
+- **Long-term mapping** with memory management
+
+## Configuration
+
+### Launch Files
+
+```bash
+# Advanced Localization System
+roslaunch als_ros mcl.launch
+
+# With global localization enabled
+roslaunch als_ros mcl.launch use_gl_pose_sampler:=true
+
+# With misalignment detection
+roslaunch als_ros mcl.launch use_mrf_failure_detector:=true
+
+# Expanded MCL
+roslaunch emcl_ros emcl.launch
+
+# Ray casting mapping
+roslaunch raycast_mapping_ros raycast_mapping.launch
+```
+
+### Key Parameters
+
+#### Localization Parameters
+```yaml
+# ALS/MCL Configuration
+localization_hz: 20.0          # Localization update frequency
+particle_num: 420               # Number of particles
+init_position_dev: 0.1          # Initial position uncertainty
+init_orientation_dev: 0.05      # Initial orientation uncertainty
+likelihood_th: 0.002            # Likelihood threshold
+laser_step: 4                   # Laser scan decimation
+
+# Motion Model
+odom_alpha1: 0.2                # Rotation noise from rotation
+odom_alpha2: 0.2                # Rotation noise from translation
+odom_alpha3: 0.8                # Translation noise from translation
+odom_alpha4: 0.2                # Translation noise from rotation
+
+# Sensor Model
+laser_z_hit: 0.5                # Hit probability
+laser_z_short: 0.05             # Short reading probability
+laser_z_max: 0.05               # Max range probability
+laser_z_rand: 0.5               # Random measurement probability
+```
+
+#### Mapping Parameters
+```yaml
+# Ray Casting Mapping
+frame_id: "base_footprint"      # Map frame
+map_reso: 0.05                  # Map resolution (m/cell)
+map_size: 10.0                  # Map size (meters)
+yaw_reso: 0.087                 # Angular resolution (radians)
+```
+
+## Performance Characteristics
+
+### Computational Requirements
+
+| Component | CPU Usage | Memory | Real-time Factor |
+|-----------|-----------|--------|------------------|
+| **ALS** | Medium | 100-200 MB | 1.0x |
+| **EMCL** | Low-Medium | 50-100 MB | 1.0x |
+| **Ray Casting** | Low | 20-50 MB | 1.0x |
+| **ICP Matching** | High | 50-100 MB | 0.8-1.0x |
+
+### Accuracy Metrics
+
+- **Position Accuracy**: ±5-10 cm under normal conditions
+- **Orientation Accuracy**: ±2-5 degrees
+- **Convergence Time**: 1-3 seconds for relocalization
+- **Map Resolution**: 5 cm per cell (configurable)
+
+## Integration with Navigation Stack
+
+The SLAM & Localization system integrates seamlessly with the motion planning components:
+
+```mermaid
+graph LR
+    A[SLAM/Localization] --> B[Global Planner]
+    A --> C[Local Planner]
+    A --> D[Costmap Updates]
+    B --> E[Path Following]
+    C --> E
+    D --> C
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#fff3e0
+```
+
+### Data Flow
+1. **Sensor data** is processed by localization algorithms
+2. **Robot pose** is estimated and published
+3. **Transform tree** is updated with current pose
+4. **Local maps** are generated for path planning
+5. **Costmaps** are updated for obstacle avoidance
+
+## Troubleshooting
+
+### Common Issues
+
+:::{.callout-warning}
+### Localization Failures
+- **Symptoms**: Erratic pose estimates, particle cloud dispersion
+- **Causes**: Poor sensor data, incorrect parameters, map mismatch
+- **Solutions**: Check sensor calibration, adjust particle count, verify map quality
+:::
+
+:::{.callout-note}
+### Performance Issues
+- **High CPU usage**: Reduce particle count, increase laser decimation
+- **Memory issues**: Limit map size, reduce sensor data rate
+- **Slow convergence**: Increase initial uncertainty, check motion model
+:::
+
+### Diagnostic Tools
+
+```bash
+# Monitor localization performance
+rostopic echo /amcl_pose
+rostopic hz /scan
+
+# Visualize particles and likelihood
+rosrun rqt_plot rqt_plot
+rosrun rviz rviz
+
+# Check transform tree
+rosrun tf view_frames
+rosrun tf tf_echo map base_link
+```
+
+## Next Steps
+
+- **[Advanced Localization Details →](advanced-localization.qmd)**
+- **[Mapping Algorithms →](mapping.qmd)**
+- **[Sensor Fusion →](sensor-fusion.qmd)**
+- **[Motion Planning Integration →](../motion/index.qmd)**
+
+---
+
+:::{.callout-tip}
+## Best Practices
+- Always provide good initial pose estimates
+- Ensure proper sensor calibration and timing
+- Use appropriate map resolution for your environment
+- Monitor particle cloud for localization health
+:::

@@ -1,0 +1,321 @@
+---
+title: "Installation Guide"
+subtitle: "Step-by-step installation of Beebot system"
+---
+
+# Installation Guide
+
+This guide will walk you through the complete installation process for the Beebot autonomous mobile robot system.
+
+## Step 1: System Prerequisites
+
+### Ubuntu 18.04 LTS Installation
+
+Ensure you have Ubuntu 18.04 LTS installed. You can download it from:
+- [Official Ubuntu 18.04 Downloads](https://releases.ubuntu.com/18.04/)
+
+### ROS Melodic Installation
+
+Install ROS Melodic following the official instructions:
+
+```bash
+# Update package index
+sudo apt update
+
+# Install curl (if not already installed)
+sudo apt install curl
+
+# Add ROS repository
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+
+# Add ROS key
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+
+# Update package index again
+sudo apt update
+
+# Install ROS Melodic Desktop Full
+sudo apt install ros-melodic-desktop-full
+
+# Initialize rosdep
+sudo rosdep init
+rosdep update
+
+# Environment setup
+echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+## Step 2: Workspace Setup
+
+### Create Catkin Workspace
+
+```bash
+# Create workspace directory
+mkdir -p ~/catkin_ws/src
+cd ~/catkin_ws
+
+# Initialize workspace
+catkin_make
+
+# Source workspace
+echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+### Clone Beebot Repository
+
+```bash
+# Navigate to source directory
+cd ~/catkin_ws/src
+
+# Clone the repository
+git clone https://github.com/phatcvo/Beebot.git
+
+# Navigate back to workspace root
+cd ~/catkin_ws
+```
+
+## Step 3: Dependencies Installation
+
+### Core ROS Dependencies
+
+```bash
+# Install required ROS packages
+sudo apt-get update
+sudo apt-get install -y \
+    ros-melodic-map-server \
+    ros-melodic-amcl \
+    ros-melodic-move-base \
+    ros-melodic-serial \
+    ros-melodic-rosserial \
+    ros-melodic-joy \
+    ros-melodic-pcl-ros \
+    ros-melodic-tf2-eigen \
+    ros-melodic-navigation \
+    ros-melodic-gmapping \
+    ros-melodic-turtlebot3 \
+    ros-melodic-turtlebot3-msgs \
+    ros-melodic-turtlebot3-simulations
+```
+
+### Additional Dependencies
+
+```bash
+# Install development tools
+sudo apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    python-catkin-tools \
+    python-rosdep \
+    python-rosinstall \
+    python-rosinstall-generator \
+    python-wstool
+
+# Install OpenCV and PCL libraries
+sudo apt-get install -y \
+    libopencv-dev \
+    libpcl-dev \
+    libeigen3-dev \
+    libyaml-cpp-dev
+
+# Install MQTT dependencies
+sudo apt-get install -y \
+    mosquitto \
+    mosquitto-clients \
+    libmosquitto-dev
+```
+
+### Python Dependencies
+
+```bash
+# Install pip if not available
+sudo apt-get install python-pip python3-pip
+
+# Install required Python packages
+pip install --user \
+    numpy \
+    matplotlib \
+    scipy \
+    pyyaml
+```
+
+## Step 4: Build the Workspace
+
+### Install Dependencies with rosdep
+
+```bash
+# Navigate to workspace
+cd ~/catkin_ws
+
+# Install dependencies
+rosdep install --from-paths src --ignore-src -r -y
+```
+
+### Build All Packages
+
+```bash
+# Build workspace with catkin_make
+catkin_make
+
+# Alternative: Use catkin build (if catkin-tools installed)
+# catkin build
+
+# Source the workspace
+source devel/setup.bash
+```
+
+### Verify Installation
+
+```bash
+# Check if packages are properly built
+rospack list | grep -E "(als_ros|dwa_planner|a_star_ros|arduino_serial|remote_control)"
+
+# Expected output should include:
+# als_ros                          /home/user/catkin_ws/src/Beebot/slam/als_ros
+# a_star_ros                       /home/user/catkin_ws/src/Beebot/motion/a_star_ros
+# dwa_planner                      /home/user/catkin_ws/src/Beebot/motion/dwa_planner
+# arduino_serial                   /home/user/catkin_ws/src/Beebot/control/arduino_serial
+# remote_control                   /home/user/catkin_ws/src/Beebot/control/remote_control
+```
+
+## Step 5: Hardware Permissions
+
+### Serial Device Permissions
+
+```bash
+# Add user to dialout group for serial communication
+sudo usermod -a -G dialout $USER
+
+# Set permissions for Arduino devices
+sudo chmod 666 /dev/ttyACM0  # Arduino (adjust device name if different)
+sudo chmod 666 /dev/ttyUSB0  # Alternative Arduino connection
+
+# Set permissions for gamepad
+sudo chmod a+rw /dev/input/js0  # Xbox controller
+```
+
+### LiDAR Device Setup
+
+```bash
+# Create udev rules for YDLiDAR
+sudo bash ~/catkin_ws/src/Beebot/slam/sensor_fusion/yd_lidar_TG15/startup/initenv.sh
+
+# Reload udev rules
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+```
+
+## Step 6: Environment Configuration
+
+### Create Setup Script
+
+Create a convenient setup script:
+
+```bash
+# Create setup script
+cat << 'EOF' > ~/catkin_ws/setup_beebot.sh
+#!/bin/bash
+
+# Source ROS environment
+source /opt/ros/melodic/setup.bash
+
+# Source workspace
+source ~/catkin_ws/devel/setup.bash
+
+# Set TurtleBot3 model
+export TURTLEBOT3_MODEL=burger
+
+# Set ROS master URI (adjust if using multiple machines)
+export ROS_MASTER_URI=http://localhost:11311
+export ROS_IP=$(hostname -I | cut -d' ' -f1)
+
+echo "Beebot environment configured!"
+echo "ROS_MASTER_URI: $ROS_MASTER_URI"
+echo "ROS_IP: $ROS_IP"
+echo "TURTLEBOT3_MODEL: $TURTLEBOT3_MODEL"
+EOF
+
+# Make script executable
+chmod +x ~/catkin_ws/setup_beebot.sh
+```
+
+### Add to bashrc (Optional)
+
+```bash
+# Add setup script to bashrc for automatic sourcing
+echo "source ~/catkin_ws/setup_beebot.sh" >> ~/.bashrc
+```
+
+## Step 7: Installation Verification
+
+### Test Core System
+
+```bash
+# Source environment
+source ~/catkin_ws/setup_beebot.sh
+
+# Test ROS core
+roscore &
+sleep 5
+
+# Test package availability
+roslaunch system demo.launch --dry-run
+
+# Kill roscore
+killall roscore
+```
+
+### Test Hardware Interfaces
+
+```bash
+# Test joystick (if connected)
+jstest /dev/input/js0
+
+# Test serial communication
+ls -la /dev/ttyACM* /dev/ttyUSB*
+
+# Test LiDAR device
+ls -la /dev/ydlidar
+```
+
+## Troubleshooting
+
+### Common Issues
+
+:::{.callout-warning}
+### Build Errors
+- **Missing dependencies**: Run `rosdep install --from-paths src --ignore-src -r -y`
+- **CMake errors**: Ensure all required libraries are installed
+- **Permission denied**: Check that you're in the dialout group and devices have correct permissions
+:::
+
+:::{.callout-note}
+### Performance Issues
+- **Slow compilation**: Consider using `catkin build -j4` to limit parallel jobs
+- **Memory issues**: Close unnecessary applications during build
+:::
+
+### Getting Help
+
+If you encounter issues:
+
+1. Check the **[Troubleshooting Guide](../tutorials/troubleshooting.qmd)**
+2. Review **[GitHub Issues](https://github.com/phatcvo/Beebot/issues)**
+3. Verify all dependencies are properly installed
+
+## Next Steps
+
+After successful installation:
+
+1. **[Configure your system →](configuration.qmd)**
+2. **[Try the Quick Start demo →](quick-start.qmd)**
+3. **[Explore system components →](../components/slam/index.qmd)**
+
+---
+
+:::{.callout-tip}
+## Success!
+If all commands executed without errors, your Beebot installation is complete! The next step is to configure your hardware and network settings.
+:::

@@ -1,0 +1,93 @@
+---
+title: "Getting Started"
+subtitle: "Installation, configuration, and first steps with Beebot"
+---
+
+# Getting Started with Beebot
+
+Welcome to Beebot! This section will guide you through the installation process, initial configuration, and your first steps with the autonomous mobile robot system.
+
+## Prerequisites
+
+Before installing Beebot, ensure you have the following prerequisites:
+
+- **Ubuntu 18.04 LTS** (Bionic Beaver)
+- **ROS Melodic Morenia** (full desktop installation)
+- **Python 2.7 / 3.6+**
+- **Git** for version control
+- **Catkin tools** for building ROS packages
+
+## What's Included
+
+The Beebot system includes the following major components:
+
+:::{.grid}
+:::{.g-col-md-6}
+### Core Modules
+- **SLAM & Localization** - Advanced MCL with reliability estimation
+- **Motion Planning** - A* global and DWA local planners
+- **Control Systems** - Remote control and hardware interfaces
+- **System Integration** - Launch files and visualization
+:::
+
+:::{.g-col-md-6}
+### Hardware Support
+- **2D LiDAR** integration (YDLiDAR TG15)
+- **IMU sensors** (Xsens MTi driver)
+- **Arduino controllers** with LCD feedback
+- **Xbox gamepad** remote control
+:::
+:::
+
+## Installation Overview
+
+The installation process consists of three main steps:
+
+1. **[System Installation](installation.qmd)** - Installing dependencies and building the workspace
+2. **[Configuration](configuration.qmd)** - Setting up hardware and network configuration
+3. **[Quick Start](quick-start.qmd)** - Running your first navigation demo
+
+## Navigation Guide
+
+```mermaid
+graph LR
+    A[Installation] --> B[Configuration]
+    B --> C[Quick Start]
+    C --> D[Advanced Features]
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#fff3e0
+    style D fill:#e8f5e8
+```
+
+### Next Steps
+
+1. **[Start with Installation →](installation.qmd)**
+2. **[Configure your system →](configuration.qmd)**
+3. **[Try the Quick Start demo →](quick-start.qmd)**
+
+## System Requirements
+
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| **CPU** | Intel i3 / AMD Ryzen 3 | Intel i5 / AMD Ryzen 5 |
+| **RAM** | 4GB | 8GB or more |
+| **Storage** | 20GB free space | 50GB free space |
+| **GPU** | Integrated graphics | Dedicated GPU for visualization |
+| **USB Ports** | 2 available | 4+ available |
+
+## Support
+
+If you encounter any issues during installation or configuration:
+
+- Check the **[Troubleshooting Guide](../tutorials/troubleshooting.qmd)**
+- Visit our **[GitHub Issues](https://github.com/phatcvo/Beebot/issues)**
+- Review the **[API Reference](../api/nodes.qmd)** for technical details
+
+---
+
+:::{.callout-tip}
+## Pro Tip
+For the best experience, we recommend using a dedicated Ubuntu machine or VM with at least 8GB RAM and a decent GPU for RViz visualization.
+:::

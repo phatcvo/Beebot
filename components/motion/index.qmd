@@ -1,0 +1,464 @@
+---
+title: "Motion Planning & Control"
+subtitle: "Path planning and trajectory execution systems"
+---
+
+# Motion Planning & Control
+
+The Motion Planning & Control subsystem is responsible for generating feasible paths from the robot's current position to desired goals and executing those paths safely while avoiding obstacles. Beebot implements a hierarchical approach with global path planning and local trajectory optimization.
+
+## Overview
+
+The Motion Planning system follows a standard hierarchical architecture:
+
+```mermaid
+graph TB
+    subgraph "Input"
+        GOAL[Goal Pose<br/>move_base_msgs/MoveBaseGoal]
+        MAP[Costmap<br/>nav_msgs/OccupancyGrid]
+        POSE[Robot Pose<br/>geometry_msgs/PoseStamped]
+    end
+    
+    subgraph "Global Planning"
+        ASTAR[A* Global Planner<br/>a_star_ros]
+        RRTX[RRT* Planner<br/>rrtx_global_planner]
+    end
+    
+    subgraph "Local Planning"
+        DWA[DWA Local Planner<br/>dwa_planner]
+        LGC[Local Goal Creator<br/>local_goal_creator_ros]
+    end
+    
+    subgraph "Waypoint Management"
+        WM[Waypoint Manager<br/>waypoint_manager_ros]
+        WE[Waypoint Editor<br/>waypoint_editor_ros]
+    end
+    
+    subgraph "Navigation Utilities"
+        NAV[Navigation Utils<br/>amr_navigation_utils_ros]
+        RECOVERY[Recovery Behaviors<br/>Clear Costmap, Rotate]
+    end
+    
+    subgraph "Output"
+        CMD[Velocity Commands<br/>geometry_msgs/Twist]
+        PATH[Global Path<br/>nav_msgs/Path]
+        TRAJ[Local Trajectory<br/>nav_msgs/Path]
+    end
+    
+    GOAL --> ASTAR
+    GOAL --> RRTX
+    MAP --> ASTAR
+    MAP --> DWA
+    POSE --> ASTAR
+    POSE --> DWA
+    
+    ASTAR --> PATH
+    RRTX --> PATH
+    PATH --> DWA
+    PATH --> LGC
+    
+    DWA --> CMD
+    DWA --> TRAJ
+    LGC --> DWA
+    
+    WM --> GOAL
+    WE --> WM
+    
+    NAV --> RECOVERY
+    RECOVERY --> ASTAR
+    RECOVERY --> DWA
+    
+    style ASTAR fill:#e1f5fe
+    style DWA fill:#f3e5f5
+    style WM fill:#fff3e0
+```
+
+## Core Components
+
+### [Global Path Planning](global-planning.qmd)
+Global planners generate optimal or near-optimal paths from start to goal:
+
+- **A* Search Algorithm** with Euclidean and Manhattan heuristics
+- **RRT* Sampling-based Planning** for complex environments  
+- **Multi-resolution Planning** with configurable grid resolution
+- **Path Optimization** using smoothing and shortcut techniques
+
+### [Local Trajectory Planning](local-planning.qmd)
+Local planners generate safe, executable trajectories:
+
+- **Dynamic Window Approach (DWA)** for real-time obstacle avoidance
+- **Forward Simulation** of robot dynamics
+- **Multi-objective Optimization** balancing speed, safety, and goal progress
+- **Configurable Cost Functions** for different behaviors
+
+### [Waypoint Management](waypoint-management.qmd)
+High-level mission planning and execution:
+
+- **Sequential Waypoint Navigation** with automatic progression
+- **Interactive Waypoint Editing** using RViz plugins
+- **Mission Planning** with conditional waypoints
+- **Progress Monitoring** and failure recovery
+
+## System Architecture
+
+### Hierarchical Planning Structure
+
+```mermaid
+graph LR
+    subgraph "Mission Level"
+        WP1[Waypoint 1] --> WP2[Waypoint 2]
+        WP2 --> WP3[Waypoint 3]
+        WP3 --> WPN[Waypoint N]
+    end
+    
+    subgraph "Task Level"
+        GP[Global Path<br/>Planning]
+        LP[Local Path<br/>Planning]
+        GP --> LP
+    end
+    
+    subgraph "Execution Level"
+        TC[Trajectory<br/>Control]
+        CC[Collision<br/>Checking]
+        LP --> TC
+        TC --> CC
+    end
+    
+    WP1 -.-> GP
+    CC --> CMD[Motor Commands]
+    
+    style GP fill:#e1f5fe
+    style LP fill:#f3e5f5
+    style TC fill:#fff3e0
+```
+
+### Data Flow and Timing
+
+| Component | Update Rate | Latency | Real-time |
+|-----------|-------------|---------|-----------|
+| **A* Global Planner** | 1-2 Hz | 100-500 ms | No |
+| **DWA Local Planner** | 10-20 Hz | 10-50 ms | Yes |
+| **Waypoint Manager** | 1 Hz | 100 ms | No |
+| **Collision Checking** | 20-50 Hz | 5-20 ms | Yes |
+
+## Key Features
+
+### Multi-Algorithm Support
+
+The system supports multiple planning algorithms that can be configured at runtime:
+
+#### Global Planners
+- **A* with Euclidean Heuristic**: Fast, optimal for open spaces
+- **A* with Manhattan Heuristic**: Better for grid-like environments  
+- **RRT***: Handles complex constraint spaces
+- **Hybrid A***: Considers robot kinematics
+
+#### Local Planners
+- **DWA (Dynamic Window Approach)**: Standard reactive planner
+- **TEB (Timed Elastic Band)**: Advanced trajectory optimization
+- **Pure Pursuit**: Simple path following for structured environments
+
+### Adaptive Behavior
+
+The motion planning system adapts its behavior based on environmental conditions:
+
+```cpp
+// Adaptive parameter adjustment
+if (environment_density > HIGH_DENSITY_THRESHOLD) {
+    // Dense environment - prioritize safety
+    dwa_config.max_vel_x = 0.3;
+    dwa_config.obstacle_cost_gain = 2.0;
+} else {
+    // Open environment - prioritize speed
+    dwa_config.max_vel_x = 0.8;
+    dwa_config.path_distance_bias = 2.0;
+}
+```
+
+### Recovery Behaviors
+
+When planning fails, the system employs recovery behaviors:
+
+1. **Clear Costmap**: Remove old obstacle information
+2. **Rotate Recovery**: Rotate in place to clear sensor occlusions
+3. **Backing Up**: Move backwards to escape tight spaces
+4. **Global Replanning**: Recompute global path with relaxed constraints
+
+## Configuration
+
+### Launch Files
+
+```bash
+# Complete motion planning stack
+roslaunch motion motion_planning.launch
+
+# A* global planner only
+roslaunch a_star_ros a_star_planner.launch
+
+# DWA local planner only  
+roslaunch dwa_planner dwa_local_planner.launch
+
+# Waypoint navigation
+roslaunch waypoint_manager_ros waypoint_navigation.launch
+```
+
+### Core Parameters
+
+#### Global Planning Configuration
+```yaml
+# A* Planner Parameters
+planner_frequency: 1.0          # Planning frequency (Hz)
+planner_patience: 5.0           # Time to wait for planner (s)
+clearing_radius: 0.5            # Radius for clearing obstacles
+
+# Grid configuration
+resolution: 0.05                # Grid resolution (m/cell)
+map_update_frequency: 5.0       # Costmap update rate (Hz)
+publish_frequency: 2.0          # Path publishing rate (Hz)
+
+# Heuristic selection
+use_dijkstra: false            # Use Dijkstra instead of A*
+neutral_cost: 50               # Neutral cell cost
+lethal_cost: 253              # Lethal obstacle cost
+unknown_cost_value: -1         # Cost for unknown cells
+```
+
+#### Local Planning Configuration
+```yaml
+# DWA Parameters
+controller_frequency: 20.0      # Control loop frequency (Hz)
+controller_patience: 3.0        # Time to wait for controller (s)
+
+# Velocity limits
+max_vel_x: 0.8                 # Maximum linear velocity (m/s)
+min_vel_x: 0.1                 # Minimum linear velocity (m/s)  
+max_vel_theta: 1.57            # Maximum angular velocity (rad/s)
+min_vel_theta: 0.4             # Minimum angular velocity (rad/s)
+
+# Acceleration limits
+acc_lim_x: 1.0                 # Linear acceleration limit (m/s²)
+acc_lim_theta: 2.0             # Angular acceleration limit (rad/s²)
+
+# Simulation parameters
+sim_time: 3.0                  # Forward simulation time (s)
+sim_granularity: 0.05          # Time step for simulation (s)
+vx_samples: 20                 # Linear velocity samples
+vtheta_samples: 40             # Angular velocity samples
+
+# Cost function weights
+path_distance_bias: 32.0       # Preference for following global path
+goal_distance_bias: 20.0       # Preference for reaching goal
+occdist_scale: 0.02           # Obstacle avoidance weight
+```
+
+### Advanced Configuration
+
+#### Costmap Configuration
+```yaml
+# Global Costmap
+global_costmap:
+  global_frame: map
+  robot_base_frame: base_footprint
+  update_frequency: 5.0
+  publish_frequency: 2.0
+  static_map: true
+  
+  # Inflation parameters
+  inflation_radius: 0.3          # Robot inflation radius (m)
+  cost_scaling_factor: 5.0       # Cost decay rate
+
+# Local Costmap  
+local_costmap:
+  global_frame: odom
+  robot_base_frame: base_footprint
+  update_frequency: 20.0
+  publish_frequency: 10.0
+  static_map: false
+  rolling_window: true
+  width: 4.0                     # Local costmap width (m)
+  height: 4.0                    # Local costmap height (m)
+  resolution: 0.05               # Resolution (m/cell)
+```
+
+## Performance Characteristics
+
+### Computational Requirements
+
+| Component | CPU Usage | Memory | Scalability |
+|-----------|-----------|--------|-------------|
+| **A* Global Planner** | Medium | 50-100 MB | O(N log N) |
+| **DWA Local Planner** | High | 20-50 MB | O(V × Ω × T) |
+| **Waypoint Manager** | Low | 10-20 MB | O(N) |
+| **Costmap Updates** | Medium | 30-80 MB | O(N) |
+
+Where:
+- N = Number of grid cells
+- V = Velocity sample count  
+- Ω = Angular velocity sample count
+- T = Simulation time steps
+
+### Planning Performance
+
+#### Success Rates
+- **Simple Navigation**: >95% success rate
+- **Complex Environments**: >85% success rate  
+- **Dynamic Obstacles**: >75% success rate
+- **Narrow Passages**: >70% success rate
+
+#### Timing Characteristics
+```yaml
+# Typical performance metrics
+global_planning_time: 50-200 ms    # A* search time
+local_planning_time: 10-40 ms      # DWA computation time  
+costmap_update_time: 5-15 ms       # Costmap processing time
+total_cycle_time: 50-100 ms        # Complete planning cycle
+```
+
+### Path Quality Metrics
+- **Path Length**: Typically 110-150% of optimal
+- **Smoothness**: Low curvature changes with smoothing
+- **Clearance**: Maintains safety margin from obstacles
+- **Execution Time**: Real-time capable at 20 Hz
+
+## Integration with Robot Platform
+
+### Hardware Interface
+
+The motion planning system interfaces with robot hardware through standardized ROS topics:
+
+```mermaid
+graph TB
+    subgraph "Motion Planning"
+        MP[Motion Planner]
+    end
+    
+    subgraph "Hardware Interface"
+        ARS[Arduino Serial<br/>arduino_serial]
+        CTRL[Motor Controller<br/>PID Control]
+        ENC[Encoders<br/>Odometry]
+    end
+    
+    subgraph "Sensors"
+        LIDAR[LiDAR Scanner]
+        IMU[IMU Sensor]
+        BUMP[Bumper Sensors]
+    end
+    
+    MP --> |cmd_vel| ARS
+    ARS --> CTRL
+    CTRL --> |PWM| Motors[Motors]
+    ENC --> |odom| MP
+    
+    LIDAR --> |scan| MP  
+    IMU --> |imu| MP
+    BUMP --> |contact| MP
+    
+    style MP fill:#e1f5fe
+    style ARS fill:#f3e5f5
+```
+
+### Safety Systems
+
+#### Emergency Stop
+```cpp
+// Emergency stop conditions
+bool emergency_stop = (
+    bumper_contact ||
+    lidar_min_distance < EMERGENCY_DISTANCE ||
+    system_fault_detected ||
+    manual_estop_pressed
+);
+
+if (emergency_stop) {
+    publishZeroVelocity();
+    setRobotState(EMERGENCY_STOPPED);
+}
+```
+
+#### Collision Avoidance
+- **Multi-layer Safety**: Hardware bumpers + software collision checking
+- **Predictive Avoidance**: Forward simulation of robot trajectory
+- **Dynamic Reconfiguration**: Adjust safety margins based on environment
+- **Recovery Behaviors**: Automatic recovery from collision situations
+
+## Troubleshooting
+
+### Common Planning Issues
+
+:::{.callout-warning}
+### Path Planning Failures
+**Symptoms:**
+- No path found message
+- Robot stops moving toward goal
+- Oscillating behavior near obstacles
+
+**Common Causes:**
+- Costmap configuration errors
+- Insufficient inflation radius
+- Goal in occupied space
+- Transform tree issues
+
+**Solutions:**
+1. Check costmap visualization in RViz
+2. Verify robot footprint configuration
+3. Adjust inflation parameters
+4. Clear costmap and replan
+:::
+
+:::{.callout-note}
+### Performance Issues
+**Symptoms:**
+- High CPU usage
+- Missed control deadlines
+- Jerky robot motion
+
+**Optimization Strategies:**
+1. Reduce DWA sample counts
+2. Lower costmap update frequency
+3. Optimize sensor data processing
+4. Use more efficient algorithms
+:::
+
+### Diagnostic Tools
+
+```bash
+# Monitor planning performance
+rostopic echo /move_base/status
+rostopic echo /move_base/feedback
+
+# Visualize paths and trajectories
+rosrun rqt_plot rqt_plot /cmd_vel/linear/x /cmd_vel/angular/z
+
+# Check costmap data
+rostopic echo /move_base/local_costmap/costmap
+rostopic echo /move_base/global_costmap/costmap
+
+# Navigation stack diagnostics
+rosrun rqt_console rqt_console
+rosrun tf view_frames
+```
+
+## Next Steps
+
+- **[Global Planning Details →](global-planning.qmd)**
+- **[Local Planning & DWA →](local-planning.qmd)**  
+- **[Waypoint Management →](waypoint-management.qmd)**
+- **[Navigation Utilities →](navigation-utils.qmd)**
+
+---
+
+:::{.callout-tip}
+## Best Practices
+
+### Parameter Tuning
+- Start with conservative velocity limits and increase gradually
+- Balance safety (high obstacle costs) with efficiency (reasonable speed)
+- Use simulation environments for initial parameter tuning
+- Monitor real-world performance and adjust accordingly
+
+### System Integration  
+- Ensure proper coordinate frame transformations
+- Implement comprehensive error handling and recovery
+- Use appropriate costmap layers for your environment
+- Test navigation in various environmental conditions
+:::
